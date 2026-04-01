@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "services": "Services",
+    "whyUs": "Why Us",
+    "process": "Process",
+    "contact": "Contact",
+    "bookConsultation": "Book Consultation"
+  },
+  "hero": {
+    "badge": "Trusted Immigration Consultants",
+    "title": "Your Journey.",
+    "titleAccent": "Our Expertise.",
+    "subtitle": "Specialized immigration consultants for the United States, Canada, and Mexico. We guide you through every step — visas, residency, permits, and beyond.",
+    "cta1": "Book Free Consultation",
+    "cta2": "Get in Touch",
+    "banner": {
+      "eyebrow": "Start Today",
+      "title": "Your New Life is",
+      "titleAccent": "One Step Away",
+      "subtitle": "Specialized consultants for USA, Canada and Mexico. Free first consultation — no commitment.",
+      "cta1": "Book Free Consultation",
+      "cta2": "WhatsApp Us"
+    }
+  },
+  "services": {
+    "title": "Immigration Services",
+    "subtitle": "What We Offer",
+    "description": "From visa applications to full residency — we cover every route to your destination.",
+    "getStarted": "Get Started",
+    "usa": {
+      "title": "United States",
+      "items": ["Tourist / B1-B2 Visa", "Work Visa (H1-B, L1)", "Student Visa (F1)", "Green Card Process", "ESTA Authorization", "Business Visa"]
+    },
+    "canada": {
+      "title": "Canada",
+      "items": ["Express Entry (ITA)", "Tourist & Super Visa", "Study Permit", "Work Permit (LMIA)", "Permanent Residency", "Family Sponsorship"]
+    },
+    "mexico": {
+      "title": "Mexico",
+      "items": ["Temporary Residency", "Permanent Residency", "Work Authorization", "Business Visa", "Retirement Visa", "Digital Nomad Visa"]
+    },
+    "other": {
+      "title": "Other Countries",
+      "items": ["Australia", "United Kingdom", "Schengen / Europe", "India", "Brazil", "And more..."]
+    }
+  },
+  "whyUs": {
+    "subtitle": "Why Choose Us",
+    "title": "The ImmiNexus Difference",
+    "stats": {
+      "cases": "Cases Handled",
+      "success": "Success Rate",
+      "countries": "Countries",
+      "clients": "Happy Clients"
+    },
+    "reasons": {
+      "licensed": { "title": "Licensed & Certified", "desc": "Our consultants operate under strict professional standards with full certifications." },
+      "multilingual": { "title": "Multilingual Support", "desc": "We assist you in English, Spanish, and French — no barriers, no confusion." },
+      "secure": { "title": "Confidential & Secure", "desc": "Your personal data and documents are handled with absolute discretion." },
+      "fast": { "title": "Fast Processing", "desc": "We streamline your application to minimize delays and avoid costly mistakes." },
+      "endToEnd": { "title": "End-to-End Service", "desc": "From document prep to final approval — we handle everything for you." },
+      "global": { "title": "Multi-Country Expertise", "desc": "Deep knowledge across USA, Canada, Mexico and many other countries." }
+    }
+  },
+  "process": {
+    "subtitle": "How It Works",
+    "title": "Simple. Clear. Effective.",
+    "description": "Our proven 4-step process takes you from first contact to final approval.",
+    "steps": {
+      "consultation": { "title": "Free Consultation", "desc": "We assess your profile and find the best immigration route for your situation." },
+      "documents": { "title": "Document Preparation", "desc": "We provide a personalized checklist and guide you through every document needed." },
+      "filing": { "title": "Application Filing", "desc": "We complete and submit your application, coordinate biometrics and authorities." },
+      "approval": { "title": "Approval & Beyond", "desc": "We track your case to final approval then support your settlement and renewals." }
+    },
+    "cta": "Start Your Process Today"
+  },
+  "contact": {
+    "subtitle": "Get in Touch",
+    "title": "We Are Here to Help",
+    "description": "Reach out through any channel. We respond within 24 hours.",
+    "phone": "Phone / WhatsApp",
+    "email": "Email",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "formTitle": "Send Us a Message",
+    "name": "Full Name",
+    "emailField": "Email Address",
+    "phoneField": "Phone / WhatsApp",
+    "country": "Your Country",
+    "service": "Service Needed",
+    "message": "Your Message (optional)",
+    "submit": "Send Message",
+    "submitting": "Sending...",
+    "success": "Message Sent!",
+    "successDesc": "We will contact you within 24 hours.",
+    "privacy": "Your information is 100% confidential and never shared.",
+    "services": [
+      "USA – Tourist / B1-B2 Visa",
+      "USA – Work Visa (H1-B, L1)",
+      "USA – Student Visa (F1)",
+      "USA – Green Card",
+      "Canada – Express Entry (ITA)",
+      "Canada – Study / Work Permit",
+      "Canada – Permanent Residency",
+      "Canada – Family Sponsorship",
+      "Mexico – Temporary Residency",
+      "Mexico – Permanent Residency",
+      "Other Country"
+    ]
+  },
+  "chatbot": {
+    "title": "ImmiNexus Assistant",
+    "subtitle": "Ask me anything about immigration",
+    "placeholder": "Type your question...",
+    "send": "Send",
+    "greeting": "Hello! I'm the ImmiNexus virtual assistant. How can I help you today? You can ask me about visa types, the consultation process, required documents, or anything immigration-related.",
+    "fallback": "I don't have a specific answer for that. Please contact us directly at +52 55 3163-0202 or book a free consultation — our experts will be happy to help!"
+  },
+  "cookies": {
+    "message": "We use cookies to improve your experience and analyze site traffic.",
+    "accept": "Accept All",
+    "decline": "Essential Only",
+    "policy": "Privacy Policy"
+  },
+  "footer": {
+    "description": "Specialized immigration consultants for USA, Canada, and Mexico. Your journey, our expertise.",
+    "services": "Services",
+    "contact": "Contact",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "rights": "All rights reserved."
+  },
+  "booking": {
+    "title": "Book Your Free Consultation",
+    "subtitle": "Fill in your details and we'll contact you within 24 hours to schedule your session.",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone / WhatsApp",
+    "country": "Your Country",
+    "service": "Service Needed",
+    "preferredDate": "Preferred Date (optional)",
+    "message": "Additional Notes (optional)",
+    "submit": "Book Consultation",
+    "submitting": "Booking...",
+    "success": "Consultation Booked!",
+    "successDesc": "We will contact you within 24 hours to confirm your appointment."
+  }
+}

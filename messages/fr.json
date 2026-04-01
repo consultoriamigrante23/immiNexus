@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "services": "Services",
+    "whyUs": "Pourquoi Nous",
+    "process": "Processus",
+    "contact": "Contact",
+    "bookConsultation": "Réserver une Consultation"
+  },
+  "hero": {
+    "badge": "Consultants en Immigration de Confiance",
+    "title": "Votre Voyage.",
+    "titleAccent": "Notre Expertise.",
+    "subtitle": "Consultants spécialisés en immigration pour les États-Unis, le Canada et le Mexique. Nous vous guidons à chaque étape — visas, résidence, permis et plus.",
+    "cta1": "Consultation Gratuite",
+    "cta2": "Nous Contacter",
+    "banner": {
+      "eyebrow": "Commencez Aujourd'hui",
+      "title": "Votre Nouvelle Vie Est",
+      "titleAccent": "À Un Pas",
+      "subtitle": "Consultants spécialisés pour les USA, Canada et Mexique. Première consultation gratuite — sans engagement.",
+      "cta1": "Réserver une Consultation",
+      "cta2": "Nous Écrire sur WhatsApp"
+    }
+  },
+  "services": {
+    "title": "Services d'Immigration",
+    "subtitle": "Ce Que Nous Offrons",
+    "description": "Des demandes de visa à la résidence complète — nous couvrons chaque route vers votre destination.",
+    "getStarted": "Commencer",
+    "usa": {
+      "title": "États-Unis",
+      "items": ["Visa Touriste / B1-B2", "Visa de Travail (H1-B, L1)", "Visa Étudiant (F1)", "Processus Green Card", "Autorisation ESTA", "Visa d'Affaires"]
+    },
+    "canada": {
+      "title": "Canada",
+      "items": ["Entrée Express (ITA)", "Visa Touriste et Super Visa", "Permis d'Études", "Permis de Travail (LMIA)", "Résidence Permanente", "Parrainage Familial"]
+    },
+    "mexico": {
+      "title": "Mexique",
+      "items": ["Résidence Temporaire", "Résidence Permanente", "Autorisation de Travail", "Visa d'Affaires", "Visa de Retraite", "Visa Nomade Digital"]
+    },
+    "other": {
+      "title": "Autres Pays",
+      "items": ["Australie", "Royaume-Uni", "Schengen / Europe", "Inde", "Brésil", "Et plus..."]
+    }
+  },
+  "whyUs": {
+    "subtitle": "Pourquoi Nous Choisir",
+    "title": "La Différence ImmiNexus",
+    "stats": {
+      "cases": "Dossiers Traités",
+      "success": "Taux de Réussite",
+      "countries": "Pays",
+      "clients": "Clients Satisfaits"
+    },
+    "reasons": {
+      "licensed": { "title": "Agréés et Certifiés", "desc": "Nos consultants opèrent selon des normes professionnelles strictes." },
+      "multilingual": { "title": "Support Multilingue", "desc": "Nous vous assistons en français, anglais et espagnol — sans barrières." },
+      "secure": { "title": "Confidentiel et Sécurisé", "desc": "Vos données personnelles sont traitées avec une discrétion absolue." },
+      "fast": { "title": "Traitement Rapide", "desc": "Nous optimisons votre dossier pour minimiser les délais et erreurs." },
+      "endToEnd": { "title": "Service Complet", "desc": "De la préparation des documents jusqu'à l'approbation finale." },
+      "global": { "title": "Expertise Internationale", "desc": "Connaissance approfondie des USA, Canada, Mexique et autres pays." }
+    }
+  },
+  "process": {
+    "subtitle": "Comment Ça Marche",
+    "title": "Simple. Clair. Efficace.",
+    "description": "Notre processus en 4 étapes vous mène du premier contact à l'approbation finale.",
+    "steps": {
+      "consultation": { "title": "Consultation Gratuite", "desc": "Nous évaluons votre profil et trouvons le meilleur parcours d'immigration." },
+      "documents": { "title": "Préparation des Documents", "desc": "Nous vous fournissons une liste personnalisée et vous guidons dans chaque document." },
+      "filing": { "title": "Dépôt de Dossier", "desc": "Nous complétons et soumettons votre dossier, coordonnons biométrie et autorités." },
+      "approval": { "title": "Approbation et Suite", "desc": "Nous suivons votre dossier jusqu'à l'approbation et vous accompagnons dans votre installation." }
+    },
+    "cta": "Commencer Votre Processus"
+  },
+  "contact": {
+    "subtitle": "Contactez-Nous",
+    "title": "Nous Sommes Là Pour Vous Aider",
+    "description": "Contactez-nous par n'importe quel canal. Nous répondons sous 24 heures.",
+    "phone": "Téléphone / WhatsApp",
+    "email": "Email",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "formTitle": "Envoyez-Nous un Message",
+    "name": "Nom Complet",
+    "emailField": "Adresse Email",
+    "phoneField": "Téléphone / WhatsApp",
+    "country": "Votre Pays",
+    "service": "Service Requis",
+    "message": "Votre Message (optionnel)",
+    "submit": "Envoyer le Message",
+    "submitting": "Envoi en cours...",
+    "success": "Message Envoyé !",
+    "successDesc": "Nous vous contacterons dans les 24 heures.",
+    "privacy": "Vos informations sont 100% confidentielles et ne sont jamais partagées.",
+    "services": [
+      "États-Unis – Visa Touriste / B1-B2",
+      "États-Unis – Visa de Travail (H1-B, L1)",
+      "États-Unis – Visa Étudiant (F1)",
+      "États-Unis – Green Card",
+      "Canada – Entrée Express (ITA)",
+      "Canada – Permis d'Études/Travail",
+      "Canada – Résidence Permanente",
+      "Canada – Parrainage Familial",
+      "Mexique – Résidence Temporaire",
+      "Mexique – Résidence Permanente",
+      "Autre Pays"
+    ]
+  },
+  "chatbot": {
+    "title": "Assistant ImmiNexus",
+    "subtitle": "Posez-moi vos questions sur l'immigration",
+    "placeholder": "Écrivez votre question...",
+    "send": "Envoyer",
+    "greeting": "Bonjour ! Je suis l'assistant virtuel d'ImmiNexus. Comment puis-je vous aider aujourd'hui ?",
+    "fallback": "Je n'ai pas de réponse spécifique. Contactez-nous au +52 55 3163-0202 ou réservez une consultation gratuite."
+  },
+  "cookies": {
+    "message": "Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic du site.",
+    "accept": "Tout Accepter",
+    "decline": "Essentiels Seulement",
+    "policy": "Politique de Confidentialité"
+  },
+  "footer": {
+    "description": "Consultants spécialisés en immigration pour les USA, Canada et Mexique. Votre voyage, notre expertise.",
+    "services": "Services",
+    "contact": "Contact",
+    "legal": "Légal",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions d'Utilisation",
+    "rights": "Tous droits réservés."
+  },
+  "booking": {
+    "title": "Réservez Votre Consultation Gratuite",
+    "subtitle": "Remplissez vos coordonnées et nous vous contacterons sous 24h pour confirmer.",
+    "name": "Nom Complet",
+    "email": "Adresse Email",
+    "phone": "Téléphone / WhatsApp",
+    "country": "Votre Pays",
+    "service": "Service Requis",
+    "preferredDate": "Date Préférée (optionnel)",
+    "message": "Notes Supplémentaires (optionnel)",
+    "submit": "Réserver la Consultation",
+    "submitting": "Réservation...",
+    "success": "Consultation Réservée !",
+    "successDesc": "Nous vous contacterons dans les 24 heures pour confirmer votre rendez-vous."
+  }
+}

@@ -143,6 +143,9 @@
 "servicesList": ["Visas EE.UU.", "Express Entry Canadá", "Residencia México", "Permisos de Estudios", "Permisos de Trabajo", "Visas de Turista"]
   },
   "booking": {
+    "book": "Reservar",
+"track": "Seguimiento",
+"modify": "Modificar",
     "title": "Reserva Tu Consulta Gratuita",
     "subtitle": "Llena tus datos y te contactaremos en 24 horas para confirmar tu cita.",
     "name": "Nombre Completo",

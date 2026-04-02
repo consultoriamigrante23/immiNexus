@@ -143,6 +143,9 @@
 "servicesList": ["Visas USA", "Entrée Express Canada", "Résidence Mexique", "Permis d'Études", "Permis de Travail", "Visas Touriste"]
   },
   "booking": {
+    "book": "Réserver",
+"track": "Suivre",
+"modify": "Modifier",
     "title": "Réservez Votre Consultation Gratuite",
     "subtitle": "Remplissez vos coordonnées et nous vous contacterons sous 24h pour confirmer.",
     "name": "Nom Complet",

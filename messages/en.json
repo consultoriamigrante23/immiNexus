@@ -143,6 +143,9 @@
 "servicesList": ["USA Visas & Immigration", "Canada Express Entry", "Mexico Residency", "Study Permits", "Work Permits", "Tourist Visas"]
   },
   "booking": {
+    "book": "Book",
+"track": "Track",
+"modify": "Modify",
     "title": "Book Your Free Consultation",
     "subtitle": "Fill in your details and we'll contact you within 24 hours to schedule your session.",
     "name": "Full Name",

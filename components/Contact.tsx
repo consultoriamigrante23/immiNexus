@@ -7,6 +7,7 @@ const WHATSAPP = "https://wa.me/5255316302020";
 const INSTAGRAM = "https://www.instagram.com/imminexusconsultants";
 const FACEBOOK = "https://www.facebook.com/ImmiNexusConsultants";
 const PHONE = "+52 55 3163-0202";
+const LINKEDIN  = "https://www.linkedin.com/company/imminexus-consultants/";
 const EMAIL = "contact@imminexusconsultants.com";
 
 type FormData = { fullName: string; email: string; phone: string; country: string; service: string; message: string; };
@@ -46,25 +47,26 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Contact info */}
           <div className="space-y-6">
-            {[
-  { label: t("phone"), value: PHONE, href: `https://wa.me/5255316302020`, sub: "Click to open WhatsApp", color: "#25D366" },
-  { label: t("email"), value: "consultoriamigrante23@gmail.com", href: `mailto:consultoriamigrante23@gmail.com`, sub: "Response within 24h", color: "#2A9D9A" },
-  { label: t("instagram"), value: "@imminexusconsultants", href: INSTAGRAM, sub: "Follow us for updates", color: "#E1306C" },
-  { label: t("facebook"), value: "ImmiNexus Consultants", href: FACEBOOK, sub: "Like our page", color: "#1877F2" },
+        {[
+  { label: t("phone"),     value: PHONE,                     href: WHATSAPP,   sub: t("whatsappSub"),   color: "#25D366" },
+  { label: t("email"),     value: EMAIL,                     href: `mailto:${EMAIL}`, sub: t("emailSub"), color: "#2A9D9A" },
+  { label: t("instagram"), value: "@imminexusconsultants",   href: INSTAGRAM,  sub: t("instaSub"),      color: "#E1306C" },
+  { label: t("facebook"),  value: "ImmiNexus Consultants",   href: FACEBOOK,   sub: t("fbSub"),         color: "#1877F2" },
+  { label: t("linkedin"),  value: "ImmiNexus Consultants",   href: LINKEDIN,   sub: t("linkedinSub"),   color: "#0A66C2" },
 ].map(item => (
-              <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-4 p-5 border border-gray-100 rounded-2xl hover:border-brand-200 hover:shadow-sm transition-all duration-200 card-3d bg-white no-underline group">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: `${item.color}15` }}>
-                  <div className="w-3 h-3 rounded-full" style={{ background: item.color }} />
-                </div>
-                <div>
-                  <p className="text-xs font-body text-gray-400 uppercase tracking-wide">{item.label}</p>
-                  <p className="font-body font-medium text-gray-900 group-hover:text-brand-500 transition-colors">{item.value}</p>
-                  <p className="text-xs text-gray-400 font-body">{item.sub}</p>
-                </div>
-              </a>
-            ))}
+  <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
+    className="flex items-center gap-4 p-5 border border-gray-100 rounded-2xl hover:border-brand-200 hover:shadow-sm transition-all duration-200 card-3d bg-white no-underline group">
+    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+      style={{ background: `${item.color}15` }}>
+      <div className="w-3 h-3 rounded-full" style={{ background: item.color }} />
+    </div>
+    <div>
+      <p className="text-xs font-body text-gray-400 uppercase tracking-wide">{item.label}</p>
+      <p className="font-body font-medium text-gray-900 group-hover:text-brand-500 transition-colors">{item.value}</p>
+      <p className="text-xs text-gray-400 font-body">{item.sub}</p>
+    </div>
+  </a>
+))}
           </div>
 
           {/* Form */}

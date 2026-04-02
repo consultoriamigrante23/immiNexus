@@ -5,9 +5,10 @@ import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import BookingModal from "./BookingModal";
 
-const WHATSAPP = "https://wa.me/5255316302020";
+const WHATSAPP  = "https://wa.me/5255316302020";
 const INSTAGRAM = "https://www.instagram.com/imminexusconsultants";
-const FACEBOOK = "https://www.facebook.com/ImmiNexusConsultants";
+const FACEBOOK  = "https://www.facebook.com/ImmiNexusConsultants";
+const LINKEDIN  = "https://www.linkedin.com/company/imminexus-consultants/";
 
 export default function Navbar() {
   const t = useTranslations("nav");
@@ -32,15 +33,18 @@ export default function Navbar() {
 
   const navLinks = [
     { label: t("services"), href: "#services" },
-    { label: t("whyUs"),    href: "#why-us" },
-    { label: t("process"),  href: "#process" },
-    { label: t("contact"),  href: "#contact" },
+    { label: t("whyUs"),    href: "#why-us"   },
+    { label: t("process"),  href: "#process"  },
+    { label: t("feedback"), href: "#feedback" },
+    { label: t("contact"),  href: "#contact"  },
   ];
 
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-brand-100 py-3" : "bg-transparent py-5"
+        scrolled
+          ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-brand-100 py-3"
+          : "bg-transparent py-5"
       }`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
@@ -49,11 +53,13 @@ export default function Navbar() {
             <Image src="/logo.png" alt="ImmiNexus Consultants" width={44} height={44} className="object-contain" />
             <div>
               <div className="font-heading text-lg font-bold text-gray-900 leading-none">ImmiNexus</div>
-              <div className="text-brand-500 text-[10px] tracking-widest uppercase font-body">Your Migration Success Partner</div>
+              <div className="text-brand-500 text-[10px] tracking-widest uppercase font-body">
+                {t("tagline")}
+              </div>
             </div>
           </a>
 
-          {/* Desktop links */}
+          {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map((l) => (
               <a key={l.href} href={l.href}
@@ -63,8 +69,9 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right side */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Desktop right side */}
+          <div className="hidden md:flex items-center gap-2">
+            {/* Social icons */}
             <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
               className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-green-50 transition-colors">
               <WhatsAppIcon />
@@ -77,9 +84,13 @@ export default function Navbar() {
               className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-blue-50 transition-colors">
               <FacebookIcon />
             </a>
+            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-blue-50 transition-colors">
+              <LinkedInIcon />
+            </a>
 
             {/* Language switcher */}
-            <div className="flex items-center gap-0 border border-gray-200 rounded-md overflow-hidden text-xs font-body">
+            <div className="flex items-center border border-gray-200 rounded-md overflow-hidden text-xs font-body ml-1">
               {["en","es","fr"].map((l) => (
                 <button key={l} onClick={() => switchLocale(l)}
                   className={`px-2.5 py-1.5 transition-colors uppercase font-medium ${
@@ -90,12 +101,13 @@ export default function Navbar() {
               ))}
             </div>
 
-            <button onClick={() => setBookingOpen(true)} className="btn-brand text-sm px-5 py-2.5">
+            {/* Book consultation CTA */}
+            <button onClick={() => setBookingOpen(true)} className="btn-brand text-sm px-5 py-2.5 ml-1">
               {t("bookConsultation")}
             </button>
           </div>
 
-          {/* Mobile */}
+          {/* Mobile right */}
           <div className="md:hidden flex items-center gap-2">
             <button onClick={() => setBookingOpen(true)} className="btn-brand text-xs px-3 py-2">
               {t("bookConsultation")}
@@ -106,19 +118,21 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile dropdown */}
         {mobileOpen && (
           <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4 shadow-lg">
             {navLinks.map((l) => (
               <a key={l.href} href={l.href} onClick={() => setMobileOpen(false)}
-                className="block text-gray-700 py-3 text-base font-body border-b border-gray-50">
+                className="block text-gray-700 py-3 text-base font-body border-b border-gray-50 hover:text-brand-500 transition-colors">
                 {l.label}
               </a>
             ))}
-            <div className="flex items-center gap-4 mt-4">
-              <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"><WhatsAppIcon /></a>
-              <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer"><InstagramIcon /></a>
-              <a href={FACEBOOK} target="_blank" rel="noopener noreferrer"><FacebookIcon /></a>
+            {/* Social + language row */}
+            <div className="flex items-center gap-3 mt-4 flex-wrap">
+              <a href={WHATSAPP}  target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><WhatsAppIcon /></a>
+              <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
+              <a href={FACEBOOK}  target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon /></a>
+              <a href={LINKEDIN}  target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
               <div className="flex gap-1 ml-auto">
                 {["en","es","fr"].map((l) => (
                   <button key={l} onClick={() => { switchLocale(l); setMobileOpen(false); }}
@@ -139,6 +153,7 @@ export default function Navbar() {
   );
 }
 
+/* ── SVG Icons ── */
 function WhatsAppIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366">
@@ -164,6 +179,13 @@ function FacebookIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  );
+}
+function LinkedInIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2">
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
     </svg>
   );
 }

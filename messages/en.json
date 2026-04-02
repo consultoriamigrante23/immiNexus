@@ -4,7 +4,9 @@
     "whyUs": "Why Us",
     "process": "Process",
     "contact": "Contact",
-    "bookConsultation": "Book Consultation"
+    "bookConsultation": "Book Consultation",
+    "feedback": "Reviews",
+"tagline": "Your Migration Success Partner"
   },
   "hero": {
     "badge": "Trusted Immigration Consultants",
@@ -75,6 +77,12 @@
     "cta": "Start Your Process Today"
   },
   "contact": {
+    "linkedin": "LinkedIn",
+"linkedinSub": "Connect with us",
+"whatsappSub": "Click to open WhatsApp",
+"emailSub": "Response within 24h",
+"instaSub": "Follow us for updates",
+"fbSub": "Like our page",
     "subtitle": "Get in Touch",
     "title": "We Are Here to Help",
     "description": "Reach out through any channel. We respond within 24 hours.",
@@ -129,7 +137,10 @@
     "legal": "Legal",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "tagline": "Your Migration Success Partner",
+"cookies": "Cookie Policy",
+"servicesList": ["USA Visas & Immigration", "Canada Express Entry", "Mexico Residency", "Study Permits", "Work Permits", "Tourist Visas"]
   },
   "booking": {
     "title": "Book Your Free Consultation",

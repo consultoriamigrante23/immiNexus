@@ -4,7 +4,9 @@
     "whyUs": "Pourquoi Nous",
     "process": "Processus",
     "contact": "Contact",
-    "bookConsultation": "Réserver une Consultation"
+    "bookConsultation": "Réserver une Consultation",
+    "feedback": "Avis",
+"tagline": "Votre Partenaire Migration"
   },
   "hero": {
     "badge": "Consultants en Immigration de Confiance",
@@ -75,6 +77,12 @@
     "cta": "Commencer Votre Processus"
   },
   "contact": {
+    "linkedin": "LinkedIn",
+"linkedinSub": "Rejoignez-nous",
+"whatsappSub": "Cliquez pour ouvrir WhatsApp",
+"emailSub": "Réponse sous 24 heures",
+"instaSub": "Suivez-nous pour les mises à jour",
+"fbSub": "Aimez notre page",
     "subtitle": "Contactez-Nous",
     "title": "Nous Sommes Là Pour Vous Aider",
     "description": "Contactez-nous par n'importe quel canal. Nous répondons sous 24 heures.",
@@ -129,7 +137,10 @@
     "legal": "Légal",
     "privacy": "Politique de Confidentialité",
     "terms": "Conditions d'Utilisation",
-    "rights": "Tous droits réservés."
+    "rights": "Tous droits réservés.",
+    "tagline": "Votre Partenaire Migration",
+"cookies": "Politique de Cookies",
+"servicesList": ["Visas USA", "Entrée Express Canada", "Résidence Mexique", "Permis d'Études", "Permis de Travail", "Visas Touriste"]
   },
   "booking": {
     "title": "Réservez Votre Consultation Gratuite",

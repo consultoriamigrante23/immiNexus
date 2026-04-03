@@ -8,7 +8,7 @@ const INSTAGRAM = "https://www.instagram.com/imminexusconsultants";
 const FACEBOOK = "https://www.facebook.com/ImmiNexusConsultants";
 const PHONE = "+52 55 3163-0202";
 const LINKEDIN  = "https://www.linkedin.com/company/imminexus-consultants/";
-const EMAIL = "contact@imminexusconsultants.com";
+const EMAIL = "consultoriamigrante23@gmail.com";
 
 type FormData = { fullName: string; email: string; phone: string; country: string; service: string; message: string; };
 
@@ -36,6 +36,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-24 bg-white">
+      <section id="services" className="py-24 bg-gray-50 section-frame"></section>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <p className="text-brand-500 text-sm font-body font-medium tracking-widest uppercase mb-2">{t("subtitle")}</p>

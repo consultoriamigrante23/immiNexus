@@ -3,17 +3,27 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 
-type FeedbackItem = { name: string; country: string; service: string; rating: number; message: string; createdAt: string; };
-type FormData = { name: string; country: string; service: string; rating: number; message: string; };
+type FeedbackItem = {
+  name: string; country: string; service: string;
+  rating: number; message: string; createdAt: string;
+};
+type FormData = {
+  name: string; country: string; service: string;
+  rating: number; message: string;
+};
 
 export default function FeedbackSection() {
-  const [feedbacks, setFeedbacks] = useState<FeedbackItem[]>([]);
-  const [showForm, setShowForm] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const t = useTranslations("feedback");
+  const tc = useTranslations("contact");
+  const [feedbacks, setFeedbacks]     = useState<FeedbackItem[]>([]);
+  const [showForm, setShowForm]       = useState(false);
+  const [submitted, setSubmitted]     = useState(false);
+  const [loading, setLoading]         = useState(false);
+  const [error, setError]             = useState("");
   const [selectedRating, setSelectedRating] = useState(5);
+
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const services = tc.raw("services") as string[];
 
   useEffect(() => {
     fetch("/api/feedback")
@@ -21,12 +31,6 @@ export default function FeedbackSection() {
       .then(d => { if (d.feedbacks) setFeedbacks(d.feedbacks); })
       .catch(() => {});
   }, []);
-
-  const services = [
-    "USA – Tourist Visa","USA – Work Visa","USA – Student Visa","USA – Green Card",
-    "Canada – Express Entry","Canada – Study/Work Permit","Canada – Permanent Residency",
-    "Mexico – Residency","Other",
-  ];
 
   const onSubmit = async (data: FormData) => {
     setLoading(true); setError("");
@@ -37,9 +41,9 @@ export default function FeedbackSection() {
         body: JSON.stringify({ ...data, rating: selectedRating }),
       });
       const json = await res.json();
-      if (!res.ok) { setError(json.error || "Something went wrong."); return; }
+      if (!res.ok) { setError(json.error || t("errorGeneric")); return; }
       setSubmitted(true);
-    } catch { setError("Network error. Please try again."); }
+    } catch { setError(t("errorNetwork")); }
     finally { setLoading(false); }
   };
 
@@ -47,15 +51,20 @@ export default function FeedbackSection() {
 
   return (
     <section id="feedback" className="py-24 bg-gray-50">
+      <section id="services" className="py-24 bg-gray-50 section-frame"></section>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
-          <p className="text-brand-500 text-sm font-body font-medium tracking-widest uppercase mb-2">Client Stories</p>
-          <h2 className="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
+          <p className="text-brand-500 text-sm font-body font-medium tracking-widest uppercase mb-2">
+            {t("subtitle")}
+          </p>
+          <h2 className="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            {t("title")}
+          </h2>
           <div className="divider mx-auto mb-4"/>
-          <p className="text-gray-500 font-body max-w-lg mx-auto">Real experiences from people we've helped reach their destination.</p>
+          <p className="text-gray-500 font-body max-w-lg mx-auto">{t("description")}</p>
         </div>
 
-        {/* Feedback cards */}
+        {/* Cards */}
         {feedbacks.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {feedbacks.map((f, i) => (
@@ -80,16 +89,16 @@ export default function FeedbackSection() {
           </div>
         ) : (
           <div className="text-center text-gray-400 font-body mb-12 py-8">
-            Be the first to share your experience!
+            {t("empty")}
           </div>
         )}
 
-        {/* Leave feedback */}
+        {/* Form */}
         <div className="max-w-xl mx-auto">
           {!showForm ? (
             <div className="text-center">
               <button onClick={() => setShowForm(true)} className="btn-outline">
-                Share Your Experience
+                {t("shareButton")}
               </button>
             </div>
           ) : submitted ? (
@@ -99,29 +108,33 @@ export default function FeedbackSection() {
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
               </div>
-              <h3 className="font-heading text-xl font-bold text-gray-900 mb-2">Thank You!</h3>
-              <p className="text-gray-500 font-body text-sm">Your feedback has been submitted and will appear after review.</p>
+              <h3 className="font-heading text-xl font-bold text-gray-900 mb-2">{t("thankYouTitle")}</h3>
+              <p className="text-gray-500 font-body text-sm">{t("thankYouDesc")}</p>
             </div>
           ) : (
             <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-              <h3 className="font-heading text-xl font-bold text-gray-900 mb-6">Leave Your Feedback</h3>
-              {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm font-body px-4 py-3 rounded-lg mb-4">{error}</div>}
+              <h3 className="font-heading text-xl font-bold text-gray-900 mb-6">{t("formTitle")}</h3>
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 text-sm font-body px-4 py-3 rounded-lg mb-4">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <input {...register("name", { required: true })} placeholder="Your Name" className={inp}/>
-                    {errors.name && <p className="text-red-500 text-xs mt-1">Required</p>}
+                    <input {...register("name", { required: true })} placeholder={t("namePlaceholder")} className={inp}/>
+                    {errors.name && <p className="text-red-500 text-xs mt-1">{t("required")}</p>}
                   </div>
-                  <input {...register("country", { required: true })} placeholder="Your Country" className={inp}/>
+                  <input {...register("country", { required: true })} placeholder={t("countryPlaceholder")} className={inp}/>
                 </div>
                 <select {...register("service", { required: true })} defaultValue="" className={inp}>
-                  <option value="" disabled>Service Used</option>
+                  <option value="" disabled>{t("servicePlaceholder")}</option>
                   {services.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
-
-                {/* Star rating */}
                 <div>
-                  <label className="block text-xs font-body text-gray-500 mb-2 uppercase tracking-wide">Your Rating</label>
+                  <label className="block text-xs font-body text-gray-500 mb-2 uppercase tracking-wide">
+                    {t("ratingLabel")}
+                  </label>
                   <div className="flex gap-2">
                     {[1,2,3,4,5].map(star => (
                       <button key={star} type="button" onClick={() => setSelectedRating(star)}
@@ -132,17 +145,17 @@ export default function FeedbackSection() {
                     ))}
                   </div>
                 </div>
-
                 <div>
                   <textarea {...register("message", { required: true, minLength: 10 })}
-                    placeholder="Share your experience with ImmiNexus..." rows={4} className={`${inp} resize-none`}/>
-                  {errors.message && <p className="text-red-500 text-xs mt-1">Min 10 characters</p>}
+                    placeholder={t("messagePlaceholder")} rows={4} className={`${inp} resize-none`}/>
+                  {errors.message && <p className="text-red-500 text-xs mt-1">{t("minChars")}</p>}
                 </div>
-
                 <div className="flex gap-3">
-                  <button type="button" onClick={() => setShowForm(false)} className="btn-outline flex-1 py-3">Cancel</button>
+                  <button type="button" onClick={() => setShowForm(false)} className="btn-outline flex-1 py-3">
+                    {t("cancel")}
+                  </button>
                   <button type="submit" disabled={loading} className="btn-brand flex-1 py-3">
-                    {loading ? "Submitting..." : "Submit Feedback"}
+                    {loading ? t("submitting") : t("submit")}
                   </button>
                 </div>
               </form>

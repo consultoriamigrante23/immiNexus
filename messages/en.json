@@ -144,6 +144,7 @@
   },
   "booking": {
     "book": "Book",
+    "bookingInfo": "Ottawa EST · Mon–Sat · 9AM–9PM · One booking per 7 days",
 "track": "Track",
 "modify": "Modify",
     "title": "Book Your Free Consultation",
@@ -159,5 +160,27 @@
     "submitting": "Booking...",
     "success": "Consultation Booked!",
     "successDesc": "We will contact you within 24 hours to confirm your appointment."
-  }
+  },
+  "feedback": {
+  "subtitle": "Client Stories",
+  "title": "What Our Clients Say",
+  "description": "Real experiences from people we have helped reach their destination.",
+  "empty": "Be the first to share your experience!",
+  "shareButton": "Share Your Experience",
+  "formTitle": "Leave Your Feedback",
+  "namePlaceholder": "Your Name",
+  "countryPlaceholder": "Your Country",
+  "servicePlaceholder": "Service Used",
+  "ratingLabel": "Your Rating",
+  "messagePlaceholder": "Share your experience with ImmiNexus...",
+  "required": "Required",
+  "minChars": "Minimum 10 characters",
+  "cancel": "Cancel",
+  "submit": "Submit Feedback",
+  "submitting": "Submitting...",
+  "thankYouTitle": "Thank You!",
+  "thankYouDesc": "Your feedback has been submitted and will appear after review.",
+  "errorGeneric": "Something went wrong. Please try again.",
+  "errorNetwork": "Network error. Please try again."
+}
 }

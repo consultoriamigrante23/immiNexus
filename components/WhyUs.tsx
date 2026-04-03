@@ -38,6 +38,7 @@ export default function WhyUs() {
   const t = useTranslations("whyUs");
   return (
     <section id="why-us" className="py-24 bg-white">
+      <section id="services" className="py-24 bg-gray-50 section-frame"></section>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <p className="text-brand-500 text-sm font-body font-medium tracking-widest uppercase mb-2">{t("subtitle")}</p>

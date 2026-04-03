@@ -118,8 +118,8 @@ export default function Chatbot() {
     <>
       {/* Bubble */}
       <button onClick={() => setOpen(!open)} aria-label="Open chat"
-        className="fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
-        style={{ background: "#2A9D9A", boxShadow: "0 4px 20px rgba(42,157,154,0.4)" }}>
+  className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+  style={{ background: "#11999e", boxShadow: "0 4px 20px rgba(17,153,158,0.4)" }}>
         {open ? (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -133,8 +133,8 @@ export default function Chatbot() {
 
       {/* Window */}
       {open && (
-        <div className="fixed bottom-44 right-6 z-50 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
-          style={{ maxHeight: "420px" }}>
+  <div className="fixed bottom-24 left-6 z-50 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
+    style={{ maxHeight: "420px" }}>
           {/* Header */}
           <div className="px-4 py-3 flex items-center gap-3" style={{ background: "#2A9D9A" }}>
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">

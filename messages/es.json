@@ -144,6 +144,7 @@
   },
   "booking": {
     "book": "Reservar",
+    "bookingInfo": "Ottawa EST · Lun–Sáb · 9AM–9PM · Una reserva cada 7 días",
 "track": "Seguimiento",
 "modify": "Modificar",
     "title": "Reserva Tu Consulta Gratuita",
@@ -159,5 +160,27 @@
     "submitting": "Reservando...",
     "success": "¡Consulta Reservada!",
     "successDesc": "Te contactaremos en 24 horas para confirmar tu cita."
-  }
+  },
+  "feedback": {
+  "subtitle": "Historias de Clientes",
+  "title": "Lo Que Dicen Nuestros Clientes",
+  "description": "Experiencias reales de personas a quienes hemos ayudado a llegar a su destino.",
+  "empty": "Se el primero en compartir tu experiencia!",
+  "shareButton": "Comparte Tu Experiencia",
+  "formTitle": "Deja Tu Opinión",
+  "namePlaceholder": "Tu Nombre",
+  "countryPlaceholder": "Tu País",
+  "servicePlaceholder": "Servicio Utilizado",
+  "ratingLabel": "Tu Calificación",
+  "messagePlaceholder": "Comparte tu experiencia con ImmiNexus...",
+  "required": "Requerido",
+  "minChars": "Mínimo 10 caracteres",
+  "cancel": "Cancelar",
+  "submit": "Enviar Opinión",
+  "submitting": "Enviando...",
+  "thankYouTitle": "Gracias!",
+  "thankYouDesc": "Tu opinión ha sido enviada y aparecerá después de revisión.",
+  "errorGeneric": "Algo salió mal. Por favor intenta de nuevo.",
+  "errorNetwork": "Error de red. Por favor intenta de nuevo."
+}
 }

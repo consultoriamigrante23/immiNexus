@@ -10,17 +10,17 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50:  "#e8f7f7",
-          100: "#c5eaea",
-          200: "#8dd4d3",
-          300: "#55bfbd",
-          400: "#2aada9",
-          500: "#2A9D9A",
-          600: "#228280",
-          700: "#1a6866",
-          800: "#124f4d",
-          900: "#0a3534",
-        },
+  50:  "#e8f6f7",
+  100: "#c5e9ea",
+  200: "#8dd4d3",
+  300: "#55bfbd",
+  400: "#16c6cc",
+  500: "#11999e",   // primary brand
+  600: "#0d7a7e",
+  700: "#40514e",   // dark text color from logo
+  800: "#293533",   // darkest from logo
+  900: "#1a2422",
+},
       },
       fontFamily: {
         heading: ["var(--font-heading)", "serif"],

@@ -50,14 +50,23 @@ export default function Navbar() {
 
           {/* Logo */}
           <a href={`/${locale}`} className="flex items-center gap-3 no-underline">
-            <Image src="/logo.png" alt="ImmiNexus Consultants" width={44} height={44} className="object-contain" />
-            <div>
-              <div className="font-heading text-lg font-bold text-gray-900 leading-none">ImmiNexus</div>
-              <div className="text-brand-500 text-[10px] tracking-widest uppercase font-body">
-                {t("tagline")}
-              </div>
-            </div>
-          </a>
+  <Image
+    src="/logo-icon.png"
+    alt="ImmiNexus Consultants"
+    width={40}
+    height={40}
+    className="object-contain"
+    priority
+  />
+  <div>
+    <div className="font-heading text-lg font-bold leading-none" style={{ color: "#293533" }}>
+      ImmiNexus
+    </div>
+    <div className="text-[10px] tracking-widest uppercase font-body" style={{ color: "#11999e" }}>
+      {t("tagline")}
+    </div>
+  </div>
+</a>
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-6">
@@ -89,17 +98,46 @@ export default function Navbar() {
               <LinkedInIcon />
             </a>
 
-            {/* Language switcher */}
-            <div className="flex items-center border border-gray-200 rounded-md overflow-hidden text-xs font-body ml-1">
-              {["en","es","fr"].map((l) => (
-                <button key={l} onClick={() => switchLocale(l)}
-                  className={`px-2.5 py-1.5 transition-colors uppercase font-medium ${
-                    locale === l ? "bg-brand-500 text-white" : "text-gray-500 hover:bg-gray-50"
-                  }`}>
-                  {l}
-                </button>
-              ))}
-            </div>
+            {/* Language switcher with real flags */}
+<div className="flex items-center gap-1 ml-1">
+  {[
+    { code: "en", label: "EN", flag: (
+      <svg width="20" height="13" viewBox="0 0 36 24">
+        <rect width="36" height="24" fill="#B22234"/>
+        {[1.85,3.7,5.54,7.38,9.23,11.08,12.92,14.77,16.62,18.46,20.31,22.15].map((y,i)=>(
+          <rect key={i} y={y} width="36" height="1.85" fill={i%2===0?"white":"#B22234"}/>
+        ))}
+        <rect width="14.4" height="12.92" fill="#3C3B6E"/>
+      </svg>
+    )},
+    { code: "es", label: "ES", flag: (
+      <svg width="20" height="13" viewBox="0 0 36 24">
+        <rect width="36" height="24" fill="#AA151B"/>
+        <rect y="6" width="36" height="12" fill="#F1BF00"/>
+      </svg>
+    )},
+    { code: "fr", label: "FR", flag: (
+      <svg width="20" height="13" viewBox="0 0 36 24">
+        <rect width="36" height="24" fill="white"/>
+        <rect width="12" height="24" fill="#002395"/>
+        <rect x="24" width="12" height="24" fill="#ED2939"/>
+      </svg>
+    )},
+  ].map((l) => (
+    <button
+      key={l.code}
+      onClick={() => switchLocale(l.code)}
+      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-body font-medium transition-all ${
+        locale === l.code
+          ? "shadow-sm border"
+          : "text-gray-500 hover:bg-gray-50 border border-transparent"
+      }`}
+      style={locale === l.code ? { borderColor: "#11999e", background: "#e8f6f7", color: "#11999e" } : {}}>
+      <span className="rounded overflow-hidden shadow-sm" style={{ lineHeight: 0 }}>{l.flag}</span>
+      {l.label}
+    </button>
+  ))}
+</div>
 
             {/* Book consultation CTA */}
             <button onClick={() => setBookingOpen(true)} className="btn-brand text-sm px-5 py-2.5 ml-1">

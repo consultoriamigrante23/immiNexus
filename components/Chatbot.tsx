@@ -118,8 +118,10 @@ export default function Chatbot() {
     <>
       {/* Bubble */}
       <button onClick={() => setOpen(!open)} aria-label="Open chat"
-  className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
-  style={{ background: "#11999e", boxShadow: "0 4px 20px rgba(17,153,158,0.4)" }}>
+  className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center animate-pulse-glow"
+  style={{ background:"linear-gradient(135deg, #11999e, #0d7a7e)", boxShadow:"0 6px 24px rgba(17,153,158,0.5)", transition:"transform 0.35s cubic-bezier(0.34,1.56,0.64,1)" }}
+  onMouseEnter={e=>(e.currentTarget as HTMLElement).style.transform="scale(1.12)"}
+  onMouseLeave={e=>(e.currentTarget as HTMLElement).style.transform="scale(1)"}>
         {open ? (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -132,9 +134,9 @@ export default function Chatbot() {
       </button>
 
       {/* Window */}
-      {open && (
-  <div className="fixed bottom-24 left-6 z-50 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
-    style={{ maxHeight: "420px" }}>
+    {open && (
+  <div className="fixed bottom-24 left-6 z-50 w-80 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+    style={{ maxHeight:"420px", background:"rgba(255,255,255,0.95)", backdropFilter:"blur(20px)", border:"1px solid rgba(17,153,158,0.15)", boxShadow:"0 20px 60px rgba(0,0,0,0.15)" }}>
           {/* Header */}
           <div className="px-4 py-3 flex items-center gap-3" style={{ background: "#2A9D9A" }}>
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">

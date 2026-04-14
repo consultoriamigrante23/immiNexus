@@ -15,7 +15,7 @@ export default function FloatingCTA() {
     <>
       {/* WhatsApp float */}
       <a
-        href="https://wa.me/5255316302020?text=Hello%2C%20I%20would%20like%20a%20free%20consultation."
+        href="https://wa.me/+525531630202?text=Hello%2C%20I%20would%20like%20a%20free%20consultation."
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"

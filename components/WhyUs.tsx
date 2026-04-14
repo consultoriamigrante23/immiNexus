@@ -59,6 +59,109 @@ export default function WhyUs() {
           <h2 className="section-title text-4xl md:text-5xl mb-4">{t("title")}</h2>
           <div className="divider mx-auto"/>
         </ScrollReveal>
+        {/* ── WHO WE ARE ── */}
+<ScrollReveal className="mb-20">
+  <div className="relative rounded-3xl p-8 md:p-12 overflow-hidden"
+    style={{
+      background: "linear-gradient(135deg, rgba(17,153,158,0.07) 0%, rgba(17,153,158,0.03) 100%)",
+      border: "1px solid rgba(17,153,158,0.15)",
+      boxShadow: "0 20px 60px rgba(17,153,158,0.08)"
+    }}>
+
+    {/* subtle glow */}
+    <div className="absolute inset-0 pointer-events-none"
+      style={{
+        background: "radial-gradient(circle at 20% 30%, rgba(17,153,158,0.12), transparent 60%)"
+      }}/>
+
+    <div className="relative">
+      <h3 className="font-heading text-2xl md:text-3xl font-bold mb-8"
+        style={{ color: "var(--text-primary)" }}>
+        Who We Are
+      </h3>
+
+      <div className="grid md:grid-cols-2 gap-8">
+
+        {/* Marco */}
+        <div className="group rounded-2xl p-6 transition-all duration-300"
+          style={{
+            background: "white",
+            border: "1px solid rgba(17,153,158,0.12)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.04)"
+          }}
+          onMouseEnter={e=>{
+            const el = e.currentTarget as HTMLElement;
+            el.style.transform = "translateY(-6px)";
+            el.style.boxShadow = "0 16px 40px rgba(17,153,158,0.12)";
+          }}
+          onMouseLeave={e=>{
+            const el = e.currentTarget as HTMLElement;
+            el.style.transform = "translateY(0)";
+            el.style.boxShadow = "0 8px 24px rgba(0,0,0,0.04)";
+          }}>
+
+          <h4 className="font-heading text-lg font-bold mb-1" style={{ color:"var(--text-primary)" }}>
+            Marco Rodriguez
+          </h4>
+          <p className="text-xs font-body mb-3" style={{ color:"var(--brand)" }}>
+            Main Consultant
+          </p>
+
+          <p className="text-sm font-body leading-relaxed" style={{ color:"var(--text-soft)" }}>
+            Paralegal graduate in Ontario, Canada, and candidate for the P1 License with the Law Society of Ontario. Holds bachelor’s degrees in Law and International Relations from Mexico.
+          </p>
+
+          <p className="text-sm font-body leading-relaxed mt-3" style={{ color:"var(--text-soft)" }}>
+            Brings professional experience as a Paralegal and Senior Case Manager in the United States, as well as experience as a government officer in Mexico and within a Canadian law firm.
+          </p>
+
+          <p className="text-sm font-body leading-relaxed mt-3" style={{ color:"var(--text-soft)" }}>
+            Demonstrates a strong passion for immigration law and is committed to helping individuals identify and pursue the best legal options available to them.
+          </p>
+        </div>
+
+        {/* Sidelghali */}
+        <div className="group rounded-2xl p-6 transition-all duration-300"
+          style={{
+            background: "white",
+            border: "1px solid rgba(17,153,158,0.12)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.04)"
+          }}
+          onMouseEnter={e=>{
+            const el = e.currentTarget as HTMLElement;
+            el.style.transform = "translateY(-6px)";
+            el.style.boxShadow = "0 16px 40px rgba(17,153,158,0.12)";
+          }}
+          onMouseLeave={e=>{
+            const el = e.currentTarget as HTMLElement;
+            el.style.transform = "translateY(0)";
+            el.style.boxShadow = "0 8px 24px rgba(0,0,0,0.04)";
+          }}>
+
+          <h4 className="font-heading text-lg font-bold mb-1" style={{ color:"var(--text-primary)" }}>
+            Sidelghali Zouine
+          </h4>
+          <p className="text-xs font-body mb-3" style={{ color:"var(--brand)" }}>
+            Legal Assistant
+          </p>
+
+          <p className="text-sm font-body leading-relaxed" style={{ color:"var(--text-soft)" }}>
+            Paralegal graduate in Canada and candidate for the P1 License with the Law Society of Ontario. Holds a Bachelor’s Degree in Private Law from Morocco.
+          </p>
+
+          <p className="text-sm font-body leading-relaxed mt-3" style={{ color:"var(--text-soft)" }}>
+            Experienced as an administrative assistant and paralegal intern, with strong organizational and legal support skills.
+          </p>
+
+          <p className="text-sm font-body leading-relaxed mt-3" style={{ color:"var(--text-soft)" }}>
+            Committed to providing reliable assistance and dedicated to helping clients navigate their legal needs.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ScrollReveal>
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-16">

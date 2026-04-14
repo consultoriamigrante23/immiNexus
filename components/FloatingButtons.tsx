@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const WHATSAPP = "https://wa.me/5255316302020?text=Hello%2C%20I%20would%20like%20a%20free%20consultation.";
+const WHATSAPP = "https://wa.me/+525531630202?text=Hello%2C%20I%20would%20like%20a%20free%20consultation.";
 
 export default function FloatingButtons() {
   const [visible, setVisible] = useState(false);

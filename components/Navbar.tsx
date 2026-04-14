@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import BookingModal from "./BookingModal";
 
-const WHATSAPP  = "https://wa.me/5255316302020";
+const WHATSAPP  = "https://wa.me/+525531630202";
 const INSTAGRAM = "https://www.instagram.com/imminexusconsultants";
 const FACEBOOK  = "https://www.facebook.com/ImmiNexusConsultants";
 const LINKEDIN  = "https://www.linkedin.com/company/imminexus-consultants/";
@@ -57,67 +57,60 @@ export default function Navbar() {
   ];
 
   const socials = [
-    { href: WHATSAPP,  label:"WhatsApp", icon:<WaIcon/>,  color:"#25D366" },
-    { href: INSTAGRAM, label:"Instagram",icon:<IgIcon/>,  color:"#E1306C" },
-    { href: FACEBOOK,  label:"Facebook", icon:<FbIcon/>,  color:"#1877F2" },
-    { href: LINKEDIN,  label:"LinkedIn", icon:<LiIcon/>,  color:"#0A66C2" },
+    { href:WHATSAPP,  label:"WhatsApp", icon:<WaIcon/>, color:"#25D366" },
+    { href:INSTAGRAM, label:"Instagram",icon:<IgIcon/>, color:"#E1306C" },
+    { href:FACEBOOK,  label:"Facebook", icon:<FbIcon/>, color:"#1877F2" },
+    { href:LINKEDIN,  label:"LinkedIn", icon:<LiIcon/>, color:"#0A66C2" },
   ];
-
-  // Always white text since hero has dark video bg
-  // On scroll: dark glass bg so text stays white
-  const textColor = "rgba(255,255,255,0.95)";
-  const textHover = "rgba(255,255,255,0.7)";
 
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50"
         style={{
           transition: "all 0.35s cubic-bezier(0.23,1,0.32,1)",
-          padding: scrolled ? "10px 0" : "16px 0",
-          background: scrolled
-            ? "rgba(10,60,64,0.92)"
-            : "rgba(0,0,0,0.18)",
-          backdropFilter: "blur(20px) saturate(180%)",
-          WebkitBackdropFilter: "blur(20px) saturate(180%)",
-          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(255,255,255,0.08)",
-          boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.25)" : "none",
+          padding: scrolled ? "8px 0" : "14px 0",
+          background: scrolled ? "rgba(8,40,42,0.96)" : "rgba(0,0,0,0.15)",
+          backdropFilter: "blur(24px) saturate(180%)",
+          WebkitBackdropFilter: "blur(24px) saturate(180%)",
+          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(255,255,255,0.06)",
+          boxShadow: scrolled ? "0 4px 32px rgba(0,0,0,0.35)" : "none",
         }}>
-
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-4">
 
-          {/* Logo */}
-          <a href={`/${locale}`} className="flex items-center gap-3 flex-shrink-0" style={{ textDecoration:"none" }}>
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full" style={{ background:"rgba(17,153,158,0.25)", transform:"scale(1.4)", filter:"blur(6px)" }}/>
-              <Image src="/logo-icon.png" alt="ImmiNexus" width={36} height={36} className="object-contain relative" priority/>
-            </div>
-            <div>
-              <div className="font-heading font-bold text-base leading-none" style={{ color:"white" }}>ImmiNexus</div>
-              <div className="text-[9px] font-body font-semibold tracking-[0.15em] uppercase" style={{ color:"rgba(168,240,238,0.9)" }}>{t("tagline")}</div>
-            </div>
+          {/* Logo — horizontal image */}
+          <a href={`/${locale}`} className="flex-shrink-0" style={{ textDecoration:"none" }}>
+            <Image
+  src="/logo-horizontal.png"
+  alt="ImmiNexus Consultants"
+  width={180}
+  height={48}
+  className="object-contain"
+  style={{ height:38, width:"auto" }}
+  priority
+/>
           </a>
 
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-1">
             {navLinks.map(l => (
               <a key={l.href} href={l.href}
-                className="px-4 py-2 text-sm font-body font-medium rounded-lg transition-all"
-                style={{ color: textColor, textDecoration:"none" }}
-                onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color=textHover;(e.currentTarget as HTMLElement).style.background="rgba(255,255,255,0.1)";}}
-                onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color=textColor;(e.currentTarget as HTMLElement).style.background="transparent";}}>
+                className="px-3.5 py-2 text-sm font-body font-medium rounded-lg transition-all"
+                style={{ color:"rgba(255,255,255,0.88)", textDecoration:"none" }}
+                onMouseEnter={e=>{const el=e.currentTarget as HTMLElement;el.style.color="white";el.style.background="rgba(255,255,255,0.1)";}}
+                onMouseLeave={e=>{const el=e.currentTarget as HTMLElement;el.style.color="rgba(255,255,255,0.88)";el.style.background="transparent";}}>
                 {l.label}
               </a>
             ))}
           </div>
 
-          {/* Right */}
+          {/* Right side */}
           <div className="hidden lg:flex items-center gap-2">
             {socials.map(s => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
                 className="w-8 h-8 flex items-center justify-center rounded-full transition-all hover:scale-110"
-                style={{ background:"rgba(255,255,255,0.12)", border:"1px solid rgba(255,255,255,0.15)" }}
+                style={{ background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.12)" }}
                 onMouseEnter={e=>(e.currentTarget as HTMLElement).style.background=`${s.color}40`}
-                onMouseLeave={e=>(e.currentTarget as HTMLElement).style.background="rgba(255,255,255,0.12)"}>
+                onMouseLeave={e=>(e.currentTarget as HTMLElement).style.background="rgba(255,255,255,0.1)"}>
                 {s.icon}
               </a>
             ))}
@@ -126,10 +119,10 @@ export default function Navbar() {
             <div className="relative ml-1" ref={langRef}>
               <button onClick={()=>setLangOpen(!langOpen)}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-xl border text-sm font-body font-medium transition-all"
-                style={{ background:"rgba(255,255,255,0.12)", borderColor:"rgba(255,255,255,0.25)", color:"white", backdropFilter:"blur(8px)" }}>
-                <span className="rounded overflow-hidden shadow-sm" style={{ lineHeight:0 }}>{currentLang.flag}</span>
-                <span>{currentLang.label}</span>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"
+                style={{ background:"rgba(255,255,255,0.1)", borderColor:"rgba(255,255,255,0.2)", color:"white" }}>
+                <span className="rounded overflow-hidden" style={{ lineHeight:0 }}>{currentLang.flag}</span>
+                <span className="text-xs">{currentLang.label}</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"
                   style={{ transform:langOpen?"rotate(180deg)":"none", transition:"transform 0.2s" }}>
                   <polyline points="6 9 12 15 18 9"/>
                 </svg>
@@ -137,17 +130,17 @@ export default function Navbar() {
 
               {langOpen && (
                 <div className="absolute right-0 top-full mt-2 rounded-2xl overflow-hidden"
-                  style={{ minWidth:170, background:"rgba(10,55,58,0.97)", backdropFilter:"blur(20px)", border:"1px solid rgba(255,255,255,0.15)", boxShadow:"0 16px 48px rgba(0,0,0,0.4)" }}>
+                  style={{ minWidth:165, background:"rgba(8,40,42,0.98)", backdropFilter:"blur(24px)", border:"1px solid rgba(255,255,255,0.1)", boxShadow:"0 16px 48px rgba(0,0,0,0.5)" }}>
                   {LANGS.map(l => (
                     <button key={l.code} onClick={()=>switchLocale(l.code)}
                       className="w-full flex items-center gap-3 px-4 py-3 text-sm font-body text-left transition-all"
-                      style={{ background:locale===l.code?"rgba(17,153,158,0.25)":"transparent", color:locale===l.code?"#a8f0ee":"rgba(255,255,255,0.85)" }}
-                      onMouseEnter={e=>{if(locale!==l.code)(e.currentTarget as HTMLElement).style.background="rgba(255,255,255,0.08)";}}
+                      style={{ background:locale===l.code?"rgba(17,153,158,0.2)":"transparent", color:locale===l.code?"#a8f0ee":"rgba(255,255,255,0.8)" }}
+                      onMouseEnter={e=>{if(locale!==l.code)(e.currentTarget as HTMLElement).style.background="rgba(255,255,255,0.07)";}}
                       onMouseLeave={e=>{if(locale!==l.code)(e.currentTarget as HTMLElement).style.background="transparent";}}>
-                      <span className="rounded overflow-hidden shadow-sm" style={{ lineHeight:0, flexShrink:0 }}>{l.flag}</span>
+                      <span className="rounded overflow-hidden" style={{ lineHeight:0, flexShrink:0 }}>{l.flag}</span>
                       <span className="font-medium">{l.name}</span>
                       {locale===l.code && (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a8f0ee" strokeWidth="2.5" className="ml-auto">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a8f0ee" strokeWidth="2.5" className="ml-auto">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
                       )}
@@ -157,9 +150,10 @@ export default function Navbar() {
               )}
             </div>
 
+            {/* CTA */}
             <button onClick={()=>setBookingOpen(true)}
               className="btn-brand btn-shimmer text-sm px-5 py-2.5 ml-1"
-              style={{ boxShadow:"0 4px 20px rgba(17,153,158,0.4)" }}>
+              style={{ boxShadow:"0 4px 20px rgba(17,153,158,0.45)" }}>
               {t("bookConsultation")}
             </button>
           </div>
@@ -170,8 +164,8 @@ export default function Navbar() {
               {t("bookConsultation")}
             </button>
             <button onClick={()=>setMobileOpen(!mobileOpen)}
-              className="w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-              style={{ background:"rgba(255,255,255,0.12)", color:"white" }}>
+              className="w-9 h-9 flex items-center justify-center rounded-xl"
+              style={{ background:"rgba(255,255,255,0.1)", color:"white" }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 {mobileOpen
                   ?<><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>
@@ -184,13 +178,13 @@ export default function Navbar() {
         {/* Mobile menu */}
         {mobileOpen && (
           <div className="lg:hidden px-6 py-5"
-            style={{ background:"rgba(10,55,58,0.97)", backdropFilter:"blur(24px)", borderTop:"1px solid rgba(255,255,255,0.1)" }}>
+            style={{ background:"rgba(8,40,42,0.98)", backdropFilter:"blur(24px)", borderTop:"1px solid rgba(255,255,255,0.08)" }}>
             {navLinks.map((l,i) => (
               <a key={l.href} href={l.href} onClick={()=>setMobileOpen(false)}
                 className="flex items-center justify-between py-3.5 text-base font-body font-medium border-b"
-                style={{ color:"rgba(255,255,255,0.9)", borderColor:"rgba(255,255,255,0.07)", textDecoration:"none" }}>
+                style={{ color:"rgba(255,255,255,0.9)", borderColor:"rgba(255,255,255,0.06)", textDecoration:"none" }}>
                 {l.label}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(168,240,238,0.8)" strokeWidth="2.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(168,240,238,0.7)" strokeWidth="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
               </a>
@@ -198,8 +192,8 @@ export default function Navbar() {
             <div className="flex gap-2 mt-4 flex-wrap">
               {LANGS.map(l => (
                 <button key={l.code} onClick={()=>switchLocale(l.code)}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-body font-semibold transition-all"
-                  style={{ borderColor:locale===l.code?"rgba(168,240,238,0.5)":"rgba(255,255,255,0.15)", background:locale===l.code?"rgba(17,153,158,0.25)":"rgba(255,255,255,0.08)", color:locale===l.code?"#a8f0ee":"rgba(255,255,255,0.7)" }}>
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-body font-semibold"
+                  style={{ borderColor:locale===l.code?"rgba(168,240,238,0.4)":"rgba(255,255,255,0.12)", background:locale===l.code?"rgba(17,153,158,0.2)":"rgba(255,255,255,0.07)", color:locale===l.code?"#a8f0ee":"rgba(255,255,255,0.65)" }}>
                   <span className="rounded overflow-hidden" style={{ lineHeight:0 }}>{l.flag}</span>
                   {l.name}
                 </button>
@@ -208,8 +202,8 @@ export default function Navbar() {
             <div className="flex gap-2 mt-4">
               {socials.map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl flex items-center justify-center transition-all"
-                  style={{ background:"rgba(255,255,255,0.1)" }}>
+                  className="w-10 h-10 rounded-xl flex items-center justify-center"
+                  style={{ background:"rgba(255,255,255,0.08)" }}>
                   {s.icon}
                 </a>
               ))}
@@ -217,7 +211,6 @@ export default function Navbar() {
           </div>
         )}
       </nav>
-
       <BookingModal open={bookingOpen} onClose={()=>setBookingOpen(false)}/>
     </>
   );

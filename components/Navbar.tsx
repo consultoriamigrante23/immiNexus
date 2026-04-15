@@ -80,7 +80,7 @@ export default function Navbar() {
           {/* Logo — horizontal image */}
           <a href={`/${locale}`} className="flex-shrink-0" style={{ textDecoration:"none" }}>
             <Image
-  src="/logo-horizontal.png"
+  src="/LOGO NO FONDO 2 (2).png"
   alt="ImmiNexus Consultants"
   width={180}
   height={48}

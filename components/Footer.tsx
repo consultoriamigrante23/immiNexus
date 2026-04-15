@@ -40,7 +40,7 @@ export default function Footer() {
           <div className="md:col-span-1">
             <a href={`/${locale}`} className="block mb-5" style={{ textDecoration:"none" }}>
               <Image
-                src="/logo-horizontal.png"
+                src="/LOGO NO FONDO 2 (2).png"
                 alt="ImmiNexus Consultants"
                 width={180}
                 height={55}
@@ -58,7 +58,6 @@ export default function Footer() {
                   style={{ background:"rgba(255,255,255,0.06)" }}
                   onMouseEnter={e=>(e.currentTarget as HTMLElement).style.background=s.hoverBg}
                   onMouseLeave={e=>(e.currentTarget as HTMLElement).style.background="rgba(255,255,255,0.06)"}>
-
                   {s.icon}
                 </a>
               ))}
@@ -119,15 +118,6 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-
-            {/* Credentials */}
-            <div className="mt-8 p-4 rounded-xl"
-              style={{ background:"rgba(17,153,158,0.08)", border:"1px solid rgba(17,153,158,0.15)" }}>
-              <p className="text-xs font-body font-semibold text-white mb-1">Licensed & Certified</p>
-              <p className="text-xs font-body" style={{ color:"rgba(255,255,255,0.4)" }}>
-                Law Society of Ontario · P1 License Candidates
-              </p>
-            </div>
           </div>
         </div>
 

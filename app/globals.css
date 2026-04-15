@@ -265,7 +265,116 @@ body::before {
 }
 @keyframes plane-orbit { from { transform: rotate(0deg)   translateX(160px) rotate(0deg); }
                          to   { transform: rotate(360deg) translateX(160px) rotate(-360deg); } }
+                         @keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(180px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(180px) rotate(-360deg);
+  }
+}
 
+@keyframes orbit-reverse {
+  from {
+    transform: rotate(360deg) translateX(140px) rotate(-360deg);
+  }
+  to {
+    transform: rotate(0deg) translateX(140px) rotate(0deg);
+  }
+}
+/* background animation */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientMove 12s ease infinite;
+}
+
+/* light movement */
+@keyframes move1 {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-40px, -30px); }
+  100% { transform: translate(0,0); }
+}
+
+@keyframes move2 {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(40px, 30px); }
+  100% { transform: translate(0,0); }
+}
+
+.animate-move1 {
+  animation: move1 10s ease-in-out infinite;
+}
+
+.animate-move2 {
+  animation: move2 14s ease-in-out infinite;
+}
+
+/* PLANES ORBIT PERFECT CIRCLE */
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(160px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(160px) rotate(-360deg);
+  }
+}
+
+@keyframes orbit-reverse {
+  from {
+    transform: rotate(360deg) translateX(160px) rotate(-360deg);
+  }
+  to {
+    transform: rotate(0deg) translateX(160px) rotate(0deg);
+  }
+}
+
+@keyframes orbit-slow {
+  from {
+    transform: rotate(0deg) translateX(160px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(160px) rotate(-360deg);
+  }
+}
+
+.animate-orbit {
+  animation: orbit 10s linear infinite;
+}
+
+.animate-orbit-reverse {
+  animation: orbit-reverse 14s linear infinite;
+}
+
+.animate-orbit-slow {
+  animation: orbit-slow 20s linear infinite;
+}
+.animate-orbit {
+  animation: orbit 12s linear infinite;
+}
+
+.animate-orbit-reverse {
+  animation: orbit-reverse 16s linear infinite;
+}
+/* PERFECT ORBIT (THIS WAS MISSING) */
+
+@keyframes plane-orbit-1 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes plane-orbit-2 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes plane-orbit-3 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 .animate-float        { animation: float 5s ease-in-out infinite; }
 .animate-float-slow   { animation: float-slow 7s ease-in-out infinite; }
 .animate-spin-slow    { animation: spin-slow 20s linear infinite; }

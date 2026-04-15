@@ -1,7 +1,8 @@
 "use client";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { getAvailableSlots, isValidFutureDate } from "@/lib/availability";
 
 type Tab = "book" | "track" | "modify";
@@ -10,24 +11,28 @@ type FormData = {
   country: string; service: string; date: string;
   time: string; message: string;
 };
-type ModifyData = { trackingId: string; newDate: string; newTime: string; reason: string; };
+type ModifyData = { trackingId: string; newDate: string; newTime: string; reason: string };
+
+const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY ?? "10000000-ffff-ffff-ffff-000000000001";
 
 export default function BookingModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const t  = useTranslations("booking");
   const tc = useTranslations("contact");
   const services = tc.raw("services") as string[];
 
-  const [tab,            setTab]            = useState<Tab>("book");
-  const [submitted,      setSubmitted]      = useState(false);
-  const [loading,        setLoading]        = useState(false);
-  const [error,          setError]          = useState("");
-  const [bookedSlots,    setBookedSlots]    = useState<string[]>([]);
-  const [modBookedSlots, setModBookedSlots] = useState<string[]>([]);
-  const [trackingId,     setTrackingId]     = useState("");
-  const [trackingData,   setTrackingData]   = useState<any>(null);
-  const [trackingError,  setTrackingError]  = useState("");
-  const [trackingLoading,setTrackingLoading]= useState(false);
-  const [modifySuccess,  setModifySuccess]  = useState(false);
+  const [tab,             setTab]             = useState<Tab>("book");
+  const [submitted,       setSubmitted]       = useState(false);
+  const [loading,         setLoading]         = useState(false);
+  const [error,           setError]           = useState("");
+  const [bookedSlots,     setBookedSlots]     = useState<string[]>([]);
+  const [modBookedSlots,  setModBookedSlots]  = useState<string[]>([]);
+  const [trackingId,      setTrackingId]      = useState("");
+  const [trackingData,    setTrackingData]    = useState<any>(null);
+  const [trackingError,   setTrackingError]   = useState("");
+  const [trackingLoading, setTrackingLoading] = useState(false);
+  const [modifySuccess,   setModifySuccess]   = useState(false);
+  const [captchaToken,    setCaptchaToken]    = useState<string | null>(null);
+  const captchaRef = useRef<HCaptcha>(null);
 
   const {
     register, handleSubmit, reset, watch, setValue,
@@ -47,7 +52,6 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
   const today   = new Date().toISOString().split("T")[0];
   const maxDate = new Date(Date.now() + 60 * 86400000).toISOString().split("T")[0];
 
-  // Lock scroll
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -55,11 +59,12 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
       document.body.style.overflow = "";
       setSubmitted(false); setError(""); setModifySuccess(false);
       setTrackingData(null); setTrackingError("");
+      setCaptchaToken(null);
+      captchaRef.current?.resetCaptcha();
       reset();
     }
   }, [open, reset]);
 
-  // Fetch booked slots for booking form
   useEffect(() => {
     if (!watchedDate || !isValidFutureDate(watchedDate)) { setBookedSlots([]); return; }
     fetch(`/api/booking?date=${watchedDate}`)
@@ -68,7 +73,6 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
       .catch(() => {});
   }, [watchedDate]);
 
-  // Fetch booked slots for modify form
   useEffect(() => {
     if (!watchedModDate || !isValidFutureDate(watchedModDate)) { setModBookedSlots([]); return; }
     fetch(`/api/booking?date=${watchedModDate}`)
@@ -79,12 +83,14 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
 
   const onSubmit = async (data: FormData) => {
     if (!data.time) { setError("Please select a time slot."); return; }
+    const token = process.env.NODE_ENV === "development" ? "dev-bypass" : captchaToken;
+    if (!token) { setError("Please complete the captcha verification."); return; }
     setLoading(true); setError("");
     try {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, captchaToken: "dev-bypass" }),
+        body: JSON.stringify({ ...data, captchaToken: token }),
       });
       const json = await res.json();
       if (!res.ok) { setError(json.error || "Something went wrong."); return; }
@@ -122,10 +128,7 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
   };
 
   const renderSlots = (
-    date: string,
-    booked: string[],
-    selected: string,
-    onSelect: (t: string) => void
+    date: string, booked: string[], selected: string, onSelect: (t: string) => void
   ) => {
     if (!date || !isValidFutureDate(date)) return null;
     const slots = getAvailableSlots(date);
@@ -138,8 +141,8 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
         <div className="grid grid-cols-4 gap-1.5">
           {slots.map(slot => {
             const [h, m] = slot.split(":").map(Number);
-            const ampm = h >= 12 ? "PM" : "AM";
-            const h12  = h > 12 ? h - 12 : h === 0 ? 12 : h;
+            const ampm  = h >= 12 ? "PM" : "AM";
+            const h12   = h > 12 ? h - 12 : h === 0 ? 12 : h;
             const label = `${h12}:${m === 0 ? "00" : m}${ampm}`;
             const isBooked = booked.includes(slot);
             return (
@@ -164,14 +167,14 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
 
   if (!open) return null;
 
-  const inp = "w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm font-body bg-white focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors";
+  const inp    = "w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm font-body bg-white focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors";
   const errCls = "text-red-500 text-xs mt-1 font-body";
+  const tabs: [Tab, string][] = [["book", t("book")], ["track", t("track")], ["modify", t("modify")]];
 
-  const tabs: [Tab, string][] = [
-    ["book",   t("book")],
-    ["track",  t("track")],
-    ["modify", t("modify")],
-  ];
+  const resetTab = (key: Tab) => {
+    setTab(key); setError(""); setSubmitted(false); setModifySuccess(false);
+    setCaptchaToken(null); captchaRef.current?.resetCaptcha();
+  };
 
   return (
     <div
@@ -187,23 +190,16 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
           style={{ borderRadius: "16px 16px 0 0" }}>
           <div className="flex gap-1">
             {tabs.map(([key, label]) => (
-              <button key={key}
-                onClick={() => { setTab(key); setError(""); setSubmitted(false); setModifySuccess(false); }}
+              <button key={key} onClick={() => resetTab(key)}
                 className="px-3.5 py-1.5 rounded-lg text-xs font-body font-medium transition-all"
-                style={{
-                  background: tab === key ? "#11999e" : "transparent",
-                  color:      tab === key ? "white" : "#9ca3af",
-                }}>
+                style={{ background: tab === key ? "#11999e" : "transparent", color: tab === key ? "white" : "#9ca3af" }}>
                 {label}
               </button>
             ))}
           </div>
-          <button
-            type="button"
-            onClick={e => { e.stopPropagation(); onClose(); }}
+          <button type="button" onClick={e => { e.stopPropagation(); onClose(); }}
             className="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-gray-100"
-            style={{ color: "#9ca3af" }}
-            aria-label="Close modal">
+            style={{ color: "#9ca3af" }} aria-label="Close">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <line x1="18" y1="6" x2="6" y2="18"/>
               <line x1="6" y1="6" x2="18" y2="18"/>
@@ -213,12 +209,11 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
 
         <div className="p-6">
 
-          {/* BOOK TAB */}
+          {/* ── BOOK ── */}
           {tab === "book" && (
             submitted ? (
               <div className="text-center py-10">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{ background: "#f0fdf4" }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: "#f0fdf4" }}>
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
@@ -231,7 +226,6 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
               </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {/* Info banner */}
                 <div className="rounded-xl p-3 text-xs font-body" style={{ background: "#e8f6f7", color: "#0d7a7e" }}>
                   {t("bookingInfo")}
                 </div>
@@ -273,10 +267,13 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
                   <label className="block text-xs font-body uppercase tracking-wide mb-1" style={{ color: "#9ca3af" }}>
                     Select Date (Mon–Sat)
                   </label>
-                  <input {...register("date", {
-                    required: true,
-                    validate: v => isValidFutureDate(v) || "Must be a future weekday (Mon–Sat)"
-                  })} type="date" min={today} max={maxDate} className={inp}/>
+                  <input
+                    {...register("date", {
+                      required: true,
+                      validate: v => isValidFutureDate(v) || "Must be a future weekday (Mon–Sat)"
+                    })}
+                    type="date" min={today} max={maxDate} className={inp}
+                  />
                   {errors.date && <p className={errCls}>{errors.date.message}</p>}
                 </div>
 
@@ -286,15 +283,28 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
 
                 <textarea {...register("message")} placeholder={t("message")} rows={3} className={`${inp} resize-none`}/>
 
+                {/* hCaptcha — production only */}
+                {process.env.NODE_ENV !== "development" && (
+                  <div className="flex justify-center pt-1">
+                    <HCaptcha
+                      ref={captchaRef}
+                      sitekey={HCAPTCHA_SITE_KEY}
+                      onVerify={token => setCaptchaToken(token)}
+                      onExpire={() => setCaptchaToken(null)}
+                      onError={() => setCaptchaToken(null)}
+                    />
+                  </div>
+                )}
+
                 <button type="submit" disabled={loading}
-                  className="btn-brand w-full py-3.5 text-base disabled:opacity-60">
+                  className="btn-brand w-full py-3.5 text-base justify-center disabled:opacity-60">
                   {loading ? t("submitting") : t("submit")}
                 </button>
               </form>
             )
           )}
 
-          {/* TRACK TAB */}
+          {/* ── TRACK ── */}
           {tab === "track" && (
             <div className="space-y-4">
               <p className="text-sm font-body" style={{ color: "#576d69" }}>
@@ -306,9 +316,9 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
                   onChange={e => setTrackingId(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && onTrack()}
                   placeholder="IMN-XXXXXXXX-XXXXXX"
-                  className={`${inp} flex-1`}/>
-                <button onClick={onTrack} disabled={trackingLoading}
-                  className="btn-brand px-5 py-2.5 text-sm whitespace-nowrap">
+                  className={`${inp} flex-1`}
+                />
+                <button onClick={onTrack} disabled={trackingLoading} className="btn-brand px-5 py-2.5 text-sm whitespace-nowrap">
                   {trackingLoading ? "..." : "Track"}
                 </button>
               </div>
@@ -324,12 +334,8 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-xs font-body font-bold px-3 py-1 rounded-full"
                       style={{
-                        background: trackingData.booking.status === "confirmed" ? "#f0fdf4"
-                                  : trackingData.booking.status === "cancelled" ? "#fef2f2"
-                                  : "#fefce8",
-                        color: trackingData.booking.status === "confirmed" ? "#15803d"
-                             : trackingData.booking.status === "cancelled" ? "#dc2626"
-                             : "#92400e",
+                        background: trackingData.booking.status === "confirmed" ? "#f0fdf4" : trackingData.booking.status === "cancelled" ? "#fef2f2" : "#fefce8",
+                        color:      trackingData.booking.status === "confirmed" ? "#15803d" : trackingData.booking.status === "cancelled" ? "#dc2626" : "#92400e",
                       }}>
                       {trackingData.booking.status.toUpperCase()}
                     </span>
@@ -351,22 +357,12 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
                       <span className="font-medium" style={{ color: "#293533" }}>{v}</span>
                     </div>
                   ))}
-                  {trackingData.booking.modifications?.length > 0 && (
-                    <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(17,153,158,0.1)" }}>
-                      <p className="text-xs font-body mb-2" style={{ color: "#9ca3af" }}>Modification History</p>
-                      {trackingData.booking.modifications.map((m: any, i: number) => (
-                        <p key={i} className="text-xs font-body" style={{ color: "#576d69" }}>
-                          {m.previousDate} {m.previousTime} → {m.newDate} {m.newTime} · "{m.reason}"
-                        </p>
-                      ))}
-                    </div>
-                  )}
                 </div>
               )}
             </div>
           )}
 
-          {/* MODIFY TAB */}
+          {/* ── MODIFY ── */}
           {tab === "modify" && (
             modifySuccess ? (
               <div className="text-center py-10">
@@ -401,10 +397,8 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
                   <label className="block text-xs font-body uppercase tracking-wide mb-1" style={{ color: "#9ca3af" }}>
                     New Date (Mon–Sat)
                   </label>
-                  <input {...regM("newDate", {
-                    required: true,
-                    validate: v => isValidFutureDate(v) || "Must be a future weekday"
-                  })} type="date" min={today} max={maxDate} className={inp}/>
+                  <input {...regM("newDate", { required: true, validate: v => isValidFutureDate(v) || "Must be a future weekday" })}
+                    type="date" min={today} max={maxDate} className={inp}/>
                   {errM.newDate && <p className={errCls}>{errM.newDate.message}</p>}
                 </div>
 
@@ -419,9 +413,7 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
                 </div>
 
                 <div className="flex gap-3">
-                  <button type="button" onClick={() => setTab("book")} className="btn-outline flex-1 py-3">
-                    Cancel
-                  </button>
+                  <button type="button" onClick={() => setTab("book")} className="btn-outline flex-1 py-3">Cancel</button>
                   <button type="submit" disabled={loading} className="btn-brand flex-1 py-3 disabled:opacity-60">
                     {loading ? "Saving..." : "Modify Booking"}
                   </button>
@@ -429,7 +421,6 @@ export default function BookingModal({ open, onClose }: { open: boolean; onClose
               </form>
             )
           )}
-
         </div>
       </div>
     </div>

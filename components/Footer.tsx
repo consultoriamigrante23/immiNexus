@@ -40,13 +40,13 @@ export default function Footer() {
           <div className="md:col-span-1">
             <a href={`/${locale}`} className="block mb-5" style={{ textDecoration:"none" }}>
               <Image
-                src="/LOGO NO FONDO 2 (2).png"
-                alt="ImmiNexus Consultants"
-                width={180}
-                height={55}
-                className="object-contain"
-                style={{ height:44, width:"auto" }}
-              />
+  src="/LOGO NO FONDO 2 (2).png"
+  alt="ImmiNexus Consultants"
+  width={260}
+  height={80}
+  className="object-contain"
+  style={{ height:64, width:"auto" }}
+/>
             </a>
             <p className="font-body text-sm leading-relaxed mb-5" style={{ color:"rgba(255,255,255,0.38)" }}>
               {t("description")}

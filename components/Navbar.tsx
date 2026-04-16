@@ -79,13 +79,13 @@ export default function Navbar() {
 
           {/* Logo — horizontal image */}
           <a href={`/${locale}`} className="flex-shrink-0" style={{ textDecoration:"none" }}>
-            <Image
+           <Image
   src="/LOGO NO FONDO 2 (2).png"
   alt="ImmiNexus Consultants"
-  width={180}
-  height={48}
+  width={260}
+  height={80}
   className="object-contain"
-  style={{ height:38, width:"auto" }}
+  style={{ height:60, width:"auto" }}
   priority
 />
           </a>

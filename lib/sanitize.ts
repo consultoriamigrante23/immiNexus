@@ -1,17 +1,12 @@
-export function sanitizeString(str: string): string {
-  return str
+export function sanitize(input: string): string {
+  if (!input || typeof input !== "string") return "";
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;")
+    .replace(/\//g, "&#x2F;")
     .trim()
-    .replace(/[<>]/g, "")
-    .replace(/javascript:/gi, "")
-    .replace(/on\w+=/gi, "")
     .slice(0, 2000);
-}
-
-export function sanitizeObject<T extends Record<string, any>>(obj: T): T {
-  const result: any = {};
-  for (const key of Object.keys(obj)) {
-    const val = obj[key];
-    result[key] = typeof val === "string" ? sanitizeString(val) : val;
-  }
-  return result as T;
 }

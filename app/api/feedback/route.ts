@@ -1,50 +1,82 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";
-import Feedback from "@/lib/models/Feedback";
-import { rateLimit } from "@/lib/rateLimit";
-import { sanitizeObject } from "@/lib/sanitize";
-import { z } from "zod";
-
-const schema = z.object({
-  name:    z.string().min(2).max(80),
-  country: z.string().min(2).max(100),
-  service: z.string().min(2).max(200),
-  rating:  z.number().int().min(1).max(5),
-  message: z.string().min(10).max(1000),
-});
-
-export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for") ?? "unknown";
-  if (!rateLimit(ip, 3, 60_000)) {
-    return NextResponse.json({ error: "Too many requests." }, { status: 429 });
-  }
-
-  try {
-    const raw = await req.json();
-    const sanitized = sanitizeObject(raw);
-    const data = schema.parse(sanitized);
-
-    await connectDB();
-    await Feedback.create(data);
-
-    return NextResponse.json({ success: true }, { status: 200 });
-  } catch (err: any) {
-    if (err.name === "ZodError") {
-      return NextResponse.json({ error: "Invalid data" }, { status: 400 });
-    }
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
-}
+import { connectToDatabase } from "@/lib/mongodb";
+import { sanitize } from "@/lib/sanitize";
 
 export async function GET() {
   try {
-    await connectDB();
-    const feedbacks = await Feedback.find({ approved: true })
+    if (!process.env.MONGODB_URI) {
+      return NextResponse.json({ feedbacks: [] });
+    }
+
+    const { db } = await connectToDatabase();
+    const feedbacks = await db
+      .collection("feedbacks")
+      .find({ approved: true })
       .sort({ createdAt: -1 })
-      .limit(10)
-      .select("name country service rating message createdAt");
+      .limit(20)
+      .toArray();
+
     return NextResponse.json({ feedbacks }, { status: 200 });
-  } catch {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+
+  } catch (err) {
+    console.error("[feedback GET] Error:", err);
+    return NextResponse.json({ feedbacks: [] });
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    if (!process.env.MONGODB_URI) {
+      return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
+    }
+
+    let body: any;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    }
+
+    const { name, country, service, rating, message } = body;
+
+    if (!name || !country || !service || !message) {
+      return NextResponse.json(
+        { error: "Missing required fields: name, country, service, message" },
+        { status: 400 }
+      );
+    }
+
+    if (message.length < 10) {
+      return NextResponse.json(
+        { error: "Message must be at least 10 characters" },
+        { status: 400 }
+      );
+    }
+
+    const ratingNum = Number(rating);
+    if (isNaN(ratingNum) || ratingNum < 1 || ratingNum > 5) {
+      return NextResponse.json({ error: "Rating must be between 1 and 5" }, { status: 400 });
+    }
+
+    const { db } = await connectToDatabase();
+
+    await db.collection("feedbacks").insertOne({
+      name:      sanitize(name),
+      country:   sanitize(country),
+      service:   sanitize(service),
+      rating:    ratingNum,
+      message:   sanitize(message),
+      approved:  false, // admin must approve
+      createdAt: new Date(),
+    });
+
+    return NextResponse.json(
+      { success: true, message: "Thank you! Your review will appear after approval." },
+      { status: 201 }
+    );
+
+  } catch (err) {
+    console.error("[feedback POST] Error:", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

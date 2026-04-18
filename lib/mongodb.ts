@@ -1,17 +1,33 @@
-import mongoose from "mongoose";
+import { MongoClient, Db } from "mongodb";
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
+const uri = process.env.MONGODB_URI!;
 
-if (!MONGODB_URI) throw new Error("Please define MONGODB_URI in .env.local");
-
-let cached = (global as any).mongoose || { conn: null, promise: null };
-(global as any).mongoose = cached;
-
-export async function connectDB() {
-  if (cached.conn) return cached.conn;
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, { bufferCommands: false });
-  }
-  cached.conn = await cached.promise;
-  return cached.conn;
+if (!uri) {
+  throw new Error("Please add MONGODB_URI to .env.local");
 }
+
+let client: MongoClient;
+let clientPromise: Promise<MongoClient>;
+
+declare global {
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
+}
+
+if (process.env.NODE_ENV === "development") {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri);
+    global._mongoClientPromise = client.connect();
+  }
+  clientPromise = global._mongoClientPromise;
+} else {
+  client = new MongoClient(uri);
+  clientPromise = client.connect();
+}
+
+export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
+  const connectedClient = await clientPromise;
+  const db = connectedClient.db("imminexus");
+  return { client: connectedClient, db };
+}
+
+export default clientPromise;

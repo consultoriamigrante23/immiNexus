@@ -8,8 +8,10 @@ export default function CookieBanner() {
   const t = useTranslations("cookies");
   const locale = useLocale();
   const [show, setShow] = useState(false);
+  const [mounted, setMounted] = useState(false); // ← ADD THIS
 
   useEffect(() => {
+    setMounted(true); // ← marks we're on the client
     const consent = localStorage.getItem(COOKIE_KEY);
     if (!consent) setTimeout(() => setShow(true), 1500);
   }, []);
@@ -17,7 +19,7 @@ export default function CookieBanner() {
   const accept = () => { localStorage.setItem(COOKIE_KEY, "all"); setShow(false); };
   const decline = () => { localStorage.setItem(COOKIE_KEY, "essential"); setShow(false); };
 
-  if (!show) return null;
+  if (!mounted || !show) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[300] p-4 md:p-6">

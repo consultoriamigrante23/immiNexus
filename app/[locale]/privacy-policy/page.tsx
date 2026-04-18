@@ -53,8 +53,20 @@ export default async function PrivacyPolicy({
           ]
         }
       },
+      teamTitle: "Who We Are",
+      team: [
+        {
+          name: "Marco Rodriguez",
+          role: "Main Consultant",
+          bio: "Paralegal graduate in Ontario, Canada, and candidate for the P1 License with the Law Society of Ontario. Holds bachelor's degrees in Law and International Relations from Mexico. Brings professional experience as a Paralegal and Senior Case Manager in the United States, as well as experience as a government officer in Mexico and within a Canadian law firm. Demonstrates a strong passion for immigration law and is committed to helping individuals identify and pursue the best legal options available to them.",
+        },
+        {
+          name: "Sidelghali Zouine",
+          role: "Legal Assistant",
+          bio: "Paralegal graduate in Canada and candidate for the P1 License with the Law Society of Ontario. Holds a Bachelor's Degree in Private Law from Morocco. Experienced as an administrative assistant and paralegal intern, with strong organizational and legal support skills. Committed to providing reliable assistance and dedicated to helping clients navigate their legal needs.",
+        },
+      ],
     },
-
     es: {
       title: "Política de Privacidad y Confidencialidad",
       updated: "Vigente desde 2024",
@@ -73,8 +85,12 @@ export default async function PrivacyPolicy({
         canada: { title:"Canadá", items:["Visa de visitante (familia, tránsito, turismo, negocios)","Autorización Electrónica de Viaje (eTA)"] },
         other: { title:"Otros Países", items:["Visas de visitante – corta y larga estancia","Tránsito","Negocios","Y más"] },
       },
+      teamTitle: "Quiénes Somos",
+      team: [
+        { name:"Marco Rodriguez", role:"Consultor Principal", bio:"Graduado en Paralegal en Ontario, Canadá, y candidato a la Licencia P1 con el Colegio de Abogados de Ontario. Licenciado en Derecho y Relaciones Internacionales de México. Experiencia como Paralegal y Gerente de Casos en EE.UU., funcionario gubernamental en México y en un despacho legal canadiense." },
+        { name:"Sidelghali Zouine", role:"Asistente Legal", bio:"Graduado en Paralegal en Canadá y candidato a la Licencia P1 con el Colegio de Abogados de Ontario. Licenciado en Derecho Privado de Marruecos. Con experiencia como asistente administrativo y pasante paralegal." },
+      ],
     },
-
     fr: {
       title: "Politique de Confidentialité",
       updated: "En vigueur depuis 2024",
@@ -93,10 +109,15 @@ export default async function PrivacyPolicy({
         canada: { title:"Canada", items:["Visa visiteur (famille, transit, tourisme, affaires)","Autorisation de Voyage Électronique (AVE)"] },
         other: { title:"Autres Pays", items:["Visas visiteur – court et long séjour","Transit","Affaires","Et plus"] },
       },
+      teamTitle: "Qui Sommes-Nous",
+      team: [
+        { name:"Marco Rodriguez", role:"Consultant Principal", bio:"Diplômé parajuriste en Ontario, Canada, et candidat à la Licence P1 auprès du Barreau de l'Ontario. Licencié en Droit et Relations Internationales du Mexique. Expérience en tant que Parajuriste et Gestionnaire de Dossiers aux États-Unis, fonctionnaire au Mexique et au sein d'un cabinet juridique canadien." },
+        { name:"Sidelghali Zouine", role:"Assistant Juridique", bio:"Diplômé parajuriste au Canada et candidat à la Licence P1. Licence en Droit Privé du Maroc. Expérimenté en tant qu'assistant administratif et stagiaire parajuriste." },
+      ],
     },
   };
 
-  const c = content[locale as keyof typeof content] || content.en;
+  const c = content[locale as keyof typeof content] ?? content.en;
   const serviceKeys = ["mexico","usa","canada","other"] as const;
   const accentColors = { mexico:"#22C55E", usa:"#3B82F6", canada:"#EF4444", other:"#F59E0B" };
 
@@ -119,8 +140,17 @@ export default async function PrivacyPolicy({
               <div className="text-[9px] tracking-widest uppercase font-body" style={{ color:"#11999e" }}>Consultants</div>
             </div>
           </a>
-
-          <a href={`/${locale}`} className="text-sm font-body font-medium"
+          <div className="hidden md:flex items-center gap-5">
+            {[
+              { label: locale==="fr"?"Services":locale==="es"?"Servicios":"Services", href:`/${locale}#services` },
+              { label: locale==="fr"?"Pourquoi Nous":locale==="es"?"Por Qué Nosotros":"Why Us", href:`/${locale}#why-us` },
+              { label: locale==="fr"?"Contact":locale==="es"?"Contacto":"Contact", href:`/${locale}#contact` },
+            ].map(l => (
+              <a key={l.href} href={l.href} className="text-sm font-body font-medium transition-colors hover:text-teal-600"
+                style={{ color:"#40514e", textDecoration:"none" }}>{l.label}</a>
+            ))}
+          </div>
+          <a href={`/${locale}`} className="text-sm font-body font-medium transition-colors"
             style={{ color:"#11999e", textDecoration:"none" }}>{c.back}</a>
         </div>
       </nav>
@@ -148,7 +178,7 @@ export default async function PrivacyPolicy({
                     <h3 className="font-heading text-lg font-bold" style={{ color:"#293533" }}>{svc.title}</h3>
                   </div>
                   <ul className="space-y-2">
-                    {svc.items.map((item, i) => (
+                    {svc.items.map((item,i) => (
                       <li key={i} className="flex items-start gap-2.5 text-sm font-body" style={{ color:"#576d69" }}>
                         <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ background:accentColors[key] }}/>
                         {item}
@@ -169,11 +199,8 @@ export default async function PrivacyPolicy({
             { title: c.changesTitle, content: c.changesText },
             { title: c.termsTitle, content: c.termsText },
           ].map(section => (
-            <div key={section.title} className="rounded-2xl p-6 border"
-              style={{ borderColor:"rgba(17,153,158,0.1)", background:"rgba(17,153,158,0.02)" }}>
-              <h2 className="font-heading text-xl font-bold mb-4" style={{ color:"#293533" }}>
-                {section.title}
-              </h2>
+            <div key={section.title} className="rounded-2xl p-6 border" style={{ borderColor:"rgba(17,153,158,0.1)", background:"rgba(17,153,158,0.02)" }}>
+              <h2 className="font-heading text-xl font-bold mb-4" style={{ color:"#293533" }}>{section.title}</h2>
               <div className="font-body text-sm leading-relaxed whitespace-pre-line" style={{ color:"#576d69" }}>
                 {section.content}
               </div>
@@ -181,18 +208,37 @@ export default async function PrivacyPolicy({
           ))}
         </div>
 
+        {/* Team section */}
+        <div className="mt-12">
+          <h2 className="font-heading text-2xl font-bold mb-6" style={{ color:"#293533" }}>{c.teamTitle}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {c.team.map(member => (
+              <div key={member.name} className="rounded-2xl p-6 border" style={{ borderColor:"rgba(17,153,158,0.12)", background:"rgba(17,153,158,0.03)" }}>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-heading text-xl font-bold"
+                    style={{ background:"linear-gradient(135deg,#11999e,#0d7a7e)" }}>
+                    {member.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h3 className="font-heading text-lg font-bold" style={{ color:"#293533" }}>{member.name}</h3>
+                    <p className="text-sm font-body font-medium" style={{ color:"#11999e" }}>{member.role}</p>
+                  </div>
+                </div>
+                <p className="text-sm font-body leading-relaxed" style={{ color:"#576d69" }}>{member.bio}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Contact */}
-        <div className="mt-10 rounded-2xl p-6 text-center"
-          style={{ background:"rgba(17,153,158,0.06)", border:"1px solid rgba(17,153,158,0.15)" }}>
+        <div className="mt-10 rounded-2xl p-6 text-center" style={{ background:"rgba(17,153,158,0.06)", border:"1px solid rgba(17,153,158,0.15)" }}>
           <p className="font-body text-sm font-medium" style={{ color:"#293533" }}>
             Questions? Contact us:{" "}
-            <a href="mailto:consultoriamigrante23@gmail.com"
-              style={{ color:"#11999e", textDecoration:"none" }}>
+            <a href="mailto:consultoriamigrante23@gmail.com" style={{ color:"#11999e", textDecoration:"none" }}>
               consultoriamigrante23@gmail.com
             </a>
           </p>
         </div>
-
       </main>
 
       <Footer/>

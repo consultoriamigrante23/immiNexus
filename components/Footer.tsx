@@ -40,10 +40,10 @@ export default function Footer() {
           <div className="md:col-span-1">
             <a href={`/${locale}`} className="block mb-5" style={{ textDecoration:"none" }}>
               <Image
-  src="/LOGO NO FONDO 2 (2).png"
+  src="/edited-image.png"
   alt="ImmiNexus Consultants"
-  width={260}
-  height={80}
+  width={280}
+  height={100}
   className="object-contain"
   style={{ height:64, width:"auto" }}
 />

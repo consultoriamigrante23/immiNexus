@@ -57,46 +57,42 @@ export default function Hero() {
     <>
       <section className="relative min-h-screen flex flex-col overflow-hidden">
 
-        {/* ── VIDEO BACKGROUND ── */}
-        <div className="absolute inset-0" style={{ zIndex: 0 }}>
-          {/* Always-visible teal gradient behind video */}
-          <div className="absolute inset-0" style={{
-            background: "linear-gradient(135deg,#041c1e 0%,#073d40 30%,#0d7a7e 55%,#073d40 80%,#041c1e 100%)"
-          }}/>
+       {/* ── VIDEO BACKGROUND ── */}
+<div className="absolute inset-0" style={{ zIndex: 0 }}>
+  {/* Gradient fallback — always visible */}
+  <div className="absolute inset-0" style={{
+    background: "linear-gradient(135deg,#041c1e 0%,#073d40 30%,#0d7a7e 55%,#073d40 80%,#041c1e 100%)"
+  }}/>
 
-          {/*
-            Using Coverr.co & Mazwai free aviation videos
-            — served from their public CDNs, no auth required, no referrer block.
-            Multiple sources: browser picks first one that loads.
-          */}
-          <video
-  autoPlay
-  muted
-  loop
-  playsInline
-  style={{
-    position: "absolute",
-    inset: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    objectPosition: "center",
-  }}
->
-  <source src="/videos/plane.mp4" type="video/mp4" />
-</video>
+  {/* Local video file — put airport.mp4 in your public/ folder */}
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="auto"
+    style={{
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      opacity: 0.45,
+    }}>
+    <source src="/videos/airport2.mp4" type="video/mp4" />
+  </video>
 
-          {/* Readability overlay */}
-          <div className="absolute inset-0" style={{
-            background: "linear-gradient(135deg,rgba(4,28,30,0.78) 0%,rgba(10,70,74,0.52) 45%,rgba(4,28,30,0.72) 100%)"
-          }}/>
-          <div className="absolute inset-0" style={{
-            background: "radial-gradient(ellipse 70% 60% at 55% 45%,rgba(17,153,158,0.07) 0%,transparent 70%)"
-          }}/>
-          <div className="absolute bottom-0 left-0 right-0 h-36" style={{
-            background: "linear-gradient(to bottom,transparent,rgba(4,28,30,0.55))"
-          }}/>
-        </div>
+  {/* Dark overlay */}
+  <div className="absolute inset-0" style={{
+    background: "linear-gradient(135deg,rgba(4,28,30,0.8) 0%,rgba(10,70,74,0.55) 45%,rgba(4,28,30,0.75) 100%)"
+  }}/>
+  <div className="absolute inset-0" style={{
+    background: "radial-gradient(ellipse 70% 60% at 55% 45%,rgba(17,153,158,0.07) 0%,transparent 70%)"
+  }}/>
+  <div className="absolute bottom-0 left-0 right-0 h-36" style={{
+    background: "linear-gradient(to bottom,transparent,rgba(4,28,30,0.55))"
+  }}/>
+</div>
 
         {/* Particles */}
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full"

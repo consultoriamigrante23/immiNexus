@@ -481,3 +481,61 @@ body::before {
   color: var(--text-primary);
   line-height: 1.15;
 }
+/* ── Mobile improvements ── */
+@media (max-width: 768px) {
+  /* Hero */
+  .min-h-screen { min-height: 100dvh; }
+
+  /* Better touch targets */
+  button, a { min-height: 44px; }
+
+  /* Booking modal full screen on mobile */
+  .booking-modal-content {
+    border-radius: 16px 16px 0 0 !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Font sizes */
+  h1 { font-size: clamp(2rem, 8vw, 3rem) !important; }
+  h2 { font-size: clamp(1.5rem, 6vw, 2.5rem) !important; }
+
+  /* Section padding */
+  .py-28 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+  .py-24 { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+
+  /* Grid single column */
+  .lg\:grid-cols-2 { grid-template-columns: 1fr !important; }
+  .lg\:grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Hero logo orbit smaller */
+  .logo-orbit-container { width: 280px !important; height: 280px !important; }
+
+  /* Cards full width */
+  .card-3d { transform: none !important; }
+  .card-3d:hover { transform: translateY(-4px) !important; }
+
+  /* Navbar */
+  nav { padding: 8px 0 !important; }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .px-6 { padding-left: 1rem !important; padding-right: 1rem !important; }
+  .gap-12 { gap: 2rem !important; }
+  .gap-16 { gap: 2rem !important; }
+}
+
+/* Smooth scrolling on iOS */
+* { -webkit-overflow-scrolling: touch; }
+html { scroll-behavior: smooth; }
+
+/* Prevent zoom on input focus on iOS */
+input, select, textarea {
+  font-size: 16px !important;
+}
+@media (min-width: 768px) {
+  input, select, textarea { font-size: 14px !important; }
+}

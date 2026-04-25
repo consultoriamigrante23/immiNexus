@@ -3,7 +3,12 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useRef } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { getAvailableSlots, isValidFutureDate } from "@/lib/availability";
+import {
+  getAvailableSlots,
+  isValidFutureDate,
+  getDateValidationMessage,
+  formatTimeGMT5,
+} from "@/lib/availability";
 import { COUNTRIES, getPhoneByCountry } from "@/lib/countries";
 
 type Tab = "book" | "track" | "modify";
@@ -17,9 +22,7 @@ type ModifyData = {
   trackingId: string; newDate: string; newTime: string; reason: string;
 };
 
-// Real ImmiNexus services
 const SERVICES = [
-  // Mexico
   "Mexico – Visitor Visa / Non-lucrative (Tourism, Business, Transit)",
   "Mexico – Temporary Residence (Work)",
   "Mexico – Temporary Residence (Family)",
@@ -29,13 +32,10 @@ const SERVICES = [
   "Mexico – Visa Request Outside Mexico",
   "Mexico – INM Permit / National Institute of Migration",
   "Mexico – Passport",
-  // USA
   "USA – Visa B1 (Business Visitor)",
   "USA – Visa B2 (Tourism / Medical)",
-  // Canada
   "Canada – Visitor Visa (Family / Transit / Tourism / Business)",
   "Canada – Electronic Travel Authorization (eTA)",
-  // Other
   "Other Country – Visitor Visa (Short Term)",
   "Other Country – Visitor Visa (Long Term)",
   "Other Country – Transit Visa",
@@ -45,12 +45,30 @@ const SERVICES = [
 
 const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY ?? "10000000-ffff-ffff-ffff-000000000001";
 
+// Get today + 60 days in YYYY-MM-DD local format
+function getDateStr(daysFromNow: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + daysFromNow);
+  return d.toISOString().split("T")[0];
+}
+
+// Get a device fingerprint to prevent booking from multiple devices
+function getDeviceId(): string {
+  if (typeof window === "undefined") return "";
+  let id = localStorage.getItem("imminexus_device_id");
+  if (!id) {
+    id = `dev_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
+    localStorage.setItem("imminexus_device_id", id);
+  }
+  return id;
+}
+
 export default function BookingModal({
   open, onClose,
 }: {
   open: boolean; onClose: () => void;
 }) {
-  const t  = useTranslations("booking");
+  const t = useTranslations("booking");
 
   const [tab,             setTab]             = useState<Tab>("book");
   const [submitted,       setSubmitted]       = useState(false);
@@ -66,6 +84,8 @@ export default function BookingModal({
   const [captchaToken,    setCaptchaToken]    = useState<string | null>(null);
   const [pdfUrl,          setPdfUrl]          = useState<string | null>(null);
   const [successTracking, setSuccessTracking] = useState("");
+  const [modifyPdfUrl,    setModifyPdfUrl]    = useState<string | null>(null);
+  const [modifyTracking,  setModifyTracking]  = useState("");
   const captchaRef = useRef<HCaptcha>(null);
 
   const {
@@ -84,17 +104,12 @@ export default function BookingModal({
   const watchedModDate = watchM("newDate");
   const watchedModTime = watchM("newTime");
 
-  const today   = new Date().toISOString().split("T")[0];
-  const maxDate = new Date(Date.now() + 60 * 86400000).toISOString().split("T")[0];
-
-  // Auto-fill phone when country changes
+  // Auto-fill phone from country
   useEffect(() => {
-    if (watchedCountry) {
-      const phone = getPhoneByCountry(watchedCountry);
-      setValue("phone", phone);
-    }
+    if (watchedCountry) setValue("phone", getPhoneByCountry(watchedCountry));
   }, [watchedCountry, setValue]);
 
+  // Lock scroll
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -103,11 +118,13 @@ export default function BookingModal({
       setSubmitted(false); setError(""); setModifySuccess(false);
       setTrackingData(null); setTrackingError("");
       setCaptchaToken(null); setPdfUrl(null); setSuccessTracking("");
+      setModifyPdfUrl(null); setModifyTracking("");
       captchaRef.current?.resetCaptcha();
       reset();
     }
   }, [open, reset]);
 
+  // Fetch booked slots
   useEffect(() => {
     if (!watchedDate || !isValidFutureDate(watchedDate)) { setBookedSlots([]); return; }
     fetch(`/api/booking?date=${watchedDate}`)
@@ -120,46 +137,46 @@ export default function BookingModal({
       .then(r => r.json()).then(d => setModBookedSlots(d.bookedSlots ?? [])).catch(() => {});
   }, [watchedModDate]);
 
+  const triggerDownload = (base64: string, filename: string) => {
+    const byteChars = atob(base64);
+    const bytes = new Uint8Array(byteChars.length);
+    for (let i = 0; i < byteChars.length; i++) bytes[i] = byteChars.charCodeAt(i);
+    const blob = new Blob([bytes], { type: "application/pdf" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    return url;
+  };
+
   const onSubmit = async (data: FormData) => {
     if (!data.time) { setError("Please select a time slot."); return; }
+
+    const dateMsg = getDateValidationMessage(data.date);
+    if (dateMsg) { setError(dateMsg); return; }
+
     const token = process.env.NODE_ENV === "development" ? "dev-bypass" : captchaToken;
-    if (!token) { setError("Please complete the captcha verification."); return; }
+    if (!token) { setError("Please complete the 'I am not a robot' verification."); return; }
+
     setLoading(true); setError("");
     try {
+      const deviceId = getDeviceId();
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, captchaToken: token }),
+        body: JSON.stringify({ ...data, captchaToken: token, deviceId }),
       });
       const json = await res.json();
       if (!res.ok) { setError(json.error || "Something went wrong."); return; }
 
-      // Download PDF immediately
       setSuccessTracking(json.trackingId);
+
       if (json.pdfBase64) {
-        const byteCharacters = atob(json.pdfBase64);
-        const byteArrays = [];
-        for (let i = 0; i < byteCharacters.length; i += 512) {
-          const slice = byteCharacters.slice(i, i + 512);
-          const byteNumbers = new Array(slice.length);
-          for (let j = 0; j < slice.length; j++) byteNumbers[j] = slice.charCodeAt(j);
-          byteArrays.push(new Uint8Array(byteNumbers));
-        }
-        const blob = new Blob(byteArrays, { type: "application/pdf" });
-        const url  = URL.createObjectURL(blob);
+        const url = triggerDownload(json.pdfBase64, `ImmiNexus-Booking-${json.trackingId}.pdf`);
         setPdfUrl(url);
-
-        // Auto-trigger download
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `ImmiNexus-Booking-${json.trackingId}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
       }
-
       setSubmitted(true);
-    } catch { setError("Network error. Please try again."); }
+    } catch { setError("Network error. Please try again or contact us via WhatsApp."); }
     finally { setLoading(false); }
   };
 
@@ -169,7 +186,7 @@ export default function BookingModal({
     try {
       const res  = await fetch(`/api/booking/track?id=${encodeURIComponent(trackingId.trim())}`);
       const json = await res.json();
-      if (!res.ok) { setTrackingError(json.error || "Not found."); return; }
+      if (!res.ok) { setTrackingError(json.error || "Booking not found. Check your tracking ID."); return; }
       setTrackingData(json);
     } catch { setTrackingError("Network error."); }
     finally { setTrackingLoading(false); }
@@ -177,6 +194,10 @@ export default function BookingModal({
 
   const onModify = async (data: ModifyData) => {
     if (!data.newTime) { setError("Please select a time slot."); return; }
+
+    const dateMsg = getDateValidationMessage(data.newDate);
+    if (dateMsg) { setError(dateMsg); return; }
+
     setLoading(true); setError("");
     try {
       const res  = await fetch("/api/booking/track", {
@@ -185,7 +206,13 @@ export default function BookingModal({
         body: JSON.stringify(data),
       });
       const json = await res.json();
-      if (!res.ok) { setError(json.error || "Error."); return; }
+      if (!res.ok) { setError(json.error || "Error modifying booking."); return; }
+
+      setModifyTracking(data.trackingId);
+      if (json.pdfBase64) {
+        const url = triggerDownload(json.pdfBase64, `ImmiNexus-Modified-${data.trackingId}.pdf`);
+        setModifyPdfUrl(url);
+      }
       setModifySuccess(true);
     } catch { setError("Network error."); }
     finally { setLoading(false); }
@@ -198,25 +225,28 @@ export default function BookingModal({
     const slots = getAvailableSlots(date);
     return (
       <div>
-        <label className="block text-xs font-body uppercase tracking-wide mb-2" style={{ color: "#9ca3af" }}>
-          Select Time · Ottawa EST (9AM–9PM)
-          {booked.length > 0 && <span className="ml-2" style={{ color: "#ef4444" }}>({booked.length} taken)</span>}
+        <label className="block text-xs font-body uppercase tracking-wide mb-2"
+          style={{ color: "#9ca3af" }}>
+          Select Time (GMT-5) — 9:00 AM to 9:00 PM
+          {booked.length > 0 && (
+            <span className="ml-2" style={{ color: "#ef4444" }}>
+              ({booked.length} taken)
+            </span>
+          )}
         </label>
         <div className="grid grid-cols-4 gap-1.5">
           {slots.map(slot => {
-            const [h, m] = slot.split(":").map(Number);
-            const ampm  = h >= 12 ? "PM" : "AM";
-            const h12   = h > 12 ? h - 12 : h === 0 ? 12 : h;
-            const label = `${h12}:${m === 0 ? "00" : m}${ampm}`;
-            const isBooked = booked.includes(slot);
+            const isBooked   = booked.includes(slot);
+            const isSelected = selected === slot;
+            const label      = formatTimeGMT5(slot).replace(" GMT-5","");
             return (
               <button key={slot} type="button" disabled={isBooked}
                 onClick={() => !isBooked && onSelect(slot)}
                 className="py-2 px-1 rounded-lg text-xs font-body font-medium border transition-all"
                 style={{
-                  borderColor:    isBooked ? "#f0f0f0" : selected === slot ? "#11999e" : "#e5e7eb",
-                  background:     isBooked ? "#fafafa" : selected === slot ? "#11999e" : "white",
-                  color:          isBooked ? "#d1d5db" : selected === slot ? "white" : "#576d69",
+                  borderColor:    isBooked ? "#f0f0f0" : isSelected ? "#11999e" : "#e5e7eb",
+                  background:     isBooked ? "#fafafa" : isSelected ? "#11999e" : "white",
+                  color:          isBooked ? "#d1d5db" : isSelected ? "white"   : "#576d69",
                   cursor:         isBooked ? "not-allowed" : "pointer",
                   textDecoration: isBooked ? "line-through" : "none",
                 }}>
@@ -231,37 +261,53 @@ export default function BookingModal({
 
   if (!open) return null;
 
-  const inp    = "w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm font-body bg-white focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors";
+  const inp    = "w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm font-body bg-white focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors";
   const errCls = "text-red-500 text-xs mt-1 font-body";
-  const tabs: [Tab, string][] = [["book", t("book")], ["track", t("track")], ["modify", t("modify")]];
+  const tabs: [Tab, string][] = [
+    ["book",   t("book")],
+    ["track",  t("track")],
+    ["modify", t("modify")],
+  ];
 
   const resetTab = (key: Tab) => {
     setTab(key); setError(""); setSubmitted(false); setModifySuccess(false);
     setCaptchaToken(null); captchaRef.current?.resetCaptcha();
   };
 
+  const today   = getDateStr(0);
+  const maxDate = getDateStr(60);
+
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4"
-      style={{ zIndex: 200, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)" }}
+      className="fixed inset-0 flex items-center justify-center p-3 md:p-4"
+      style={{ zIndex: 200, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(6px)" }}
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
 
-      <div className="bg-white rounded-2xl w-full max-w-xl shadow-2xl" style={{ maxHeight: "92vh", overflowY: "auto" }}>
+      {/* Modal — full height on mobile, max height on desktop */}
+      <div className="bg-white rounded-2xl w-full shadow-2xl flex flex-col"
+        style={{
+          maxWidth: 560,
+          height: "min(92vh, 800px)",
+          maxHeight: "92vh",
+        }}>
 
-        {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-100 sticky top-0 bg-white z-10"
+        {/* Sticky header */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0"
           style={{ borderRadius: "16px 16px 0 0" }}>
           <div className="flex gap-1">
             {tabs.map(([key, label]) => (
               <button key={key} onClick={() => resetTab(key)}
-                className="px-3.5 py-1.5 rounded-lg text-xs font-body font-medium transition-all"
-                style={{ background: tab === key ? "#11999e" : "transparent", color: tab === key ? "white" : "#9ca3af" }}>
+                className="px-3 py-1.5 rounded-lg text-xs font-body font-medium transition-all"
+                style={{
+                  background: tab === key ? "#11999e" : "transparent",
+                  color:      tab === key ? "white"   : "#9ca3af",
+                }}>
                 {label}
               </button>
             ))}
           </div>
           <button type="button" onClick={e => { e.stopPropagation(); onClose(); }}
-            className="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-gray-100"
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
             style={{ color: "#9ca3af" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -269,31 +315,35 @@ export default function BookingModal({
           </button>
         </div>
 
-        <div className="p-6">
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-5"
+          style={{ WebkitOverflowScrolling: "touch" }}>
 
           {/* ── BOOK TAB ── */}
           {tab === "book" && (
             submitted ? (
               <div className="text-center py-8">
                 <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{ background: "#f0fdf4", border: "2px solid rgba(34,197,94,0.2)" }}>
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5">
+                  style={{ background: "#f0fdf4", border: "2px solid rgba(34,197,94,0.25)" }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                 </div>
                 <h3 className="font-heading text-xl font-bold mb-2" style={{ color: "#293533" }}>
-                  {t("success")}
+                  Booking Confirmed!
                 </h3>
-                <p className="font-body text-sm mb-2" style={{ color: "#576d69" }}>{t("successDesc")}</p>
                 {successTracking && (
-                  <div className="rounded-xl p-3 mb-4 text-center"
+                  <div className="rounded-xl p-3 mb-4"
                     style={{ background: "#e8f6f7", border: "1px solid rgba(17,153,158,0.2)" }}>
                     <p className="text-xs font-body" style={{ color: "#576d69" }}>Your Tracking ID</p>
-                    <p className="font-heading text-lg font-bold" style={{ color: "#11999e" }}>{successTracking}</p>
+                    <p className="font-heading text-lg font-bold" style={{ color: "#11999e" }}>
+                      {successTracking}
+                    </p>
                   </div>
                 )}
-                <p className="font-body text-xs mb-4" style={{ color: "#9ca3af" }}>
-                  A confirmation email with PDF has been sent. Your PDF was also downloaded automatically.
+                <p className="font-body text-sm mb-5" style={{ color: "#576d69" }}>
+                  A confirmation email with your PDF receipt has been sent.<br/>
+                  Your PDF was also downloaded automatically.
                 </p>
                 {pdfUrl && (
                   <a href={pdfUrl} download={`ImmiNexus-Booking-${successTracking}.pdf`}
@@ -303,14 +353,15 @@ export default function BookingModal({
                       <polyline points="7 10 12 15 17 10"/>
                       <line x1="12" y1="15" x2="12" y2="3"/>
                     </svg>
-                    Download PDF Receipt
+                    Download PDF Again
                   </a>
                 )}
               </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                {/* Info */}
                 <div className="rounded-xl p-3 text-xs font-body" style={{ background: "#e8f6f7", color: "#0d7a7e" }}>
-                  {t("bookingInfo")}
+                  Free consultation · Mon–Sat · 9AM–9PM GMT-5 · Book at least 48h in advance
                 </div>
 
                 {error && (
@@ -320,7 +371,7 @@ export default function BookingModal({
                 )}
 
                 {/* Name + Email */}
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <input {...register("fullName", { required: true })} placeholder="Full Name" className={inp}/>
                     {errors.fullName && <p className={errCls}>Required</p>}
@@ -332,13 +383,10 @@ export default function BookingModal({
                   </div>
                 </div>
 
-                {/* Country selector */}
+                {/* Country */}
                 <div>
-                  <label className="block text-xs font-body uppercase tracking-wide mb-1" style={{ color: "#9ca3af" }}>
-                    Your Country
-                  </label>
                   <select {...register("country", { required: true })} defaultValue="" className={inp}>
-                    <option value="" disabled>Select your country...</option>
+                    <option value="" disabled>Your country of residence...</option>
                     {COUNTRIES.map(c => (
                       <option key={c.code} value={c.name}>{c.name}</option>
                     ))}
@@ -346,24 +394,18 @@ export default function BookingModal({
                   {errors.country && <p className={errCls}>Required</p>}
                 </div>
 
-                {/* Phone — auto-filled */}
+                {/* Phone */}
                 <div>
-                  <label className="block text-xs font-body uppercase tracking-wide mb-1" style={{ color: "#9ca3af" }}>
-                    Phone Number
-                  </label>
                   <input {...register("phone")}
-                    placeholder="Auto-filled from country selection"
+                    placeholder="Phone (auto-filled, add your number)"
                     className={inp}/>
-                  <p className="text-xs font-body mt-1" style={{ color: "#9ca3af" }}>
-                    Country code pre-filled. Add your number after it.
+                  <p className="text-xs mt-1" style={{ color: "#9ca3af" }}>
+                    Country code auto-filled. Complete with your number.
                   </p>
                 </div>
 
                 {/* Service */}
                 <div>
-                  <label className="block text-xs font-body uppercase tracking-wide mb-1" style={{ color: "#9ca3af" }}>
-                    Service Required
-                  </label>
                   <select {...register("service", { required: true })} defaultValue="" className={inp}>
                     <option value="" disabled>Select a service...</option>
                     <optgroup label="── Mexico ──">
@@ -392,14 +434,24 @@ export default function BookingModal({
 
                 {/* Date */}
                 <div>
-                  <label className="block text-xs font-body uppercase tracking-wide mb-1" style={{ color: "#9ca3af" }}>
-                    Preferred Date (Mon–Sat)
+                  <label className="block text-xs font-body uppercase tracking-wide mb-1"
+                    style={{ color: "#9ca3af" }}>
+                    Preferred Date (Mon–Sat, 48h advance required)
                   </label>
-                  <input {...register("date", {
-                    required: true,
-                    validate: v => isValidFutureDate(v) || "Must be a future weekday (Mon–Sat)"
-                  })} type="date" min={today} max={maxDate} className={inp}/>
-                  {errors.date && <p className={errCls}>{errors.date.message}</p>}
+                  <input
+                    {...register("date", {
+                      required: true,
+                      validate: v => {
+                        const msg = getDateValidationMessage(v);
+                        return msg === "" || msg;
+                      },
+                    })}
+                    type="date" min={today} max={maxDate}
+                    className={inp}
+                  />
+                  {errors.date && (
+                    <p className={errCls}>{errors.date.message || "Invalid date"}</p>
+                  )}
                 </div>
 
                 {/* Time slots */}
@@ -410,9 +462,9 @@ export default function BookingModal({
                 {/* Message */}
                 <textarea {...register("message")}
                   placeholder="Additional notes or questions (optional)"
-                  rows={3} className={`${inp} resize-none`}/>
+                  rows={2} className={`${inp} resize-none`}/>
 
-                {/* hCaptcha — production only */}
+                {/* hCaptcha */}
                 {process.env.NODE_ENV !== "development" && (
                   <div className="flex justify-center pt-1">
                     <HCaptcha
@@ -429,6 +481,10 @@ export default function BookingModal({
                   className="btn-brand w-full py-3.5 text-base justify-center disabled:opacity-60">
                   {loading ? "Booking..." : "Book Free Consultation"}
                 </button>
+
+                <p className="text-center text-xs font-body" style={{ color: "#9ca3af" }}>
+                  By booking, you agree to our Privacy Policy and Terms of Service.
+                </p>
               </form>
             )
           )}
@@ -440,11 +496,13 @@ export default function BookingModal({
                 Enter your Tracking ID from your confirmation email to check your booking status.
               </p>
               <div className="flex gap-2">
-                <input value={trackingId} onChange={e => setTrackingId(e.target.value)}
+                <input value={trackingId}
+                  onChange={e => setTrackingId(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && onTrack()}
-                  placeholder="IMN-XXXXXXXX-XXXXXX" className={`${inp} flex-1`}/>
+                  placeholder="IMN-XXXXXXXX-XXXXXX"
+                  className={`${inp} flex-1`}/>
                 <button onClick={onTrack} disabled={trackingLoading}
-                  className="btn-brand px-5 py-2.5 text-sm whitespace-nowrap">
+                  className="btn-brand px-4 py-2.5 text-sm whitespace-nowrap">
                   {trackingLoading ? "..." : "Track"}
                 </button>
               </div>
@@ -456,8 +514,8 @@ export default function BookingModal({
               )}
 
               {trackingData && (
-                <div className="rounded-xl p-5 border" style={{ background: "#f0fafa", borderColor: "rgba(17,153,158,0.2)" }}>
-                  <div className="flex items-center justify-between mb-4">
+                <div className="rounded-xl p-4 border" style={{ background: "#f0fafa", borderColor: "rgba(17,153,158,0.2)" }}>
+                  <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-body font-bold px-3 py-1 rounded-full"
                       style={{
                         background: trackingData.booking.status === "confirmed" ? "#f0fdf4" : "#fefce8",
@@ -466,7 +524,7 @@ export default function BookingModal({
                       {trackingData.booking.status?.toUpperCase()}
                     </span>
                     {trackingData.daysLeft > 0 && (
-                      <span className="text-xs font-body font-medium" style={{ color: "#11999e" }}>
+                      <span className="text-xs font-body" style={{ color: "#11999e" }}>
                         {trackingData.daysLeft} day{trackingData.daysLeft !== 1 ? "s" : ""} remaining
                       </span>
                     )}
@@ -475,13 +533,13 @@ export default function BookingModal({
                     ["Name",    trackingData.booking.fullName],
                     ["Service", trackingData.booking.service],
                     ["Date",    trackingData.booking.date],
-                    ["Time",    `${trackingData.booking.time} Ottawa EST`],
+                    ["Time",    formatTimeGMT5(trackingData.booking.time)],
                     ["Country", trackingData.booking.country],
                   ].map(([l, v]) => (
                     <div key={l} className="flex gap-3 text-sm font-body py-1.5 border-b"
-                      style={{ borderColor: "rgba(17,153,158,0.1)" }}>
-                      <span className="w-20 flex-shrink-0" style={{ color: "#9ca3af" }}>{l}</span>
-                      <span className="font-medium" style={{ color: "#293533" }}>{v}</span>
+                      style={{ borderColor: "rgba(17,153,158,0.08)" }}>
+                      <span className="w-16 flex-shrink-0 text-xs" style={{ color: "#9ca3af" }}>{l}</span>
+                      <span className="font-medium text-xs" style={{ color: "#293533" }}>{v}</span>
                     </div>
                   ))}
                 </div>
@@ -492,22 +550,36 @@ export default function BookingModal({
           {/* ── MODIFY TAB ── */}
           {tab === "modify" && (
             modifySuccess ? (
-              <div className="text-center py-10">
+              <div className="text-center py-8">
                 <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{ background: "#f0fdf4" }}>
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5">
+                  style={{ background: "#f0fdf4", border: "2px solid rgba(34,197,94,0.25)" }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                 </div>
-                <h3 className="font-heading text-xl font-bold mb-2" style={{ color: "#293533" }}>Booking Modified!</h3>
-                <p className="font-body text-sm" style={{ color: "#576d69" }}>
-                  A new confirmation email has been sent with your updated booking details.
+                <h3 className="font-heading text-xl font-bold mb-2" style={{ color: "#293533" }}>
+                  Booking Modified!
+                </h3>
+                <p className="font-body text-sm mb-5" style={{ color: "#576d69" }}>
+                  Your PDF receipt has been downloaded and sent to your email.
                 </p>
+                {modifyPdfUrl && (
+                  <a href={modifyPdfUrl} download={`ImmiNexus-Modified-${modifyTracking}.pdf`}
+                    className="btn-brand text-sm px-6 py-2.5 inline-flex items-center gap-2">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="7 10 12 15 17 10"/>
+                      <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Download PDF Again
+                  </a>
+                )}
               </div>
             ) : (
               <form onSubmit={handleM(onModify)} className="space-y-4">
-                <div className="rounded-xl p-3 text-xs font-body" style={{ background: "#fefce8", color: "#92400e" }}>
-                  Only available time slots can be selected. Taken slots are disabled.
+                <div className="rounded-xl p-3 text-xs font-body"
+                  style={{ background: "#fefce8", color: "#92400e" }}>
+                  Only available slots can be selected. 48h advance booking required. Sundays unavailable.
                 </div>
 
                 {error && (
@@ -516,19 +588,25 @@ export default function BookingModal({
                   </div>
                 )}
 
-                <input {...regM("trackingId", { required: true })}
-                  placeholder="Your Tracking ID (IMN-XXXXXXXX)" className={inp}/>
-                {errM.trackingId && <p className={errCls}>Required</p>}
+                <div>
+                  <label className="block text-xs font-body uppercase tracking-wide mb-1"
+                    style={{ color: "#9ca3af" }}>Tracking ID</label>
+                  <input {...regM("trackingId", { required: true })}
+                    placeholder="IMN-XXXXXXXX-XXXXXX" className={inp}/>
+                  {errM.trackingId && <p className={errCls}>Required</p>}
+                </div>
 
                 <div>
-                  <label className="block text-xs font-body uppercase tracking-wide mb-1" style={{ color: "#9ca3af" }}>
-                    New Date (Mon–Sat)
-                  </label>
+                  <label className="block text-xs font-body uppercase tracking-wide mb-1"
+                    style={{ color: "#9ca3af" }}>New Date (Mon–Sat)</label>
                   <input {...regM("newDate", {
                     required: true,
-                    validate: v => isValidFutureDate(v) || "Must be a future weekday"
+                    validate: v => {
+                      const msg = getDateValidationMessage(v);
+                      return msg === "" || msg;
+                    },
                   })} type="date" min={today} max={maxDate} className={inp}/>
-                  {errM.newDate && <p className={errCls}>{errM.newDate.message}</p>}
+                  {errM.newDate && <p className={errCls}>{errM.newDate.message || "Invalid date"}</p>}
                 </div>
 
                 {renderSlots(watchedModDate, modBookedSlots, watchedModTime, slot => setVM("newTime", slot))}
@@ -536,14 +614,15 @@ export default function BookingModal({
                 {errM.newTime && <p className={errCls}>{errM.newTime.message}</p>}
 
                 <textarea {...regM("reason", { required: true, minLength: 5 })}
-                  placeholder="Reason for modification (required)" rows={3} className={`${inp} resize-none`}/>
+                  placeholder="Reason for modification (required)"
+                  rows={2} className={`${inp} resize-none`}/>
                 {errM.reason && <p className={errCls}>Please provide a reason (min 5 chars)</p>}
 
                 <div className="flex gap-3">
-                  <button type="button" onClick={() => setTab("book")} className="btn-outline flex-1 py-3">
-                    Cancel
-                  </button>
-                  <button type="submit" disabled={loading} className="btn-brand flex-1 py-3 disabled:opacity-60">
+                  <button type="button" onClick={() => setTab("book")}
+                    className="btn-outline flex-1 py-3">Cancel</button>
+                  <button type="submit" disabled={loading}
+                    className="btn-brand flex-1 py-3 disabled:opacity-60">
                     {loading ? "Saving..." : "Modify Booking"}
                   </button>
                 </div>

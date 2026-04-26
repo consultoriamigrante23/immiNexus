@@ -79,15 +79,15 @@ export default function Navbar() {
 
           {/* Logo — horizontal image */}
           <a href={`/${locale}`} className="flex-shrink-0" style={{ textDecoration:"none" }}>
-           <Image
-  src="/edited-image.png"
-  alt="ImmiNexus Consultants"
-  width={260}
-  height={80}
-  className="object-contain"
-  style={{ height:80, width:"auto" }}
-  priority
-/>
+            <Image
+              src="/edited-image.png"
+              alt="ImmiNexus Consultants"
+              width={260}
+              height={80}
+              className="object-contain"
+              style={{ height:80, width:"auto" }}
+              priority
+            />
           </a>
 
           {/* Desktop nav */}
@@ -150,25 +150,36 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* CTA */}
+            {/* CTA — desktop */}
             <button
-  onClick={() => setBookingOpen(true)}
-  className="btn-brand font-body font-semibold transition-all hover:-translate-y-0.5"
-  style={{
-    padding: "8px 14px",
-    fontSize: "12px",
-    borderRadius: "10px",
-    whiteSpace: "nowrap",
-  }}>
-  <span className="hidden sm:inline">Book Free Consultation</span>
-  <span className="sm:hidden">Book Now</span>
-</button>
+              onClick={() => setBookingOpen(true)}
+              className="btn-brand font-body font-semibold transition-all hover:-translate-y-0.5"
+              style={{
+                padding: "8px 14px",
+                fontSize: "12px",
+                borderRadius: "10px",
+                whiteSpace: "nowrap",
+              }}>
+              <span className="hidden sm:inline">Book Free Consultation</span>
+              <span className="sm:hidden">Book Now</span>
+            </button>
           </div>
 
-          {/* Mobile */}
+          {/* Mobile — only hamburger + compact "Book" text button */}
           <div className="lg:hidden flex items-center gap-2">
-            <button onClick={()=>setBookingOpen(true)} className="btn-brand text-xs px-3.5 py-2">
-              {t("bookConsultation")}
+            {/* ── FIXED: compact mobile CTA — was too tall/wide ── */}
+            <button
+              onClick={() => setBookingOpen(true)}
+              className="btn-brand font-body font-semibold"
+              style={{
+                padding: "6px 12px",
+                fontSize: "11px",
+                borderRadius: "8px",
+                whiteSpace: "nowrap",
+                minHeight: "unset",
+                lineHeight: "1.4",
+              }}>
+              Book
             </button>
             <button onClick={()=>setMobileOpen(!mobileOpen)}
               className="w-9 h-9 flex items-center justify-center rounded-xl"

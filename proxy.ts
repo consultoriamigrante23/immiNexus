@@ -8,6 +8,6 @@ export default createMiddleware({
 
 export const config = {
   matcher: [
-    "/((?!_next|_vercel|api|favicon\\.ico|logo.*|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.gif|.*\\.svg|.*\\.ico|.*\\.mp4|.*\\.webp).*)",
+    "/((?!dashboard|api|_next|favicon\\.ico|logo.*|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.gif|.*\\.svg|.*\\.ico|.*\\.mp4|.*\\.webp).*)",
   ],
 };

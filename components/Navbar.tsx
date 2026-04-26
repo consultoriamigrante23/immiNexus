@@ -151,11 +151,18 @@ export default function Navbar() {
             </div>
 
             {/* CTA */}
-            <button onClick={()=>setBookingOpen(true)}
-              className="btn-brand btn-shimmer text-sm px-5 py-2.5 ml-1"
-              style={{ boxShadow:"0 4px 20px rgba(17,153,158,0.45)" }}>
-              {t("bookConsultation")}
-            </button>
+            <button
+  onClick={() => setBookingOpen(true)}
+  className="btn-brand font-body font-semibold transition-all hover:-translate-y-0.5"
+  style={{
+    padding: "8px 14px",
+    fontSize: "12px",
+    borderRadius: "10px",
+    whiteSpace: "nowrap",
+  }}>
+  <span className="hidden sm:inline">Book Free Consultation</span>
+  <span className="sm:hidden">Book Now</span>
+</button>
           </div>
 
           {/* Mobile */}

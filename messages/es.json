@@ -181,6 +181,10 @@
   "thankYouTitle": "Gracias!",
   "thankYouDesc": "Tu opinión ha sido enviada y aparecerá después de revisión.",
   "errorGeneric": "Algo salió mal. Por favor intenta de nuevo.",
-  "errorNetwork": "Error de red. Por favor intenta de nuevo."
+  "errorNetwork": "Error de red. Por favor intenta de nuevo.",
+  "ctaTitle": "¿Listo para comenzar tu viaje migratorio?",
+"ctaDesc": "Únete a cientos de clientes satisfechos. Reserva tu consulta gratuita hoy.",
+"ctaButton": "Obtener Consulta Gratuita",
+"hadGoodExperience": "¿Tuviste una buena experiencia con nosotros?"
 }
 }

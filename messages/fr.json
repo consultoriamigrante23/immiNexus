@@ -181,7 +181,11 @@
   "thankYouTitle": "Merci !",
   "thankYouDesc": "Votre avis a été soumis et apparaîtra après vérification.",
   "errorGeneric": "Quelque chose a mal tourné. Veuillez réessayer.",
-  "errorNetwork": "Erreur réseau. Veuillez réessayer."
+  "errorNetwork": "Erreur réseau. Veuillez réessayer.",
+  "ctaTitle": "Prêt à commencer votre parcours d'immigration?",
+"ctaDesc": "Rejoignez des centaines de clients satisfaits. Réservez votre consultation gratuite aujourd'hui.",
+"ctaButton": "Obtenir une Consultation Gratuite",
+"hadGoodExperience": "Vous avez eu une bonne expérience avec nous?"
 }
 
 }

@@ -181,6 +181,10 @@
   "thankYouTitle": "Thank You!",
   "thankYouDesc": "Your feedback has been submitted and will appear after review.",
   "errorGeneric": "Something went wrong. Please try again.",
-  "errorNetwork": "Network error. Please try again."
+  "errorNetwork": "Network error. Please try again.",
+  "ctaTitle": "Ready to Start Your Immigration Journey?",
+"ctaDesc": "Join hundreds of satisfied clients. Book your free consultation today.",
+"ctaButton": "Get Free Consultation",
+"hadGoodExperience": "Had a good experience with us?"
 }
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useRef } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
@@ -45,14 +45,12 @@ const SERVICES = [
 
 const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY ?? "10000000-ffff-ffff-ffff-000000000001";
 
-// Get today + 60 days in YYYY-MM-DD local format
 function getDateStr(daysFromNow: number): string {
   const d = new Date();
   d.setDate(d.getDate() + daysFromNow);
   return d.toISOString().split("T")[0];
 }
 
-// Get a device fingerprint to prevent booking from multiple devices
 function getDeviceId(): string {
   if (typeof window === "undefined") return "";
   let id = localStorage.getItem("imminexus_device_id");
@@ -68,7 +66,8 @@ export default function BookingModal({
 }: {
   open: boolean; onClose: () => void;
 }) {
-  const t = useTranslations("booking");
+  const t      = useTranslations("booking");
+  const locale = useLocale();
 
   const [tab,             setTab]             = useState<Tab>("book");
   const [submitted,       setSubmitted]       = useState(false);
@@ -104,12 +103,10 @@ export default function BookingModal({
   const watchedModDate = watchM("newDate");
   const watchedModTime = watchM("newTime");
 
-  // Auto-fill phone from country
   useEffect(() => {
     if (watchedCountry) setValue("phone", getPhoneByCountry(watchedCountry));
   }, [watchedCountry, setValue]);
 
-  // Lock scroll
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -124,7 +121,6 @@ export default function BookingModal({
     }
   }, [open, reset]);
 
-  // Fetch booked slots
   useEffect(() => {
     if (!watchedDate || !isValidFutureDate(watchedDate)) { setBookedSlots([]); return; }
     fetch(`/api/booking?date=${watchedDate}`)
@@ -150,13 +146,11 @@ export default function BookingModal({
   };
 
   const onSubmit = async (data: FormData) => {
-    if (!data.time) { setError("Please select a time slot."); return; }
-
+    if (!data.time) { setError(t("selectTimeError")); return; }
     const dateMsg = getDateValidationMessage(data.date);
     if (dateMsg) { setError(dateMsg); return; }
-
     const token = process.env.NODE_ENV === "development" ? "dev-bypass" : captchaToken;
-    if (!token) { setError("Please complete the 'I am not a robot' verification."); return; }
+    if (!token) { setError(t("captchaError")); return; }
 
     setLoading(true); setError("");
     try {
@@ -164,19 +158,17 @@ export default function BookingModal({
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, captchaToken: token, deviceId }),
+        body: JSON.stringify({ ...data, captchaToken: token, deviceId, locale }),
       });
       const json = await res.json();
-      if (!res.ok) { setError(json.error || "Something went wrong."); return; }
-
+      if (!res.ok) { setError(json.error || t("genericError")); return; }
       setSuccessTracking(json.trackingId);
-
       if (json.pdfBase64) {
         const url = triggerDownload(json.pdfBase64, `ImmiNexus-Booking-${json.trackingId}.pdf`);
         setPdfUrl(url);
       }
       setSubmitted(true);
-    } catch { setError("Network error. Please try again or contact us via WhatsApp."); }
+    } catch { setError(t("networkError")); }
     finally { setLoading(false); }
   };
 
@@ -186,40 +178,38 @@ export default function BookingModal({
     try {
       const res  = await fetch(`/api/booking/track?id=${encodeURIComponent(trackingId.trim())}`);
       const json = await res.json();
-      if (!res.ok) { setTrackingError(json.error || "Booking not found. Check your tracking ID."); return; }
+      if (!res.ok) { setTrackingError(json.error || t("trackNotFound")); return; }
       setTrackingData(json);
-    } catch { setTrackingError("Network error."); }
+    } catch { setTrackingError(t("networkError")); }
     finally { setTrackingLoading(false); }
   };
 
   const onModify = async (data: ModifyData) => {
-    if (!data.newTime) { setError("Please select a time slot."); return; }
-
+    if (!data.newTime) { setError(t("selectTimeError")); return; }
     const dateMsg = getDateValidationMessage(data.newDate);
     if (dateMsg) { setError(dateMsg); return; }
 
     setLoading(true); setError("");
     try {
-      const res  = await fetch("/api/booking/track", {
+      const res = await fetch("/api/booking/track", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, locale }),
       });
       const json = await res.json();
-      if (!res.ok) { setError(json.error || "Error modifying booking."); return; }
-
+      if (!res.ok) { setError(json.error || t("modifyError")); return; }
       setModifyTracking(data.trackingId);
       if (json.pdfBase64) {
         const url = triggerDownload(json.pdfBase64, `ImmiNexus-Modified-${data.trackingId}.pdf`);
         setModifyPdfUrl(url);
       }
       setModifySuccess(true);
-    } catch { setError("Network error."); }
+    } catch { setError(t("networkError")); }
     finally { setLoading(false); }
   };
 
   const renderSlots = (
-    date: string, booked: string[], selected: string, onSelect: (t: string) => void
+    date: string, booked: string[], selected: string, onSelect: (s: string) => void
   ) => {
     if (!date || !isValidFutureDate(date)) return null;
     const slots = getAvailableSlots(date);
@@ -227,10 +217,10 @@ export default function BookingModal({
       <div>
         <label className="block text-xs font-body uppercase tracking-wide mb-2"
           style={{ color: "#9ca3af" }}>
-          Select Time (GMT-5) — 9:00 AM to 9:00 PM
+          {t("selectTime")}
           {booked.length > 0 && (
             <span className="ml-2" style={{ color: "#ef4444" }}>
-              ({booked.length} taken)
+              ({booked.length} {t("taken")})
             </span>
           )}
         </label>
@@ -238,7 +228,7 @@ export default function BookingModal({
           {slots.map(slot => {
             const isBooked   = booked.includes(slot);
             const isSelected = selected === slot;
-            const label      = formatTimeGMT5(slot).replace(" GMT-5","");
+            const label      = formatTimeGMT5(slot).replace(" GMT-5", "");
             return (
               <button key={slot} type="button" disabled={isBooked}
                 onClick={() => !isBooked && onSelect(slot)}
@@ -283,15 +273,10 @@ export default function BookingModal({
       style={{ zIndex: 200, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(6px)" }}
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
 
-      {/* Modal — full height on mobile, max height on desktop */}
       <div className="bg-white rounded-2xl w-full shadow-2xl flex flex-col"
-        style={{
-          maxWidth: 560,
-          height: "min(92vh, 800px)",
-          maxHeight: "92vh",
-        }}>
+        style={{ maxWidth: 560, height: "min(92vh, 800px)", maxHeight: "92vh" }}>
 
-        {/* Sticky header */}
+        {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0"
           style={{ borderRadius: "16px 16px 0 0" }}>
           <div className="flex gap-1">
@@ -315,7 +300,7 @@ export default function BookingModal({
           </button>
         </div>
 
-        {/* Scrollable content */}
+        {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-5"
           style={{ WebkitOverflowScrolling: "touch" }}>
 
@@ -330,20 +315,19 @@ export default function BookingModal({
                   </svg>
                 </div>
                 <h3 className="font-heading text-xl font-bold mb-2" style={{ color: "#293533" }}>
-                  Booking Confirmed!
+                  {t("success")}
                 </h3>
                 {successTracking && (
                   <div className="rounded-xl p-3 mb-4"
                     style={{ background: "#e8f6f7", border: "1px solid rgba(17,153,158,0.2)" }}>
-                    <p className="text-xs font-body" style={{ color: "#576d69" }}>Your Tracking ID</p>
+                    <p className="text-xs font-body" style={{ color: "#576d69" }}>{t("trackingIdLabel")}</p>
                     <p className="font-heading text-lg font-bold" style={{ color: "#11999e" }}>
                       {successTracking}
                     </p>
                   </div>
                 )}
                 <p className="font-body text-sm mb-5" style={{ color: "#576d69" }}>
-                  A confirmation email with your PDF receipt has been sent.<br/>
-                  Your PDF was also downloaded automatically.
+                  {t("successDesc")}
                 </p>
                 {pdfUrl && (
                   <a href={pdfUrl} download={`ImmiNexus-Booking-${successTracking}.pdf`}
@@ -353,15 +337,14 @@ export default function BookingModal({
                       <polyline points="7 10 12 15 17 10"/>
                       <line x1="12" y1="15" x2="12" y2="3"/>
                     </svg>
-                    Download PDF Again
+                    {t("downloadAgain")}
                   </a>
                 )}
               </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {/* Info */}
                 <div className="rounded-xl p-3 text-xs font-body" style={{ background: "#e8f6f7", color: "#0d7a7e" }}>
-                  Free consultation · Mon–Sat · 9AM–9PM GMT-5 · Book at least 48h in advance
+                  {t("bookingInfo")}
                 </div>
 
                 {error && (
@@ -370,44 +353,37 @@ export default function BookingModal({
                   </div>
                 )}
 
-                {/* Name + Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <input {...register("fullName", { required: true })} placeholder="Full Name" className={inp}/>
-                    {errors.fullName && <p className={errCls}>Required</p>}
+                    <input {...register("fullName", { required: true })}
+                      placeholder={t("fullName")} className={inp}/>
+                    {errors.fullName && <p className={errCls}>{t("required")}</p>}
                   </div>
                   <div>
                     <input {...register("email", { required: true, pattern: /^\S+@\S+\.\S+$/ })}
-                      type="email" placeholder="Email Address" className={inp}/>
-                    {errors.email && <p className={errCls}>Valid email required</p>}
+                      type="email" placeholder={t("emailAddress")} className={inp}/>
+                    {errors.email && <p className={errCls}>{t("validEmail")}</p>}
                   </div>
                 </div>
 
-                {/* Country */}
                 <div>
                   <select {...register("country", { required: true })} defaultValue="" className={inp}>
-                    <option value="" disabled>Your country of residence...</option>
+                    <option value="" disabled>{t("countryPlaceholder")}</option>
                     {COUNTRIES.map(c => (
                       <option key={c.code} value={c.name}>{c.name}</option>
                     ))}
                   </select>
-                  {errors.country && <p className={errCls}>Required</p>}
+                  {errors.country && <p className={errCls}>{t("required")}</p>}
                 </div>
 
-                {/* Phone */}
                 <div>
-                  <input {...register("phone")}
-                    placeholder="Phone (auto-filled, add your number)"
-                    className={inp}/>
-                  <p className="text-xs mt-1" style={{ color: "#9ca3af" }}>
-                    Country code auto-filled. Complete with your number.
-                  </p>
+                  <input {...register("phone")} placeholder={t("phonePlaceholder")} className={inp}/>
+                  <p className="text-xs mt-1" style={{ color: "#9ca3af" }}>{t("phoneHint")}</p>
                 </div>
 
-                {/* Service */}
                 <div>
                   <select {...register("service", { required: true })} defaultValue="" className={inp}>
-                    <option value="" disabled>Select a service...</option>
+                    <option value="" disabled>{t("selectService")}</option>
                     <optgroup label="── Mexico ──">
                       {SERVICES.filter(s => s.startsWith("Mexico")).map(s => (
                         <option key={s} value={s}>{s.replace("Mexico – ", "")}</option>
@@ -429,42 +405,32 @@ export default function BookingModal({
                       ))}
                     </optgroup>
                   </select>
-                  {errors.service && <p className={errCls}>Required</p>}
+                  {errors.service && <p className={errCls}>{t("required")}</p>}
                 </div>
 
-                {/* Date */}
                 <div>
                   <label className="block text-xs font-body uppercase tracking-wide mb-1"
                     style={{ color: "#9ca3af" }}>
-                    Preferred Date (Mon–Sat, 48h advance required)
+                    {t("preferredDate")}
                   </label>
                   <input
                     {...register("date", {
                       required: true,
-                      validate: v => {
-                        const msg = getDateValidationMessage(v);
-                        return msg === "" || msg;
-                      },
+                      validate: v => { const msg = getDateValidationMessage(v); return msg === "" || msg; },
                     })}
-                    type="date" min={today} max={maxDate}
-                    className={inp}
+                    type="date" min={today} max={maxDate} className={inp}
                   />
-                  {errors.date && (
-                    <p className={errCls}>{errors.date.message || "Invalid date"}</p>
-                  )}
+                  {errors.date && <p className={errCls}>{errors.date.message || t("invalidDate")}</p>}
                 </div>
 
-                {/* Time slots */}
                 {renderSlots(watchedDate, bookedSlots, watchedTime, slot => setValue("time", slot))}
-                <input type="hidden" {...register("time", { required: "Please select a time slot" })}/>
+                <input type="hidden" {...register("time", { required: t("selectTimeError") })}/>
                 {errors.time && <p className={errCls}>{errors.time.message}</p>}
 
-                {/* Message */}
                 <textarea {...register("message")}
-                  placeholder="Additional notes or questions (optional)"
+                  placeholder={t("notesPlaceholder")}
                   rows={2} className={`${inp} resize-none`}/>
 
-                {/* hCaptcha */}
                 {process.env.NODE_ENV !== "development" && (
                   <div className="flex justify-center pt-1">
                     <HCaptcha
@@ -479,11 +445,11 @@ export default function BookingModal({
 
                 <button type="submit" disabled={loading}
                   className="btn-brand w-full py-3.5 text-base justify-center disabled:opacity-60">
-                  {loading ? "Booking..." : "Book Free Consultation"}
+                  {loading ? t("booking") : t("bookButton")}
                 </button>
 
                 <p className="text-center text-xs font-body" style={{ color: "#9ca3af" }}>
-                  By booking, you agree to our Privacy Policy and Terms of Service.
+                  {t("privacyNote")}
                 </p>
               </form>
             )
@@ -493,7 +459,7 @@ export default function BookingModal({
           {tab === "track" && (
             <div className="space-y-4">
               <p className="text-sm font-body" style={{ color: "#576d69" }}>
-                Enter your Tracking ID from your confirmation email to check your booking status.
+                {t("trackDesc")}
               </p>
               <div className="flex gap-2">
                 <input value={trackingId}
@@ -503,7 +469,7 @@ export default function BookingModal({
                   className={`${inp} flex-1`}/>
                 <button onClick={onTrack} disabled={trackingLoading}
                   className="btn-brand px-4 py-2.5 text-sm whitespace-nowrap">
-                  {trackingLoading ? "..." : "Track"}
+                  {trackingLoading ? "..." : t("trackButton")}
                 </button>
               </div>
 
@@ -514,7 +480,8 @@ export default function BookingModal({
               )}
 
               {trackingData && (
-                <div className="rounded-xl p-4 border" style={{ background: "#f0fafa", borderColor: "rgba(17,153,158,0.2)" }}>
+                <div className="rounded-xl p-4 border"
+                  style={{ background: "#f0fafa", borderColor: "rgba(17,153,158,0.2)" }}>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-body font-bold px-3 py-1 rounded-full"
                       style={{
@@ -525,20 +492,20 @@ export default function BookingModal({
                     </span>
                     {trackingData.daysLeft > 0 && (
                       <span className="text-xs font-body" style={{ color: "#11999e" }}>
-                        {trackingData.daysLeft} day{trackingData.daysLeft !== 1 ? "s" : ""} remaining
+                        {trackingData.daysLeft} {t("daysRemaining")}
                       </span>
                     )}
                   </div>
                   {[
-                    ["Name",    trackingData.booking.fullName],
-                    ["Service", trackingData.booking.service],
-                    ["Date",    trackingData.booking.date],
-                    ["Time",    formatTimeGMT5(trackingData.booking.time)],
-                    ["Country", trackingData.booking.country],
+                    [t("nameLabel"),    trackingData.booking.fullName],
+                    [t("serviceLabel"), trackingData.booking.service],
+                    [t("dateLabel"),    trackingData.booking.date],
+                    [t("timeLabel"),    formatTimeGMT5(trackingData.booking.time)],
+                    [t("countryLabel"), trackingData.booking.country],
                   ].map(([l, v]) => (
                     <div key={l} className="flex gap-3 text-sm font-body py-1.5 border-b"
                       style={{ borderColor: "rgba(17,153,158,0.08)" }}>
-                      <span className="w-16 flex-shrink-0 text-xs" style={{ color: "#9ca3af" }}>{l}</span>
+                      <span className="w-20 flex-shrink-0 text-xs" style={{ color: "#9ca3af" }}>{l}</span>
                       <span className="font-medium text-xs" style={{ color: "#293533" }}>{v}</span>
                     </div>
                   ))}
@@ -558,10 +525,10 @@ export default function BookingModal({
                   </svg>
                 </div>
                 <h3 className="font-heading text-xl font-bold mb-2" style={{ color: "#293533" }}>
-                  Booking Modified!
+                  {t("modifySuccess")}
                 </h3>
                 <p className="font-body text-sm mb-5" style={{ color: "#576d69" }}>
-                  Your PDF receipt has been downloaded and sent to your email.
+                  {t("modifySuccessDesc")}
                 </p>
                 {modifyPdfUrl && (
                   <a href={modifyPdfUrl} download={`ImmiNexus-Modified-${modifyTracking}.pdf`}
@@ -571,7 +538,7 @@ export default function BookingModal({
                       <polyline points="7 10 12 15 17 10"/>
                       <line x1="12" y1="15" x2="12" y2="3"/>
                     </svg>
-                    Download PDF Again
+                    {t("downloadAgain")}
                   </a>
                 )}
               </div>
@@ -579,7 +546,7 @@ export default function BookingModal({
               <form onSubmit={handleM(onModify)} className="space-y-4">
                 <div className="rounded-xl p-3 text-xs font-body"
                   style={{ background: "#fefce8", color: "#92400e" }}>
-                  Only available slots can be selected. 48h advance booking required. Sundays unavailable.
+                  {t("modifyInfo")}
                 </div>
 
                 {error && (
@@ -590,40 +557,37 @@ export default function BookingModal({
 
                 <div>
                   <label className="block text-xs font-body uppercase tracking-wide mb-1"
-                    style={{ color: "#9ca3af" }}>Tracking ID</label>
+                    style={{ color: "#9ca3af" }}>{t("trackingIdLabel")}</label>
                   <input {...regM("trackingId", { required: true })}
                     placeholder="IMN-XXXXXXXX-XXXXXX" className={inp}/>
-                  {errM.trackingId && <p className={errCls}>Required</p>}
+                  {errM.trackingId && <p className={errCls}>{t("required")}</p>}
                 </div>
 
                 <div>
                   <label className="block text-xs font-body uppercase tracking-wide mb-1"
-                    style={{ color: "#9ca3af" }}>New Date (Mon–Sat)</label>
+                    style={{ color: "#9ca3af" }}>{t("newDate")}</label>
                   <input {...regM("newDate", {
                     required: true,
-                    validate: v => {
-                      const msg = getDateValidationMessage(v);
-                      return msg === "" || msg;
-                    },
+                    validate: v => { const msg = getDateValidationMessage(v); return msg === "" || msg; },
                   })} type="date" min={today} max={maxDate} className={inp}/>
-                  {errM.newDate && <p className={errCls}>{errM.newDate.message || "Invalid date"}</p>}
+                  {errM.newDate && <p className={errCls}>{errM.newDate.message || t("invalidDate")}</p>}
                 </div>
 
                 {renderSlots(watchedModDate, modBookedSlots, watchedModTime, slot => setVM("newTime", slot))}
-                <input type="hidden" {...regM("newTime", { required: "Please select a time slot" })}/>
+                <input type="hidden" {...regM("newTime", { required: t("selectTimeError") })}/>
                 {errM.newTime && <p className={errCls}>{errM.newTime.message}</p>}
 
                 <textarea {...regM("reason", { required: true, minLength: 5 })}
-                  placeholder="Reason for modification (required)"
+                  placeholder={t("reasonPlaceholder")}
                   rows={2} className={`${inp} resize-none`}/>
-                {errM.reason && <p className={errCls}>Please provide a reason (min 5 chars)</p>}
+                {errM.reason && <p className={errCls}>{t("reasonError")}</p>}
 
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setTab("book")}
-                    className="btn-outline flex-1 py-3">Cancel</button>
+                    className="btn-outline flex-1 py-3">{t("cancel")}</button>
                   <button type="submit" disabled={loading}
                     className="btn-brand flex-1 py-3 disabled:opacity-60">
-                    {loading ? "Saving..." : "Modify Booking"}
+                    {loading ? t("saving") : t("modifyButton")}
                   </button>
                 </div>
               </form>

@@ -2,16 +2,20 @@ export const dynamic = "force-dynamic";
 
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import ForceNavbarOpaque from "@/components/ForceNavbarOpaque";
+
 
 export default async function PrivacyPolicy({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }) {
-  const { locale } = await params;
+  const { locale } = params;
 
   return (
     <>
+      <ForceNavbarOpaque />
+
       <div style={{ height: 80 }} />
 
       <main className="max-w-4xl mx-auto px-6 pt-8 pb-20">

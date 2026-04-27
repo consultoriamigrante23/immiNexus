@@ -10,15 +10,103 @@ interface BookingData {
   date:            string;
   time:            string;
   message:         string;
+  locale?:         string; // "en" | "es" | "fr"
   isModification?: boolean;
   previousDate?:   string;
   previousTime?:   string;
   reason?:         string;
 }
 
+const LABELS: Record<string, Record<string, string>> = {
+  en: {
+    title:         "Booking Confirmation Receipt",
+    modTitle:      "Booking Modification Receipt",
+    trackingId:    "Tracking ID",
+    clientInfo:    "CLIENT INFORMATION",
+    apptDetails:   "APPOINTMENT DETAILS",
+    notes:         "ADDITIONAL NOTES",
+    modDetails:    "MODIFICATION DETAILS",
+    name:          "Full Name",
+    email:         "Email",
+    phone:         "Phone",
+    country:       "Country",
+    service:       "Service",
+    date:          "Date",
+    time:          "Time",
+    message:       "Message",
+    previousDate:  "Previous Date",
+    newDate:       "New Date",
+    reason:        "Reason",
+    status:        "STATUS: CONFIRMED",
+    modStatus:     "STATUS: MODIFIED",
+    notProvided:   "Not provided",
+    timeZone:      "GMT-5",
+    footer1:       "ImmiNexus Consultants  |  consultoriamigrante23@gmail.com  |  +52 55 3163-0202",
+    footer2:       "This document serves as an official receipt. Please keep your Tracking ID for future reference.",
+    partner:       "Your Migration Success Partner",
+  },
+  es: {
+    title:         "Recibo de Confirmación de Reserva",
+    modTitle:      "Recibo de Modificación de Reserva",
+    trackingId:    "ID de Seguimiento",
+    clientInfo:    "INFORMACIÓN DEL CLIENTE",
+    apptDetails:   "DETALLES DE LA CITA",
+    notes:         "NOTAS ADICIONALES",
+    modDetails:    "DETALLES DE MODIFICACIÓN",
+    name:          "Nombre Completo",
+    email:         "Correo Electrónico",
+    phone:         "Teléfono",
+    country:       "País",
+    service:       "Servicio",
+    date:          "Fecha",
+    time:          "Hora",
+    message:       "Mensaje",
+    previousDate:  "Fecha Anterior",
+    newDate:       "Nueva Fecha",
+    reason:        "Motivo",
+    status:        "ESTADO: CONFIRMADO",
+    modStatus:     "ESTADO: MODIFICADO",
+    notProvided:   "No proporcionado",
+    timeZone:      "GMT-5",
+    footer1:       "ImmiNexus Consultants  |  consultoriamigrante23@gmail.com  |  +52 55 3163-0202",
+    footer2:       "Este documento sirve como recibo oficial. Conserve su ID de seguimiento para referencia futura.",
+    partner:       "Su Socio en el Éxito Migratorio",
+  },
+  fr: {
+    title:         "Reçu de Confirmation de Réservation",
+    modTitle:      "Reçu de Modification de Réservation",
+    trackingId:    "ID de Suivi",
+    clientInfo:    "INFORMATIONS CLIENT",
+    apptDetails:   "DÉTAILS DU RENDEZ-VOUS",
+    notes:         "NOTES SUPPLÉMENTAIRES",
+    modDetails:    "DÉTAILS DE MODIFICATION",
+    name:          "Nom Complet",
+    email:         "Adresse Email",
+    phone:         "Téléphone",
+    country:       "Pays",
+    service:       "Service",
+    date:          "Date",
+    time:          "Heure",
+    message:       "Message",
+    previousDate:  "Date Précédente",
+    newDate:       "Nouvelle Date",
+    reason:        "Raison",
+    status:        "STATUT: CONFIRMÉ",
+    modStatus:     "STATUT: MODIFIÉ",
+    notProvided:   "Non fourni",
+    timeZone:      "GMT-5",
+    footer1:       "ImmiNexus Consultants  |  consultoriamigrante23@gmail.com  |  +52 55 3163-0202",
+    footer2:       "Ce document sert de reçu officiel. Veuillez conserver votre ID de suivi pour référence future.",
+    partner:       "Votre Partenaire pour la Réussite Migratoire",
+  },
+};
+
 export async function generatePDF(data: BookingData): Promise<Buffer> {
+  const locale = (data.locale && ["en","es","fr"].includes(data.locale)) ? data.locale : "en";
+  const L = LABELS[locale];
+
   const doc  = await PDFDocument.create();
-  const page = doc.addPage([595, 842]); // A4
+  const page = doc.addPage([595, 842]);
   const { width, height } = page.getSize();
 
   const fontBold    = await doc.embedFont(StandardFonts.HelveticaBold);
@@ -31,110 +119,112 @@ export async function generatePDF(data: BookingData): Promise<Buffer> {
   const light    = rgb(0.42,  0.51,  0.49);
   const white    = rgb(1, 1, 1);
 
-  // ── Header background ──
+  // Header background
   page.drawRectangle({ x: 0, y: height - 120, width, height: 120, color: teal });
 
-  // Header text
   page.drawText("ImmiNexus Consultants", {
-    x: 40, y: height - 50,
+    x: 40, y: height - 48,
     size: 22, font: fontBold, color: white,
   });
-  page.drawText("Your Migration Success Partner", {
-    x: 40, y: height - 72,
-    size: 11, font: fontRegular, color: rgb(0.75, 0.95, 0.95),
+  page.drawText(L.partner, {
+    x: 40, y: height - 68,
+    size: 10, font: fontRegular, color: rgb(0.75, 0.95, 0.95),
   });
-  page.drawText(data.isModification ? "Booking Modification Receipt" : "Booking Confirmation Receipt", {
-    x: 40, y: height - 95,
-    size: 10, font: fontRegular, color: rgb(0.85, 0.97, 0.97),
+  page.drawText(data.isModification ? L.modTitle : L.title, {
+    x: 40, y: height - 88,
+    size: 9, font: fontRegular, color: rgb(0.85, 0.97, 0.97),
   });
 
-  // Date on right
-  const dateStr = new Date().toLocaleDateString("en-CA", { year:"numeric", month:"long", day:"numeric" });
+  const dateStr = new Date().toLocaleDateString(
+    locale === "fr" ? "fr-FR" : locale === "es" ? "es-MX" : "en-CA",
+    { year: "numeric", month: "long", day: "numeric" }
+  );
   page.drawText(dateStr, {
-    x: width - 160, y: height - 50,
-    size: 10, font: fontRegular, color: rgb(0.85, 0.97, 0.97),
+    x: width - 160, y: height - 48,
+    size: 9, font: fontRegular, color: rgb(0.85, 0.97, 0.97),
   });
 
-  // ── Tracking ID box ──
-  page.drawRectangle({ x: 40, y: height - 175, width: width - 80, height: 40, color: rgb(0.91, 0.97, 0.97) });
-  page.drawText("Tracking ID:", {
-    x: 55, y: height - 150,
-    size: 10, font: fontBold, color: darkTeal,
+  // Tracking ID box
+  page.drawRectangle({ x: 40, y: height - 172, width: width - 80, height: 38, color: rgb(0.91, 0.97, 0.97) });
+  page.drawText(`${L.trackingId}:`, {
+    x: 55, y: height - 149,
+    size: 9, font: fontBold, color: darkTeal,
   });
   page.drawText(data.trackingId, {
-    x: 150, y: height - 150,
-    size: 14, font: fontBold, color: teal,
+    x: 175, y: height - 149,
+    size: 13, font: fontBold, color: teal,
   });
 
-  // ── Section: Consultation Details ──
-  let y = height - 210;
+  let y = height - 205;
 
   const drawSection = (title: string) => {
-    page.drawText(title.toUpperCase(), {
+    page.drawText(title, {
       x: 40, y,
-      size: 9, font: fontBold, color: teal,
+      size: 8, font: fontBold, color: teal,
     });
     y -= 4;
-    page.drawLine({ start: { x: 40, y }, end: { x: width - 40, y }, thickness: 1, color: rgb(0.87, 0.93, 0.93) });
-    y -= 16;
+    page.drawLine({ start: { x: 40, y }, end: { x: width - 40, y }, thickness: 0.5, color: rgb(0.87, 0.93, 0.93) });
+    y -= 14;
   };
 
   const drawRow = (label: string, value: string) => {
+    if (!value) return;
     page.drawText(label, {
       x: 50, y,
-      size: 10, font: fontBold, color: mid,
+      size: 9, font: fontBold, color: mid,
     });
-    page.drawText(value || "—", {
-      x: 200, y,
-      size: 10, font: fontRegular, color: dark,
-    });
-    y -= 20;
+    // Handle long text wrapping
+    const maxChars = 65;
+    if (value.length <= maxChars) {
+      page.drawText(value, { x: 195, y, size: 9, font: fontRegular, color: dark });
+    } else {
+      const line1 = value.slice(0, maxChars);
+      const line2 = value.slice(maxChars, maxChars * 2);
+      page.drawText(line1, { x: 195, y, size: 9, font: fontRegular, color: dark });
+      y -= 13;
+      page.drawText(line2, { x: 195, y, size: 9, font: fontRegular, color: dark });
+    }
+    y -= 17;
   };
 
-  drawSection("Client Information");
-  drawRow("Full Name",   data.fullName);
-  drawRow("Email",       data.email);
-  drawRow("Phone",       data.phone || "Not provided");
-  drawRow("Country",     data.country);
+  drawSection(L.clientInfo);
+  drawRow(L.name,    data.fullName);
+  drawRow(L.email,   data.email);
+  drawRow(L.phone,   data.phone || L.notProvided);
+  drawRow(L.country, data.country);
 
-  y -= 10;
-  drawSection("Appointment Details");
-  drawRow("Service",     data.service);
-  drawRow("Date",        data.date);
-  drawRow("Time",        `${data.time} (Ottawa EST)`);
+  y -= 8;
+  drawSection(L.apptDetails);
+  drawRow(L.service, data.service);
+  drawRow(L.date,    data.date);
+  drawRow(L.time,    `${data.time} ${L.timeZone}`);
 
   if (data.message) {
-    y -= 10;
-    drawSection("Additional Notes");
-    drawRow("Message", data.message.slice(0, 80) + (data.message.length > 80 ? "..." : ""));
+    y -= 8;
+    drawSection(L.notes);
+    drawRow(L.message, data.message.slice(0, 120));
   }
 
   if (data.isModification && data.previousDate) {
-    y -= 10;
-    drawSection("Modification Details");
-    drawRow("Previous Date", `${data.previousDate} at ${data.previousTime}`);
-    drawRow("New Date",      `${data.date} at ${data.time}`);
-    drawRow("Reason",        data.reason ?? "");
+    y -= 8;
+    drawSection(L.modDetails);
+    drawRow(L.previousDate, `${data.previousDate} ${data.previousTime}`);
+    drawRow(L.newDate,      `${data.date} ${data.time} ${L.timeZone}`);
+    drawRow(L.reason,       data.reason ?? "");
   }
 
-  // ── Status box ──
-  y -= 20;
-  page.drawRectangle({ x: 40, y: y - 14, width: width - 80, height: 28, color: rgb(0.94, 0.99, 0.97) });
-  page.drawText(data.isModification ? "STATUS: MODIFIED" : "STATUS: CONFIRMED", {
-    x: 55, y: y - 4,
-    size: 11, font: fontBold, color: rgb(0.08, 0.55, 0.27),
+  // Status box
+  y -= 16;
+  page.drawRectangle({ x: 40, y: y - 12, width: width - 80, height: 26, color: rgb(0.94, 0.99, 0.97) });
+  page.drawText(data.isModification ? L.modStatus : L.status, {
+    x: 55, y: y - 2,
+    size: 10, font: fontBold, color: rgb(0.08, 0.55, 0.27),
   });
 
-  // ── Footer ──
-  page.drawRectangle({ x: 0, y: 0, width, height: 60, color: rgb(0.95, 0.98, 0.98) });
-  page.drawText("ImmiNexus Consultants  |  consultoriamigrante23@gmail.com  |  +52 55 3163-0202", {
-    x: 40, y: 38,
-    size: 9, font: fontRegular, color: light,
-  });
-  page.drawText("This document serves as an official receipt. Please keep your Tracking ID for future reference.", {
-    x: 40, y: 22,
-    size: 8, font: fontRegular, color: light,
-  });
+  // Footer
+  page.drawRectangle({ x: 0, y: 0, width, height: 55, color: rgb(0.96, 0.98, 0.98) });
+  page.drawText(L.footer1, { x: 40, y: 35, size: 8, font: fontRegular, color: light });
+  page.drawText(L.footer2, { x: 40, y: 20, size: 7, font: fontRegular, color: light });
 
   const pdfBytes = await doc.save();
   return Buffer.from(pdfBytes);

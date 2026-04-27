@@ -11,8 +11,7 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .toArray();
 
-    // Convert _id to string so JSON serialization works
-    const serialized = bookings.map(b => ({
+    const serialized = bookings.map((b: any) => ({
       ...b,
       _id: b._id.toString(),
     }));

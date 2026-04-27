@@ -6,7 +6,9 @@
     "contact": "Contacto",
     "bookConsultation": "Reservar Consulta",
     "feedback": "Reseñas",
-"tagline": "Tu Socio en Migración"
+"tagline": "Tu Socio en Migración",
+ "bookCta": "Reservar Consulta Gratuita",
+  "bookCtaShort": "Reservar"
   },
   "hero": {
     "badge": "Consultores de Inmigración de Confianza",
@@ -144,23 +146,63 @@
   },
   "booking": {
     "book": "Reservar",
-    "bookingInfo": "Ottawa EST · Lun–Sáb · 9AM–9PM · Una reserva cada 7 días",
-"track": "Seguimiento",
-"modify": "Modificar",
-    "title": "Reserva Tu Consulta Gratuita",
-    "subtitle": "Llena tus datos y te contactaremos en 24 horas para confirmar tu cita.",
-    "name": "Nombre Completo",
-    "email": "Correo Electrónico",
-    "phone": "Teléfono / WhatsApp",
-    "country": "Tu País",
-    "service": "Servicio Requerido",
-    "preferredDate": "Fecha Preferida (opcional)",
-    "message": "Notas Adicionales (opcional)",
-    "submit": "Reservar Consulta",
-    "submitting": "Reservando...",
-    "success": "¡Consulta Reservada!",
-    "successDesc": "Te contactaremos en 24 horas para confirmar tu cita."
-  },
+  "track": "Rastrear",
+  "modify": "Modificar",
+  "bookingInfo": "Consulta gratuita · Lun–Sáb · 9AM–9PM GMT-5 · Reserve con al menos 48h de anticipación",
+  "fullName": "Nombre Completo",
+  "emailAddress": "Correo Electrónico",
+  "countryPlaceholder": "Su país de residencia...",
+  "phonePlaceholder": "Teléfono (se rellena automáticamente)",
+  "phoneHint": "Código de país rellenado. Complete con su número.",
+  "selectService": "Seleccione un servicio...",
+  "preferredDate": "Fecha Preferida (Lun–Sáb, 48h de anticipación)",
+  "selectTime": "Seleccionar Hora (GMT-5) — 9:00 AM a 9:00 PM",
+  "taken": "tomados",
+  "notesPlaceholder": "Notas adicionales o preguntas (opcional)",
+  "bookButton": "Reservar Consulta Gratuita",
+  "booking": "Reservando...",
+  "privacyNote": "Al reservar, acepta nuestra Política de Privacidad y Términos de Servicio.",
+  "success": "¡Reserva Confirmada!",
+  "successDesc": "Se ha enviado un correo de confirmación con su recibo PDF. Su PDF también se descargó automáticamente.",
+  "trackingIdLabel": "ID de Seguimiento",
+  "downloadAgain": "Descargar PDF de Nuevo",
+  "trackDesc": "Ingrese su ID de Seguimiento del correo de confirmación para verificar su reserva.",
+  "trackButton": "Rastrear",
+  "trackNotFound": "Reserva no encontrada. Verifique su ID de Seguimiento.",
+  "daysRemaining": "días restantes",
+  "nameLabel": "Nombre",
+  "serviceLabel": "Servicio",
+  "dateLabel": "Fecha",
+  "timeLabel": "Hora",
+  "countryLabel": "País",
+  "modifyInfo": "Solo se pueden seleccionar horarios disponibles. Se requieren 48h de anticipación. Domingos no disponibles.",
+  "newDate": "Nueva Fecha (Lun–Sáb)",
+  "reasonPlaceholder": "Motivo de la modificación (requerido)",
+  "reasonError": "Proporcione un motivo (mín. 5 caracteres)",
+  "modifyButton": "Modificar Reserva",
+  "saving": "Guardando...",
+  "modifySuccess": "¡Reserva Modificada!",
+  "modifySuccessDesc": "Su recibo PDF se ha descargado y enviado a su correo.",
+  "cancel": "Cancelar",
+  "required": "Requerido",
+  "validEmail": "Correo válido requerido",
+  "invalidDate": "Fecha inválida",
+  "selectTimeError": "Por favor seleccione un horario",
+  "captchaError": "Por favor complete la verificación",
+  "genericError": "Algo salió mal. Por favor intente de nuevo.",
+  "networkError": "Error de red. Intente de nuevo o contáctenos por WhatsApp.",
+  "modifyError": "Error al modificar la reserva.",
+  "title": "Reserva Tu Consulta Gratuita",
+  "subtitle": "Llena tus datos y te contactaremos en 24 horas.",
+  "name": "Nombre Completo",
+  "email": "Correo Electrónico",
+  "phone": "Teléfono / WhatsApp",
+  "country": "Tu País",
+  "service": "Servicio Requerido",
+  "message": "Notas Adicionales (opcional)",
+  "submit": "Reservar Consulta",
+  "submitting": "Reservando..."
+},
   "feedback": {
   "subtitle": "Historias de Clientes",
   "title": "Lo Que Dicen Nuestros Clientes",
@@ -186,5 +228,119 @@
 "ctaDesc": "Únete a cientos de clientes satisfechos. Reserva tu consulta gratuita hoy.",
 "ctaButton": "Obtener Consulta Gratuita",
 "hadGoodExperience": "¿Tuviste una buena experiencia con nosotros?"
-}
+},
+"common": {
+  "whatsapp": "Contáctanos por WhatsApp",
+  "scrollTop": "Volver arriba",
+  "loading": "Cargando...",
+  "error": "Algo salió mal",
+  "retry": "Reintentar",
+  "close": "Cerrar",
+  "cancel": "Cancelar",
+  "confirm": "Confirmar",
+  "delete": "Eliminar",
+  "save": "Guardar",
+  "submit": "Enviar",
+  "back": "Atrás",
+  "next": "Siguiente",
+  "yes": "Sí",
+  "no": "No"
+},
+  "privacyPage": {
+    "backHome": "Volver al Inicio",
+    "badge": "Documentos Legales",
+    "title": "Información Legal",
+    "lastUpdated": "Última actualización: Enero 2025",
+    "company": "ImmiNexus Consultants",
+    "jumpTo": "Ir a sección",
+    "sections": {
+      "privacy": "Política de Privacidad",
+      "terms": "Términos de Servicio",
+      "cookies": "Política de Cookies"
+    },
+    "questions": "¿Preguntas?",
+    "privacy": {
+      "number": "1",
+      "title": "Política de Privacidad y Confidencialidad",
+      "intro": "ImmiNexus Consultants es responsable del tratamiento de los datos personales que nos proporciona. Los datos personales recopilados, bajo las leyes de México, serán utilizados para contactarle y, en caso de contratar nuestros servicios, para llevar a cabo el proceso correspondiente acordado entre las partes.",
+      "arcoTitle": "Sus Derechos ARCO",
+      "arco": [
+        { "right": "Acceso", "desc": "Conocer qué datos personales tenemos sobre usted, cómo se utilizan y las condiciones bajo las cuales los procesamos." },
+        { "right": "Rectificación", "desc": "Solicitar la corrección de su información personal si está desactualizada, imprecisa o incompleta." },
+        { "right": "Cancelación", "desc": "Solicitar que eliminemos sus datos de nuestros registros cuando no se estén utilizando conforme a la ley." },
+        { "right": "Oposición", "desc": "Oponerse al uso de sus datos personales para fines específicos." }
+      ],
+      "arcoContact": "Para ejercer sus derechos ARCO, envíe una solicitud por escrito a:",
+      "changesTitle": "Cambios a este Aviso de Privacidad",
+      "changesDesc": "Nos reservamos el derecho de actualizar este Aviso de Privacidad en cualquier momento para atender cambios legislativos, políticas internas o nuevos requisitos. Los cambios se reflejarán en esta página con una fecha actualizada."
+    },
+    "terms": {
+      "number": "2",
+      "title": "Términos de Servicio",
+      "intro": "Al utilizar los servicios de ImmiNexus Consultants (\"nosotros\"), usted acepta quedar vinculado por estos Términos de Servicio. Brindamos consultoría migratoria y servicios relacionados según lo acordado con cada cliente. No garantizamos la aprobación de ninguna solicitud ni resultado migratorio, ya que todas las decisiones finales las toman las autoridades gubernamentales.",
+      "obligationsTitle": "Obligaciones del Cliente",
+      "obligations": [
+        "Proporcionar información completa, veraz y precisa en todo momento",
+        "Entregar la documentación requerida de manera oportuna",
+        "Informarnos de inmediato sobre cualquier cambio que pueda afectar su caso",
+        "Cumplir con todos los calendarios y términos de pago acordados"
+      ],
+      "feesTitle": "Tarifas y Pagos",
+      "feesDesc": "Todas las tarifas se establecen en un acuerdo de servicio separado antes del inicio de los servicios. Las tarifas generalmente no son reembolsables a menos que se indique expresamente por escrito en el acuerdo.",
+      "liabilityTitle": "Limitaciones de Responsabilidad",
+      "liabilityDesc": "ImmiNexus Consultants no es responsable de retrasos, denegaciones o decisiones tomadas por terceros, incluidas las autoridades migratorias, embajadas u organismos gubernamentales. Nos reservamos el derecho de suspender o finalizar los servicios si se incumplen estos Términos o no se reciben los pagos requeridos.",
+      "questionsLabel": "¿Preguntas sobre estos Términos?"
+    },
+    "cookies": {
+      "number": "3",
+      "title": "Política de Cookies",
+      "intro": "ImmiNexus Consultants utiliza cookies y tecnologías similares para mejorar su experiencia de navegación, analizar el tráfico del sitio y mejorar nuestros servicios. Al continuar usando nuestro sitio web, usted consiente el uso de cookies de acuerdo con esta política.",
+      "types": [
+        { "name": "Cookies Esenciales", "color": "#11999e", "desc": "Necesarias para el funcionamiento correcto del sitio web, incluido el sistema de reservas y la verificación de seguridad. No se pueden desactivar." },
+        { "name": "Cookies Analíticas", "color": "#3B82F6", "desc": "Nos ayudan a entender cómo los visitantes interactúan con nuestro sitio para mejorar el rendimiento y la experiencia. Todos los datos son anónimos." },
+        { "name": "Cookies de Preferencias", "color": "#F59E0B", "desc": "Recuerdan sus configuraciones, como la selección de idioma, para ofrecerle una experiencia más personalizada en visitas posteriores." }
+      ],
+      "managingTitle": "Gestión de Cookies",
+      "managingDesc": "Puede controlar y gestionar las cookies a través de la configuración de su navegador. Tenga en cuenta que desactivar ciertas cookies puede afectar la funcionalidad del sitio. La mayoría de los navegadores permiten ver, eliminar y bloquear cookies de sitios específicos."
+    },
+    "ourServices": {
+      "number": "4",
+      "title": "Nuestros Servicios",
+      "countries": [
+        {
+          "country": "México", "color": "#22C55E",
+          "items": ["Visa de Visitante / No Lucrativa (Turismo, Negocios, Tránsito)", "Residencia Temporal (Trabajo, Familia, Estudios, Nómada Digital)", "Residencia Permanente", "Solicitudes de visa fuera de México", "Trámites en el Instituto Nacional de Migración (INM)", "Servicios de pasaporte"]
+        },
+        {
+          "country": "Estados Unidos", "color": "#3B82F6",
+          "items": ["Visa B1 – Visitante de Negocios", "Visa B2 – Turismo y Médica"]
+        },
+        {
+          "country": "Canadá", "color": "#EF4444",
+          "items": ["Visa de Visitante (Familiar, Tránsito, Turismo, Negocios)", "Autorización de Viaje Electrónica (eTA)"]
+        },
+        {
+          "country": "Otros Países", "color": "#F59E0B",
+          "items": ["Visas de Visitante – Corta y Larga Duración", "Visas de Tránsito", "Visas de Negocios", "Y más"]
+        }
+      ]
+    },
+    "team": {
+      "number": "5",
+      "title": "Nuestro Equipo",
+      "members": [
+        {
+          "name": "Marco Rodriguez",
+          "role": "Consultor Principal",
+          "bio": "Egresado de Paralegal en Ontario, Canadá, y candidato a la Licencia P1 con el Colegio de Abogados de Ontario. Licenciado en Derecho y Relaciones Internacionales en México. Experiencia como Paralegal y Gerente de Casos Senior en Estados Unidos, funcionario gubernamental en México y en un despacho jurídico canadiense."
+        },
+        {
+          "name": "Sidelghali Zouine",
+          "role": "Asistente Legal",
+          "bio": "Egresado de Paralegal en Canadá y candidato a la Licencia P1 con el Colegio de Abogados de Ontario. Licenciado en Derecho Privado en Marruecos. Experiencia como asistente administrativo y practicante de paralegal con sólidas habilidades organizativas y de apoyo legal."
+        }
+      ]
+    },
+    "contactFooter": "¿Preguntas sobre nuestros documentos legales?"
+  }
 }

@@ -29,21 +29,13 @@ const serviceData = [
     ],
   },
   {
-    key: "canada",
-    accent: "#EF4444",
-    bg: "https://images.unsplash.com/photo-1517935706615-2717063c2225?w=500&q=75",
-    titleKey: "Canada",
-    items: [
-      "Visitor visa (family, transit, tourism, business)",
-      "Electronic Travel Authorization (eTA)",
-    ],
-  },
-  {
     key: "other",
     accent: "#F59E0B",
     bg: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&q=75",
     titleKey: "Other Countries",
     items: [
+      "Canada – Visitor visa (family, transit, tourism, business)",
+      "Canada – Electronic Travel Authorization (eTA)",
       "Visitor visas – short and long term",
       "Transit visas",
       "Business visas",

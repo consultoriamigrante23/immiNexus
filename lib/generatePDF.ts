@@ -44,6 +44,7 @@ const LABELS: Record<string, Record<string, string>> = {
     footer1:       "ImmiNexus Consultants  |  consultoriamigrante23@gmail.com  |  +52 55 3163-0202",
     footer2:       "This document serves as an official receipt. Please keep your Tracking ID for future reference.",
     partner:       "Your Migration Success Partner",
+    phoneNote: "The consultation will be by phone. ImmiNexus Consultants will contact you on the date and time of your appointment.",
   },
   es: {
     title:         "Recibo de Confirmación de Reserva",
@@ -71,6 +72,7 @@ const LABELS: Record<string, Record<string, string>> = {
     footer1:       "ImmiNexus Consultants  |  consultoriamigrante23@gmail.com  |  +52 55 3163-0202",
     footer2:       "Este documento sirve como recibo oficial. Conserve su ID de seguimiento para referencia futura.",
     partner:       "Su Socio en el Éxito Migratorio",
+    phoneNote: "La consulta será por teléfono. ImmiNexus Consultants se comunicará con usted en la fecha y hora de su cita.",
   },
   fr: {
     title:         "Reçu de Confirmation de Réservation",
@@ -98,6 +100,7 @@ const LABELS: Record<string, Record<string, string>> = {
     footer1:       "ImmiNexus Consultants  |  consultoriamigrante23@gmail.com  |  +52 55 3163-0202",
     footer2:       "Ce document sert de reçu officiel. Veuillez conserver votre ID de suivi pour référence future.",
     partner:       "Votre Partenaire pour la Réussite Migratoire",
+    phoneNote: "La consultation sera par téléphone. ImmiNexus Consultants vous contactera à la date et l'heure de votre rendez-vous.",
   },
 };
 
@@ -220,6 +223,34 @@ export async function generatePDF(data: BookingData): Promise<Buffer> {
     x: 55, y: y - 2,
     size: 10, font: fontBold, color: rgb(0.08, 0.55, 0.27),
   });
+  // Phone note box
+y -= 20;
+page.drawRectangle({
+  x: 40, y: y - 28, width: width - 80, height: 36,
+  color: rgb(0.95, 0.97, 0.99),
+});
+page.drawLine({
+  start: { x: 40, y: y - 28 }, end: { x: 40, y: y + 8 },
+  thickness: 3, color: teal,
+});
+
+// Word-wrap the note
+const noteWords = L.phoneNote.split(" ");
+let noteLine = "";
+let noteY = y - 8;
+for (const word of noteWords) {
+  const test = noteLine ? `${noteLine} ${word}` : word;
+  if (test.length > 75) {
+    page.drawText(noteLine, { x: 52, y: noteY, size: 8, font: fontRegular, color: mid });
+    noteY -= 12;
+    noteLine = word;
+  } else {
+    noteLine = test;
+  }
+}
+if (noteLine) {
+  page.drawText(noteLine, { x: 52, y: noteY, size: 8, font: fontRegular, color: mid });
+}
 
   // Footer
   page.drawRectangle({ x: 0, y: 0, width, height: 55, color: rgb(0.96, 0.98, 0.98) });

@@ -2,8 +2,7 @@ export const dynamic = "force-dynamic";
 
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import ForceNavbarOpaque from "@/components/ForceNavbarOpaque";
-
+import { getTranslations } from "next-intl/server";
 
 export default async function PrivacyPolicy({
   params,
@@ -11,16 +10,14 @@ export default async function PrivacyPolicy({
   params: { locale: string };
 }) {
   const { locale } = params;
-
+  const t = await getTranslations({ locale, namespace: "privacy" });
   return (
     <>
-      <ForceNavbarOpaque />
-
       <div style={{ height: 80 }} />
 
       <main className="max-w-4xl mx-auto px-6 pt-8 pb-20">
 
-        {/* Back link + badge row */}
+        {/* Back link */}
         <div className="flex items-center gap-4 mb-8 flex-wrap">
           <Link href={`/${locale}`}
             className="inline-flex items-center gap-2 font-body text-sm font-medium transition-colors"
@@ -28,47 +25,41 @@ export default async function PrivacyPolicy({
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6"/>
             </svg>
-            Back to Home
+            {t("backHome")}
           </Link>
           <span className="text-gray-300">·</span>
           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-body font-semibold tracking-widest uppercase"
             style={{ background: "rgba(17,153,158,0.08)", border: "1px solid rgba(17,153,158,0.15)", color: "#11999e" }}>
-            Legal Documents
+            {t("badge")}
           </span>
         </div>
 
-        {/* Page header */}
+        {/* Header */}
         <div className="mb-10">
           <h1 className="font-heading text-4xl md:text-5xl font-bold mb-3" style={{ color: "#293533" }}>
-            Legal Information
+            {t("pageTitle")}
           </h1>
           <p className="font-body text-base" style={{ color: "#9ca3af" }}>
-            Last updated: January 2025 &nbsp;·&nbsp; ImmiNexus Consultants
+            {t("lastUpdated")}
           </p>
           <div className="w-16 h-1 rounded mt-5"
             style={{ background: "linear-gradient(90deg,#11999e,#16c6cc)" }}/>
         </div>
 
-        {/* Quick navigation */}
+        {/* Quick nav */}
         <div className="rounded-2xl p-5 mb-14"
           style={{ background: "rgba(17,153,158,0.04)", border: "1px solid rgba(17,153,158,0.12)" }}>
           <p className="text-xs font-body font-semibold uppercase tracking-widest mb-4"
-            style={{ color: "#9ca3af" }}>Jump to section</p>
+            style={{ color: "#9ca3af" }}>{t("jumpTo")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
-              { label: "Privacy Policy",   anchor: "#privacy" },
-              { label: "Terms of Service", anchor: "#terms"   },
-              { label: "Cookie Policy",    anchor: "#cookies"  },
+              { label: t("privacyTitle"), anchor: "#privacy" },
+              { label: t("termsTitle"),   anchor: "#terms"   },
+              { label: t("cookiesTitle"), anchor: "#cookies"  },
             ].map(item => (
               <a key={item.anchor} href={item.anchor}
                 className="flex items-center gap-2 px-4 py-3 rounded-xl font-body text-sm font-medium transition-all hover:-translate-y-0.5 hover:shadow-md"
-                style={{
-                  background:     "white",
-                  border:         "1.5px solid rgba(17,153,158,0.18)",
-                  color:          "#11999e",
-                  textDecoration: "none",
-                  boxShadow:      "0 2px 8px rgba(0,0,0,0.04)",
-                }}>
+                style={{ background: "white", border: "1.5px solid rgba(17,153,158,0.18)", color: "#11999e", textDecoration: "none", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
@@ -78,44 +69,38 @@ export default async function PrivacyPolicy({
           </div>
         </div>
 
-        {/* Sections */}
         <div className="space-y-16">
 
-          {/* ── 1. PRIVACY POLICY ── */}
+          {/* 1 — Privacy */}
           <section id="privacy" style={{ scrollMarginTop: "100px" }}>
-            <SectionHeader number="1" title="Privacy Policy & Confidentiality" />
-
+            <SectionHeader number="1" title={t("privacyTitle")} />
             <div className="space-y-5">
               <p className="font-body text-base leading-loose" style={{ color: "#576d69" }}>
-                ImmiNexus Consultants is responsible for the processing of the personal data you provide to us.
-                The personal data collected, under the laws in Mexico, will be used to contact you and,
-                in the event that you engage our services, to carry out the corresponding process agreed
-                upon between the parties.
+                {t("privacyIntro")}
               </p>
-
               <div className="rounded-2xl p-6"
                 style={{ background: "rgba(17,153,158,0.04)", border: "1px solid rgba(17,153,158,0.12)" }}>
                 <h3 className="font-heading text-xl font-bold mb-4" style={{ color: "#293533" }}>
-                  Your ARCO Rights
+                  {t("arcoTitle")}
                 </h3>
                 <div className="space-y-3">
                   {[
-                    ["Access",        "Know what personal data we hold about you, how it is used, and the conditions under which we process it."],
-                    ["Rectification", "Request correction of your personal information if it is outdated, inaccurate, or incomplete."],
-                    ["Cancellation",  "Request that we delete your data from our records when it is not being used in accordance with the law."],
-                    ["Objection",     "Object to the use of your personal data for specific purposes."],
+                    [t("arcoAccess"),        t("arcoAccessDesc")],
+                    [t("arcoRect"),          t("arcoRectDesc")],
+                    [t("arcoCancel"),        t("arcoCancelDesc")],
+                    [t("arcoObject"),        t("arcoObjectDesc")],
                   ].map(([right, desc]) => (
                     <div key={right} className="flex gap-3">
                       <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: "#11999e" }}/>
                       <p className="font-body text-sm leading-relaxed" style={{ color: "#576d69" }}>
-                        <span className="font-semibold" style={{ color: "#293533" }}>{right}:</span>{" "}{desc}
+                        <span className="font-semibold" style={{ color: "#293533" }}>{right}:</span> {desc}
                       </p>
                     </div>
                   ))}
                 </div>
                 <div className="mt-5 pt-4 border-t" style={{ borderColor: "rgba(17,153,158,0.12)" }}>
                   <p className="font-body text-sm" style={{ color: "#576d69" }}>
-                    To exercise your ARCO rights, submit a written request to:{" "}
+                    {t("arcoContact")}{" "}
                     <a href="mailto:consultoriamigrante23@gmail.com?subject=ARCO Rights Request"
                       className="font-semibold" style={{ color: "#11999e" }}>
                       consultoriamigrante23@gmail.com
@@ -123,15 +108,12 @@ export default async function PrivacyPolicy({
                   </p>
                 </div>
               </div>
-
               <div className="rounded-2xl p-5" style={{ background: "#f9fafb", border: "1px solid #e5e7eb" }}>
                 <h4 className="font-heading text-base font-bold mb-2" style={{ color: "#293533" }}>
-                  Changes to this Privacy Notice
+                  {t("changesTitle")}
                 </h4>
                 <p className="font-body text-sm leading-relaxed" style={{ color: "#576d69" }}>
-                  We reserve the right to update this Privacy Notice at any time to address legislative
-                  changes, internal policies, or new requirements. Changes will be reflected on this page
-                  with an updated date.
+                  {t("changesDesc")}
                 </p>
               </div>
             </div>
@@ -139,29 +121,19 @@ export default async function PrivacyPolicy({
 
           <Divider />
 
-          {/* ── 2. TERMS OF SERVICE ── */}
+          {/* 2 — Terms */}
           <section id="terms" style={{ scrollMarginTop: "100px" }}>
-            <SectionHeader number="2" title="Terms of Service" />
-
+            <SectionHeader number="2" title={t("termsTitle")} />
             <div className="space-y-6">
               <p className="font-body text-base leading-loose" style={{ color: "#576d69" }}>
-                By using the services of ImmiNexus Consultants ("we," "us"), you agree to be bound by
-                these Terms of Service. We provide immigration consulting and related services as agreed
-                with each client. We do not guarantee the approval of any application or immigration
-                outcome, as all final decisions are made by government authorities.
+                {t("termsIntro")}
               </p>
-
               <div className="rounded-2xl p-6" style={{ background: "#f9fafb", border: "1px solid #e5e7eb" }}>
                 <h3 className="font-heading text-xl font-bold mb-4" style={{ color: "#293533" }}>
-                  Client Obligations
+                  {t("obligationsTitle")}
                 </h3>
                 <div className="space-y-3">
-                  {[
-                    "Provide complete, truthful, and accurate information at all times",
-                    "Submit required documentation in a timely manner",
-                    "Inform us promptly of any changes that may affect your case",
-                    "Comply with all agreed payment schedules and terms",
-                  ].map((item, i) => (
+                  {[t("oblig1"), t("oblig2"), t("oblig3"), t("oblig4")].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
                         style={{ background: "rgba(17,153,158,0.1)" }}>
@@ -174,34 +146,26 @@ export default async function PrivacyPolicy({
                   ))}
                 </div>
               </div>
-
               <div className="rounded-2xl p-6" style={{ background: "#f9fafb", border: "1px solid #e5e7eb" }}>
                 <h3 className="font-heading text-xl font-bold mb-3" style={{ color: "#293533" }}>
-                  Fees & Payments
+                  {t("feesTitle")}
                 </h3>
                 <p className="font-body text-sm leading-relaxed" style={{ color: "#576d69" }}>
-                  All fees are established in a separate service agreement prior to the commencement
-                  of services. Fees are generally non-refundable unless otherwise expressly stated
-                  in writing in the agreement.
+                  {t("feesDesc")}
                 </p>
               </div>
-
               <div className="rounded-2xl p-6" style={{ background: "#f9fafb", border: "1px solid #e5e7eb" }}>
                 <h3 className="font-heading text-xl font-bold mb-3" style={{ color: "#293533" }}>
-                  Limitations of Liability
+                  {t("liabilityTitle")}
                 </h3>
                 <p className="font-body text-sm leading-relaxed" style={{ color: "#576d69" }}>
-                  ImmiNexus Consultants is not liable for delays, denials, or decisions made by third
-                  parties including immigration authorities, embassies, or government agencies. We reserve
-                  the right to suspend or terminate services if these Terms are breached or required
-                  payments are not received.
+                  {t("liabilityDesc")}
                 </p>
               </div>
-
               <div className="rounded-2xl p-4"
                 style={{ background: "rgba(17,153,158,0.04)", border: "1px solid rgba(17,153,158,0.12)" }}>
                 <p className="font-body text-sm" style={{ color: "#576d69" }}>
-                  Questions about these Terms?{" "}
+                  {t("termsQuestion")}{" "}
                   <a href="mailto:consultoriamigrante23@gmail.com?subject=Terms of Service Inquiry"
                     className="font-semibold" style={{ color: "#11999e" }}>
                     consultoriamigrante23@gmail.com
@@ -213,34 +177,18 @@ export default async function PrivacyPolicy({
 
           <Divider />
 
-          {/* ── 3. COOKIE POLICY ── */}
+          {/* 3 — Cookies */}
           <section id="cookies" style={{ scrollMarginTop: "100px" }}>
-            <SectionHeader number="3" title="Cookie Policy" />
-
+            <SectionHeader number="3" title={t("cookiesTitle")} />
             <div className="space-y-6">
               <p className="font-body text-base leading-loose" style={{ color: "#576d69" }}>
-                ImmiNexus Consultants uses cookies and similar technologies to enhance your browsing
-                experience, analyze site traffic, and improve our services. By continuing to use our
-                website, you consent to the use of cookies in accordance with this policy.
+                {t("cookiesIntro")}
               </p>
-
               <div className="space-y-4">
                 {[
-                  {
-                    name:  "Essential Cookies",
-                    color: "#11999e",
-                    desc:  "Required for the website to function properly, including the booking system and security verification. These cannot be disabled.",
-                  },
-                  {
-                    name:  "Analytics Cookies",
-                    color: "#3B82F6",
-                    desc:  "Help us understand how visitors interact with our website so we can improve performance and user experience. All data is anonymized.",
-                  },
-                  {
-                    name:  "Preference Cookies",
-                    color: "#F59E0B",
-                    desc:  "Remember your settings such as language selection to provide a more personalized experience on return visits.",
-                  },
+                  { name: t("essentialCookies"), color: "#11999e", desc: t("essentialDesc") },
+                  { name: t("analyticsCookies"), color: "#3B82F6", desc: t("analyticsDesc") },
+                  { name: t("prefCookies"),      color: "#F59E0B", desc: t("prefDesc")      },
                 ].map(c => (
                   <div key={c.name} className="rounded-2xl p-5"
                     style={{ background: "#f9fafb", border: "1px solid #e5e7eb" }}>
@@ -252,15 +200,12 @@ export default async function PrivacyPolicy({
                   </div>
                 ))}
               </div>
-
               <div className="rounded-2xl p-6" style={{ background: "#f9fafb", border: "1px solid #e5e7eb" }}>
                 <h3 className="font-heading text-xl font-bold mb-3" style={{ color: "#293533" }}>
-                  Managing Cookies
+                  {t("manageCookiesTitle")}
                 </h3>
                 <p className="font-body text-sm leading-relaxed" style={{ color: "#576d69" }}>
-                  You can control and manage cookies through your browser settings. Note that disabling
-                  certain cookies may affect website functionality. Most browsers allow you to view,
-                  delete, and block cookies from specific websites.
+                  {t("manageCookiesDesc")}
                 </p>
               </div>
             </div>
@@ -268,54 +213,27 @@ export default async function PrivacyPolicy({
 
           <Divider />
 
-          {/* ── 4. OUR SERVICES ── */}
+          {/* 4 — Services */}
           <section id="services" style={{ scrollMarginTop: "100px" }}>
-            <SectionHeader number="4" title="Our Services" />
+            <SectionHeader number="4" title={t("servicesTitle")} />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
-                {
-                  country: "Mexico", color: "#22C55E",
-                  items: [
-                    "Visitor Visa / Non-lucrative (Tourism, Business, Transit)",
-                    "Temporary Residence (Work, Family, Study, Digital Nomad)",
-                    "Permanent Residence",
-                    "Visa requests outside Mexico",
-                    "Permits at the National Institute of Migration (INM)",
-                    "Passport services",
-                  ],
-                },
-                {
-                  country: "United States", color: "#3B82F6",
-                  items: ["Visa B1 – Business Visitor", "Visa B2 – Tourism & Medical"],
-                },
-                {
-                  country: "Canada", color: "#EF4444",
-                  items: [
-                    "Visitor Visa (Family, Transit, Tourism, Business)",
-                    "Electronic Travel Authorization (eTA)",
-                  ],
-                },
-                {
-                  country: "Other Countries", color: "#F59E0B",
-                  items: ["Visitor Visas – Short and Long Term", "Transit Visas", "Business Visas", "And more"],
-                },
+                { country: t("mexico"),  color: "#22C55E", items: [t("mex1"),t("mex2"),t("mex3"),t("mex4"),t("mex5"),t("mex6")] },
+                { country: t("usa"),     color: "#3B82F6", items: [t("usa1"),t("usa2")] },
+                { country: t("canada"),  color: "#EF4444", items: [t("can1"),t("can2")] },
+                { country: t("others"),  color: "#F59E0B", items: [t("oth1"),t("oth2"),t("oth3"),t("oth4")] },
               ].map(s => (
                 <div key={s.country} className="rounded-2xl p-5"
                   style={{ border: `1.5px solid ${s.color}30`, background: `${s.color}08` }}>
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-3 h-3 rounded-full" style={{ background: s.color }}/>
-                    <h3 className="font-heading text-base font-bold" style={{ color: "#293533" }}>
-                      {s.country}
-                    </h3>
+                    <h3 className="font-heading text-base font-bold" style={{ color: "#293533" }}>{s.country}</h3>
                   </div>
                   <ul className="space-y-2">
                     {s.items.map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
-                          style={{ background: s.color }}/>
-                        <span className="font-body text-sm leading-relaxed" style={{ color: "#576d69" }}>
-                          {item}
-                        </span>
+                        <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: s.color }}/>
+                        <span className="font-body text-sm leading-relaxed" style={{ color: "#576d69" }}>{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -326,21 +244,13 @@ export default async function PrivacyPolicy({
 
           <Divider />
 
-          {/* ── 5. TEAM ── */}
+          {/* 5 — Team */}
           <section id="team" style={{ scrollMarginTop: "100px" }}>
-            <SectionHeader number="5" title="Our Team" />
+            <SectionHeader number="5" title={t("teamTitle")} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                {
-                  name: "Marco Rodriguez",
-                  role: "Main Consultant",
-                  bio:  "Paralegal graduate in Ontario, Canada, and candidate for the P1 License with the Law Society of Ontario. Holds bachelor's degrees in Law and International Relations from Mexico. Experience as a Paralegal and Senior Case Manager in the United States, government officer in Mexico, and within a Canadian law firm.",
-                },
-                {
-                  name: "Sidelghali Zouine",
-                  role: "Legal Assistant",
-                  bio:  "Paralegal graduate in Canada and candidate for the P1 License with the Law Society of Ontario. Holds a Bachelor's Degree in Private Law from Morocco. Experienced as an administrative assistant and paralegal intern with strong organizational and legal support skills.",
-                },
+                { name: "Marco Rodriguez", role: t("mainConsultant"), bio: t("marcoBio") },
+                { name: "Sidelghali Zouine", role: t("legalAssistant"), bio: t("sidelBio") },
               ].map(m => (
                 <div key={m.name} className="rounded-2xl p-6"
                   style={{ border: "1.5px solid rgba(17,153,158,0.15)", background: "rgba(17,153,158,0.03)" }}>
@@ -362,11 +272,11 @@ export default async function PrivacyPolicy({
 
         </div>
 
-        {/* Contact footer */}
+        {/* Contact */}
         <div className="mt-14 rounded-2xl p-6 text-center"
           style={{ background: "rgba(17,153,158,0.06)", border: "1px solid rgba(17,153,158,0.15)" }}>
           <p className="font-body text-sm font-medium" style={{ color: "#293533" }}>
-            Questions about our legal documents?{" "}
+            {t("contactQuestion")}{" "}
             <a href="mailto:consultoriamigrante23@gmail.com?subject=Legal Inquiry"
               style={{ color: "#11999e", fontWeight: 700, textDecoration: "none" }}>
               consultoriamigrante23@gmail.com

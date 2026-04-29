@@ -31,7 +31,14 @@ export async function POST(req: NextRequest) {
     try { body = await req.json(); }
     catch { return NextResponse.json({ error: "Invalid request body" }, { status: 400 }); }
 
-    const { fullName, email, phone, country, service, date, time, message, captchaToken, deviceId } = body;
+    const {
+      fullName, email, phone, country, service,
+      date, time, message, captchaToken, deviceId,
+    } = body;
+
+    // Extract and validate locale
+    const locale = (body.locale && ["en","es","fr"].includes(body.locale))
+      ? body.locale : "en";
 
     if (!fullName || !email || !country || !service || !date || !time)
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -39,15 +46,12 @@ export async function POST(req: NextRequest) {
     if (!/^\S+@\S+\.\S+$/.test(email))
       return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
 
-    // Date validation (Sunday, 48h, weekday)
     const dateMsg = getDateValidationMessage(date);
-    if (dateMsg)
-      return NextResponse.json({ error: dateMsg }, { status: 400 });
+    if (dateMsg) return NextResponse.json({ error: dateMsg }, { status: 400 });
 
     if (!getAvailableSlots(date).includes(time))
       return NextResponse.json({ error: "Invalid time slot selected" }, { status: 400 });
 
-    // hCaptcha
     if (process.env.NODE_ENV === "production" && captchaToken && captchaToken !== "dev-bypass") {
       try {
         const cr = await fetch("https://hcaptcha.com/siteverify", {
@@ -77,16 +81,14 @@ export async function POST(req: NextRequest) {
 
     let db: any;
     try { ({ db } = await connectToDatabase()); }
-    catch (e) { return NextResponse.json({ error: "Database connection failed" }, { status: 500 }); }
+    catch { return NextResponse.json({ error: "Database connection failed" }, { status: 500 }); }
 
-    // Slot conflict
     const conflict = await db.collection("bookings").findOne({
       date: clean.date, time: clean.time, status: { $ne: "cancelled" },
     });
     if (conflict)
       return NextResponse.json({ error: "This time slot is already taken. Please select another." }, { status: 409 });
 
-    // 7-day email cooldown
     const recentByEmail = await db.collection("bookings").findOne({
       email: clean.email, status: { $ne: "cancelled" },
       createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
@@ -96,7 +98,6 @@ export async function POST(req: NextRequest) {
         error: "You already have an active booking. Use the Modify tab to change it, or wait 7 days.",
       }, { status: 429 });
 
-    // Device ID check — prevent same device booking twice (phone + PC)
     if (deviceId) {
       const recentByDevice = await db.collection("bookings").findOne({
         deviceId: sanitize(deviceId), status: { $ne: "cancelled" },
@@ -113,32 +114,48 @@ export async function POST(req: NextRequest) {
     await db.collection("bookings").insertOne({
       ...clean,
       trackingId,
+      locale,
       deviceId: deviceId ? sanitize(deviceId) : null,
       status: "confirmed",
       modifications: [],
       createdAt: new Date(),
     });
 
-    // PDF
+    // Generate PDF in user's locale
     let pdfBuffer: Buffer | null = null;
     let pdfBase64: string | null = null;
     try {
-      pdfBuffer = await generatePDF({ trackingId, ...clean });
+      pdfBuffer = await generatePDF({ trackingId, ...clean, locale });
       pdfBase64 = pdfBuffer.toString("base64");
     } catch (e) { console.error("[booking] PDF:", e); }
 
     const lawyerEmail = process.env.LAWYER_EMAIL ?? "consultoriamigrante23@gmail.com";
-    const html        = buildBookingEmail(clean, trackingId);
-    const attachments = pdfBuffer
+    const clientHtml  = buildBookingEmail(clean, trackingId, locale);
+    const adminHtml   = buildBookingEmail(clean, trackingId, "en"); // admin always English
+
+    const clientAttachments = pdfBuffer
       ? [{ filename: `ImmiNexus-Booking-${trackingId}.pdf`, content: pdfBase64! }]
+      : [];
+
+    // Admin PDF always in English
+    let adminPdfBuffer: Buffer | null = null;
+    let adminPdfBase64: string | null = null;
+    try {
+      adminPdfBuffer = await generatePDF({ trackingId, ...clean, locale: "en" });
+      adminPdfBase64 = adminPdfBuffer.toString("base64");
+    } catch (e) { console.error("[booking] admin PDF:", e); }
+
+    const adminAttachments = adminPdfBuffer
+      ? [{ filename: `ImmiNexus-Booking-${trackingId}.pdf`, content: adminPdfBase64! }]
       : [];
 
     try {
       await resend.emails.send({
         from: "ImmiNexus Consultants <onboarding@resend.dev>",
         to:   [clean.email],
-        subject: `Booking Confirmed – ${trackingId}`,
-        html, attachments,
+        subject: getEmailSubject(trackingId, locale),
+        html: clientHtml,
+        attachments: clientAttachments,
       });
     } catch (e) { console.error("[booking] client email:", e); }
 
@@ -147,7 +164,8 @@ export async function POST(req: NextRequest) {
         from: "ImmiNexus Consultants <onboarding@resend.dev>",
         to:   [lawyerEmail],
         subject: `New Booking – ${clean.fullName} – ${trackingId}`,
-        html, attachments,
+        html: adminHtml,
+        attachments: adminAttachments,
       });
     } catch (e) { console.error("[booking] consultant email:", e); }
 
@@ -159,39 +177,81 @@ export async function POST(req: NextRequest) {
   }
 }
 
-function buildBookingEmail(data: any, trackingId: string): string {
+function getEmailSubject(trackingId: string, locale: string): string {
+  if (locale === "es") return `Reserva Confirmada – ${trackingId}`;
+  if (locale === "fr") return `Réservation Confirmée – ${trackingId}`;
+  return `Booking Confirmed – ${trackingId}`;
+}
+
+function buildBookingEmail(data: any, trackingId: string, locale: string): string {
+  const L = {
+    en: {
+      title: "Booking Confirmed", sub: "ImmiNexus Consultants",
+      trackLabel: "Tracking ID",
+      rows: ["Name","Email","Phone","Country","Service","Date","Time","Notes"],
+      notProvided: "Not provided", none: "None", gmt: "GMT-5",
+      footer: "To modify or cancel: visit our website → Book Consultation → Modify tab.",
+      wa: "WhatsApp: +52 55 3163-0202",
+    },
+    es: {
+      title: "Reserva Confirmada", sub: "ImmiNexus Consultants",
+      trackLabel: "ID de Seguimiento",
+      rows: ["Nombre","Correo","Teléfono","País","Servicio","Fecha","Hora","Notas"],
+      notProvided: "No proporcionado", none: "Ninguno", gmt: "GMT-5",
+      footer: "Para modificar o cancelar: visite nuestro sitio → Reservar Consulta → pestaña Modificar.",
+      wa: "WhatsApp: +52 55 3163-0202",
+    },
+    fr: {
+      title: "Réservation Confirmée", sub: "ImmiNexus Consultants",
+      trackLabel: "ID de Suivi",
+      rows: ["Nom","Email","Téléphone","Pays","Service","Date","Heure","Notes"],
+      notProvided: "Non fourni", none: "Aucune", gmt: "GMT-5",
+      footer: "Pour modifier ou annuler: visitez notre site → Réserver → onglet Modifier.",
+      wa: "WhatsApp: +52 55 3163-0202",
+    },
+  }[locale as "en"|"es"|"fr"] ?? {
+    title: "Booking Confirmed", sub: "ImmiNexus Consultants",
+    trackLabel: "Tracking ID",
+    rows: ["Name","Email","Phone","Country","Service","Date","Time","Notes"],
+    notProvided: "Not provided", none: "None", gmt: "GMT-5",
+    footer: "To modify or cancel: visit our website → Book Consultation → Modify tab.",
+    wa: "WhatsApp: +52 55 3163-0202",
+  };
+
+  const values = [
+    data.fullName,
+    data.email,
+    data.phone || L.notProvided,
+    data.country,
+    data.service,
+    data.date,
+    `${data.time} ${L.gmt}`,
+    data.message || L.none,
+  ];
+
   return `
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
       <div style="background:linear-gradient(135deg,#11999e,#0d7a7e);padding:32px;border-radius:12px 12px 0 0;text-align:center">
-        <h1 style="color:white;margin:0;font-size:22px">Booking Confirmed</h1>
-        <p style="color:rgba(255,255,255,0.8);margin:8px 0 0">ImmiNexus Consultants</p>
+        <h1 style="color:white;margin:0;font-size:22px">${L.title}</h1>
+        <p style="color:rgba(255,255,255,0.8);margin:8px 0 0">${L.sub}</p>
       </div>
       <div style="background:#f9fafb;padding:32px;border-radius:0 0 12px 12px">
         <div style="background:#e8f6f7;border-radius:8px;padding:16px;margin-bottom:24px;text-align:center">
-          <p style="margin:0;font-size:11px;color:#576d69;text-transform:uppercase">Tracking ID</p>
+          <p style="margin:0;font-size:11px;color:#576d69;text-transform:uppercase">${L.trackLabel}</p>
           <p style="margin:8px 0 0;font-size:20px;font-weight:bold;color:#11999e;font-family:monospace">${trackingId}</p>
         </div>
         <table style="width:100%;border-collapse:collapse">
-          ${[
-            ["Name",    data.fullName],
-            ["Email",   data.email],
-            ["Phone",   data.phone || "Not provided"],
-            ["Country", data.country],
-            ["Service", data.service],
-            ["Date",    data.date],
-            ["Time",    `${data.time} GMT-5`],
-            ["Notes",   data.message || "None"],
-          ].map(([l, v]) => `
+          ${L.rows.map((label, i) => `
             <tr style="border-bottom:1px solid #e5e7eb">
-              <td style="padding:10px 8px;font-weight:bold;color:#293533;width:80px;font-size:13px">${l}</td>
-              <td style="padding:10px 8px;color:#576d69;font-size:13px">${v}</td>
+              <td style="padding:10px 8px;font-weight:bold;color:#293533;width:100px;font-size:13px">${label}</td>
+              <td style="padding:10px 8px;color:#576d69;font-size:13px">${values[i]}</td>
             </tr>
           `).join("")}
         </table>
         <div style="margin-top:20px;padding:14px;background:#fff;border-radius:8px;border:1px solid #e5e7eb">
           <p style="margin:0;font-size:12px;color:#576d69">
-            To modify or cancel: visit our website → Book Consultation → Modify tab.<br/>
-            WhatsApp: <strong>+52 55 3163-0202</strong> | Email: <strong>consultoriamigrante23@gmail.com</strong>
+            ${L.footer}<br/>
+            <strong>${L.wa}</strong> | <strong>consultoriamigrante23@gmail.com</strong>
           </p>
         </div>
       </div>

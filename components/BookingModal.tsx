@@ -34,8 +34,8 @@ const SERVICES = [
   "Mexico – Passport",
   "USA – Visa B1 (Business Visitor)",
   "USA – Visa B2 (Tourism / Medical)",
-  "Canada – Visitor Visa (Family / Transit / Tourism / Business)",
-  "Canada – Electronic Travel Authorization (eTA)",
+  "Other Country – Canada Visitor Visa",
+  "Other Country – Canada eTA",
   "Other Country – Visitor Visa (Short Term)",
   "Other Country – Visitor Visa (Long Term)",
   "Other Country – Transit Visa",
@@ -399,11 +399,11 @@ export default function BookingModal({
                         <option key={s} value={s}>{s.replace("Canada – ", "")}</option>
                       ))}
                     </optgroup>
-                    <optgroup label="── Other Countries ──">
-                      {SERVICES.filter(s => s.startsWith("Other")).map(s => (
-                        <option key={s} value={s}>{s.replace("Other Country – ", "")}</option>
-                      ))}
-                    </optgroup>
+                    <optgroup label="── Other Countries (incl. Canada) ──">
+  {SERVICES.filter(s => s.startsWith("Other")).map(s => (
+    <option key={s} value={s}>{s.replace("Other Country – ", "")}</option>
+  ))}
+</optgroup>
                   </select>
                   {errors.service && <p className={errCls}>{t("required")}</p>}
                 </div>

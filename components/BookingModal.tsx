@@ -393,8 +393,6 @@ export default function BookingModal({
                       {SERVICES.filter(s => s.startsWith("USA")).map(s => (
                         <option key={s} value={s}>{s.replace("USA – ", "")}</option>
                       ))}
-                    </optgroup>
-                    <optgroup label="── Canada ──">
                       {SERVICES.filter(s => s.startsWith("Canada")).map(s => (
                         <option key={s} value={s}>{s.replace("Canada – ", "")}</option>
                       ))}

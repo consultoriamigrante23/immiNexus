@@ -7,17 +7,16 @@ import { getTranslations } from "next-intl/server";
 export default async function PrivacyPolicy({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "privacy" });
+
   return (
     <>
       <div style={{ height: 80 }} />
-
       <main className="max-w-4xl mx-auto px-6 pt-8 pb-20">
 
-        {/* Back link */}
         <div className="flex items-center gap-4 mb-8 flex-wrap">
           <Link href={`/${locale}`}
             className="inline-flex items-center gap-2 font-body text-sm font-medium transition-colors"
@@ -34,19 +33,14 @@ export default async function PrivacyPolicy({
           </span>
         </div>
 
-        {/* Header */}
         <div className="mb-10">
           <h1 className="font-heading text-4xl md:text-5xl font-bold mb-3" style={{ color: "#293533" }}>
             {t("pageTitle")}
           </h1>
-          <p className="font-body text-base" style={{ color: "#9ca3af" }}>
-            {t("lastUpdated")}
-          </p>
-          <div className="w-16 h-1 rounded mt-5"
-            style={{ background: "linear-gradient(90deg,#11999e,#16c6cc)" }}/>
+          <p className="font-body text-base" style={{ color: "#9ca3af" }}>{t("lastUpdated")}</p>
+          <div className="w-16 h-1 rounded mt-5" style={{ background: "linear-gradient(90deg,#11999e,#16c6cc)" }}/>
         </div>
 
-        {/* Quick nav */}
         <div className="rounded-2xl p-5 mb-14"
           style={{ background: "rgba(17,153,158,0.04)", border: "1px solid rgba(17,153,158,0.12)" }}>
           <p className="text-xs font-body font-semibold uppercase tracking-widest mb-4"
@@ -71,7 +65,6 @@ export default async function PrivacyPolicy({
 
         <div className="space-y-16">
 
-          {/* 1 — Privacy */}
           <section id="privacy" style={{ scrollMarginTop: "100px" }}>
             <SectionHeader number="1" title={t("privacyTitle")} />
             <div className="space-y-5">
@@ -85,10 +78,10 @@ export default async function PrivacyPolicy({
                 </h3>
                 <div className="space-y-3">
                   {[
-                    [t("arcoAccess"),        t("arcoAccessDesc")],
-                    [t("arcoRect"),          t("arcoRectDesc")],
-                    [t("arcoCancel"),        t("arcoCancelDesc")],
-                    [t("arcoObject"),        t("arcoObjectDesc")],
+                    [t("arcoAccess"), t("arcoAccessDesc")],
+                    [t("arcoRect"),   t("arcoRectDesc")],
+                    [t("arcoCancel"), t("arcoCancelDesc")],
+                    [t("arcoObject"), t("arcoObjectDesc")],
                   ].map(([right, desc]) => (
                     <div key={right} className="flex gap-3">
                       <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: "#11999e" }}/>
@@ -121,7 +114,6 @@ export default async function PrivacyPolicy({
 
           <Divider />
 
-          {/* 2 — Terms */}
           <section id="terms" style={{ scrollMarginTop: "100px" }}>
             <SectionHeader number="2" title={t("termsTitle")} />
             <div className="space-y-6">
@@ -177,7 +169,6 @@ export default async function PrivacyPolicy({
 
           <Divider />
 
-          {/* 3 — Cookies */}
           <section id="cookies" style={{ scrollMarginTop: "100px" }}>
             <SectionHeader number="3" title={t("cookiesTitle")} />
             <div className="space-y-6">
@@ -213,15 +204,13 @@ export default async function PrivacyPolicy({
 
           <Divider />
 
-          {/* 4 — Services */}
           <section id="services" style={{ scrollMarginTop: "100px" }}>
             <SectionHeader number="4" title={t("servicesTitle")} />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
-                { country: t("mexico"),  color: "#22C55E", items: [t("mex1"),t("mex2"),t("mex3"),t("mex4"),t("mex5"),t("mex6")] },
-                { country: t("usa"),     color: "#3B82F6", items: [t("usa1"),t("usa2")] },
-                { country: t("canada"),  color: "#EF4444", items: [t("can1"),t("can2")] },
-                { country: t("others"),  color: "#F59E0B", items: [t("oth1"),t("oth2"),t("oth3"),t("oth4")] },
+                { country: t("mexico"), color: "#22C55E", items: [t("mex1"),t("mex2"),t("mex3"),t("mex4"),t("mex5"),t("mex6")] },
+                { country: t("usa"),    color: "#3B82F6", items: [t("usa1"),t("usa2")] },
+                { country: t("others"), color: "#F59E0B", items: [t("oth1"),t("oth2"),t("oth3"),t("oth4")] },
               ].map(s => (
                 <div key={s.country} className="rounded-2xl p-5"
                   style={{ border: `1.5px solid ${s.color}30`, background: `${s.color}08` }}>
@@ -244,12 +233,11 @@ export default async function PrivacyPolicy({
 
           <Divider />
 
-          {/* 5 — Team */}
           <section id="team" style={{ scrollMarginTop: "100px" }}>
             <SectionHeader number="5" title={t("teamTitle")} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { name: "Marco Rodriguez", role: t("mainConsultant"), bio: t("marcoBio") },
+                { name: "Marco Rodriguez",   role: t("mainConsultant"), bio: t("marcoBio") },
                 { name: "Sidelghali Zouine", role: t("legalAssistant"), bio: t("sidelBio") },
               ].map(m => (
                 <div key={m.name} className="rounded-2xl p-6"
@@ -272,7 +260,6 @@ export default async function PrivacyPolicy({
 
         </div>
 
-        {/* Contact */}
         <div className="mt-14 rounded-2xl p-6 text-center"
           style={{ background: "rgba(17,153,158,0.06)", border: "1px solid rgba(17,153,158,0.15)" }}>
           <p className="font-body text-sm font-medium" style={{ color: "#293533" }}>
@@ -284,7 +271,6 @@ export default async function PrivacyPolicy({
           </p>
         </div>
       </main>
-
       <Footer />
     </>
   );

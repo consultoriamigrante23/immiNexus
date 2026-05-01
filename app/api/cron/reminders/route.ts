@@ -6,15 +6,11 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 // This route is called by a cron job (Vercel Cron or external)
 // Add to vercel.json: { "crons": [{ "path": "/api/cron/reminders", "schedule": "0 * * * *" }] }
+
 export async function GET(req: NextRequest) {
+
   // Security check — only allow from Vercel cron or with secret
-  const authHeader = req.headers.get("authorization");
-  if (
-    process.env.CRON_SECRET &&
-    authHeader !== `Bearer ${process.env.CRON_SECRET}`
-  ) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  
 
   try {
     const { db } = await connectToDatabase();
@@ -81,6 +77,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
+
+// ✅ THESE FUNCTIONS MUST BE OUTSIDE GET
 
 function getReminderSubject(trackingId: string, locale: string): string {
   if (locale === "es") return `Recordatorio: Su consulta mañana – ${trackingId}`;

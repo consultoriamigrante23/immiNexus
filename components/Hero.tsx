@@ -173,7 +173,7 @@ export default function Hero() {
                   {t("banner.subtitle")}
                 </p>
                 <div className="flex items-center gap-3 flex-wrap justify-center md:justify-start">
-                  {["Mexico","USA","Canada","& More"].map(l => (
+                  {["Mexico","USA","& More"].map(l => (
                     <span key={l} className="text-xs font-body font-medium px-3 py-1.5 rounded-full"
                       style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.13)", color: "rgba(255,255,255,0.85)" }}>
                       {l}

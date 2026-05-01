@@ -24,12 +24,13 @@ const SERVICES = [
   "Mexico – Passport",
   "USA – Visa B1 (Business Visitor)",
   "USA – Visa B2 (Tourism / Medical)",
-  "Canada – Visitor Visa",
-  "Canada – Electronic Travel Authorization (eTA)",
-  "Other Country – Visitor Visa",
+  "Other Country – Canada Visitor Visa",
+  "Other Country – Canada eTA",
+  "Other Country – Visitor Visa (Short Term)",
+  "Other Country – Visitor Visa (Long Term)",
   "Other Country – Transit Visa",
   "Other Country – Business Visa",
-  "Other Country – Other",
+  "Other Country – Other / Not Listed",
 ];
 
 type FormData = {
@@ -38,42 +39,11 @@ type FormData = {
 };
 
 const contactItems = [
-  {
-    key:   "phone",
-    value: PHONE,
-    href:  WHATSAPP,
-    color: "#25D366",
-    icon:  <PhoneIcon />,
-  },
-  {
-    key:   "email",
-    value: EMAIL,
-    // Opens Gmail compose in a new tab — works even without a mail client installed
-    href:  `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Immigration+Inquiry+%E2%80%93+ImmiNexus`,
-    color: "#11999e",
-    icon:  <MailIcon />,
-  },
-  {
-    key:   "instagram",
-    value: "@imminexusconsultants",
-    href:  INSTAGRAM,
-    color: "#E1306C",
-    icon:  <IgIcon />,
-  },
-  {
-    key:   "facebook",
-    value: "ImmiNexus Consultants",
-    href:  FACEBOOK,
-    color: "#1877F2",
-    icon:  <FbIcon />,
-  },
-  {
-    key:   "linkedin",
-    value: "ImmiNexus Consultants",
-    href:  LINKEDIN,
-    color: "#0A66C2",
-    icon:  <LiIcon />,
-  },
+  { key: "phone",     value: PHONE,                   href: WHATSAPP,  color: "#25D366", icon: <PhoneIcon /> },
+  { key: "email",     value: EMAIL,                   href: `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=Immigration+Inquiry+%E2%80%93+ImmiNexus`, color: "#11999e", icon: <MailIcon /> },
+  { key: "instagram", value: "@imminexusconsultants", href: INSTAGRAM, color: "#E1306C", icon: <IgIcon /> },
+  { key: "facebook",  value: "ImmiNexus Consultants", href: FACEBOOK,  color: "#1877F2", icon: <FbIcon /> },
+  { key: "linkedin",  value: "ImmiNexus Consultants", href: LINKEDIN,  color: "#0A66C2", icon: <LiIcon /> },
 ];
 
 export default function Contact() {
@@ -86,9 +56,7 @@ export default function Contact() {
   const watchedCountry = watch("country");
 
   useEffect(() => {
-    if (watchedCountry) {
-      setValue("phone", getPhoneByCountry(watchedCountry));
-    }
+    if (watchedCountry) setValue("phone", getPhoneByCountry(watchedCountry));
   }, [watchedCountry, setValue]);
 
   const onSubmit = async (data: FormData) => {
@@ -115,63 +83,33 @@ export default function Contact() {
           <span className="section-eyebrow">{t("subtitle")}</span>
           <h2 className="section-title text-4xl md:text-5xl mb-4">{t("title")}</h2>
           <div className="divider mx-auto mb-4"/>
-          <p className="font-body text-lg max-w-lg mx-auto" style={{ color:"var(--text-soft)" }}>
+          <p className="font-body text-lg max-w-lg mx-auto" style={{ color: "var(--text-soft)" }}>
             {t("description")}
           </p>
         </ScrollReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-
-          {/* Left — contact links */}
           <div className="space-y-3">
             {contactItems.map((item, i) => (
               <ScrollReveal key={item.key} delay={((i % 3) + 1) as 1|2|3}>
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <a href={item.href} target="_blank" rel="noopener noreferrer"
                   className="group flex items-center gap-4 p-5 bg-white rounded-2xl border transition-all duration-300 cursor-pointer"
-                  style={{
-                    borderColor: "rgba(17,153,158,0.08)",
-                    boxShadow:   "var(--shadow-sm)",
-                    textDecoration: "none",
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.borderColor = "rgba(17,153,158,0.22)";
-                    el.style.boxShadow   = "0 12px 32px rgba(17,153,158,0.1)";
-                    el.style.transform   = "translateX(4px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.borderColor = "rgba(17,153,158,0.08)";
-                    el.style.boxShadow   = "var(--shadow-sm)";
-                    el.style.transform   = "translateX(0)";
-                  }}
-                >
-                  <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all group-hover:scale-110 group-hover:rotate-3"
-                    style={{
-                      background: `${item.color}12`,
-                      border:     `1.5px solid ${item.color}25`,
-                      transition: "all 0.3s cubic-bezier(0.23,1,0.32,1)",
-                    }}>
+                  style={{ borderColor: "rgba(17,153,158,0.08)", boxShadow: "var(--shadow-sm)", textDecoration: "none" }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(17,153,158,0.22)"; el.style.boxShadow = "0 12px 32px rgba(17,153,158,0.1)"; el.style.transform = "translateX(4px)"; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(17,153,158,0.08)"; el.style.boxShadow = "var(--shadow-sm)"; el.style.transform = "translateX(0)"; }}>
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all group-hover:scale-110 group-hover:rotate-3"
+                    style={{ background: `${item.color}12`, border: `1.5px solid ${item.color}25`, transition: "all 0.3s cubic-bezier(0.23,1,0.32,1)" }}>
                     {item.icon}
                   </div>
-
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-body font-semibold uppercase tracking-wide mb-0.5"
-                      style={{ color: "var(--text-soft)" }}>
+                    <p className="text-xs font-body font-semibold uppercase tracking-wide mb-0.5" style={{ color: "var(--text-soft)" }}>
                       {t(item.key as any)}
                     </p>
-                    <p className="font-body font-medium text-sm truncate transition-colors group-hover:text-teal-600"
-                      style={{ color: "var(--text-primary)" }}>
+                    <p className="font-body font-medium text-sm truncate transition-colors group-hover:text-teal-600" style={{ color: "var(--text-primary)" }}>
                       {item.value}
                     </p>
                   </div>
-
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                    stroke="var(--brand)" strokeWidth="2"
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" strokeWidth="2"
                     className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
@@ -180,11 +118,9 @@ export default function Contact() {
             ))}
           </div>
 
-          {/* Right — contact form */}
           <ScrollReveal delay={2}>
             <div className="bg-white rounded-2xl p-8 border"
               style={{ borderColor: "rgba(17,153,158,0.1)", boxShadow: "var(--shadow-lg)" }}>
-
               <div className="mb-6">
                 <h3 className="font-heading text-xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>
                   {t("formTitle")}
@@ -203,9 +139,7 @@ export default function Contact() {
                   <h4 className="font-heading text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
                     {t("success")}
                   </h4>
-                  <p className="font-body text-sm" style={{ color: "var(--text-soft)" }}>
-                    {t("successDesc")}
-                  </p>
+                  <p className="font-body text-sm" style={{ color: "var(--text-soft)" }}>{t("successDesc")}</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -214,57 +148,31 @@ export default function Contact() {
                       {error}
                     </div>
                   )}
-
-                  {/* Name + Email */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <input
-                        {...register("fullName", { required: true })}
-                        placeholder={t("name")}
-                        className={inp}
-                      />
-                      {errors.fullName && <p className="text-red-500 text-xs mt-1">Required</p>}
+                      <input {...register("fullName", { required: true })} placeholder={t("name")} className={inp}/>
+                      {errors.fullName && <p className="text-red-500 text-xs mt-1">{t("required") || "Required"}</p>}
                     </div>
                     <div>
-                      <input
-                        {...register("email", { required: true, pattern: /^\S+@\S+\.\S+$/ })}
-                        type="email"
-                        placeholder={t("emailField")}
-                        className={inp}
-                      />
+                      <input {...register("email", { required: true, pattern: /^\S+@\S+\.\S+$/ })}
+                        type="email" placeholder={t("emailField")} className={inp}/>
                       {errors.email && <p className="text-red-500 text-xs mt-1">Valid email required</p>}
                     </div>
                   </div>
-
-                  {/* Country */}
                   <div>
-                    <select
-                      {...register("country", { required: true })}
-                      defaultValue=""
-                      className={inp}>
-                      <option value="" disabled>Select your country...</option>
+                    <select {...register("country", { required: true })} defaultValue="" className={inp}>
+                      <option value="" disabled>{t("country")}</option>
                       {COUNTRIES.map(c => (
                         <option key={c.code} value={c.name}>{c.name}</option>
                       ))}
                     </select>
                     {errors.country && <p className="text-red-500 text-xs mt-1">Required</p>}
                   </div>
-
-                  {/* Phone — auto-filled */}
                   <div>
-                    <input
-                      {...register("phone")}
-                      placeholder="Phone (auto-filled from country)"
-                      className={inp}
-                    />
+                    <input {...register("phone")} placeholder="Phone (auto-filled from country)" className={inp}/>
                   </div>
-
-                  {/* Service */}
                   <div>
-                    <select
-                      {...register("service", { required: true })}
-                      defaultValue=""
-                      className={inp}>
+                    <select {...register("service", { required: true })} defaultValue="" className={inp}>
                       <option value="" disabled>{t("service")}</option>
                       <optgroup label="── Mexico ──">
                         {SERVICES.filter(s => s.startsWith("Mexico")).map(s => (
@@ -276,12 +184,7 @@ export default function Contact() {
                           <option key={s} value={s}>{s.replace("USA – ", "")}</option>
                         ))}
                       </optgroup>
-                      <optgroup label="── Canada ──">
-                        {SERVICES.filter(s => s.startsWith("Canada")).map(s => (
-                          <option key={s} value={s}>{s.replace("Canada – ", "")}</option>
-                        ))}
-                      </optgroup>
-                      <optgroup label="── Other Countries ──">
+                      <optgroup label="── Other Countries (incl. Canada) ──">
                         {SERVICES.filter(s => s.startsWith("Other")).map(s => (
                           <option key={s} value={s}>{s.replace("Other Country – ", "")}</option>
                         ))}
@@ -289,26 +192,16 @@ export default function Contact() {
                     </select>
                     {errors.service && <p className="text-red-500 text-xs mt-1">Required</p>}
                   </div>
-
-                  {/* Message */}
-                  <textarea
-                    {...register("message")}
-                    placeholder={t("message")}
-                    rows={4}
-                    className={`${inp} resize-none`}
-                  />
-
+                  <textarea {...register("message")} placeholder={t("message")} rows={4} className={`${inp} resize-none`}/>
                   <button type="submit" disabled={loading}
                     className="btn-brand btn-shimmer w-full py-3.5 text-base justify-center">
                     {loading ? t("submitting") : t("submit")}
                     {!loading && (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" strokeWidth="2.5">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                         <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
                       </svg>
                     )}
                   </button>
-
                   <p className="text-center text-xs font-body" style={{ color: "var(--text-soft)" }}>
                     {t("privacy")}
                   </p>

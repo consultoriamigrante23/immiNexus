@@ -26,7 +26,6 @@ export default function Footer() {
     "Mexico – Permanent Residence",
     "Mexico – Passport & INM Permits",
     "USA – B1 / B2 Visas",
-    "Canada – Visitor Visa & eTA",
     "Other Countries",
   ];
 

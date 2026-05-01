@@ -8,9 +8,9 @@ const KB: { triggers: string[]; answer: Record<"en" | "es" | "fr", string> }[] =
   {
     triggers: ["hello","hi","hola","bonjour","hey","good morning","good evening","greetings","salut"],
     answer: {
-      en: "Hello! Welcome to ImmiNexus Consultants. I can help you with immigration services for Mexico, the United States, and Canada. What would you like to know?",
-      es: "Hola! Bienvenido a ImmiNexus Consultants. Puedo ayudarte con servicios de inmigración para México, Estados Unidos y Canadá. En qué puedo ayudarte?",
-      fr: "Bonjour! Bienvenue chez ImmiNexus Consultants. Je peux vous aider avec les services d'immigration pour le Mexique, les États-Unis et le Canada. Comment puis-je vous aider?",
+      en: "Hello! Welcome to ImmiNexus Consultants. I can help you with immigration services. What would you like to know?",
+      es: "Hola! Bienvenido a ImmiNexus Consultants. Puedo ayudarte con servicios de inmigración. En qué puedo ayudarte?",
+      fr: "Bonjour! Bienvenue chez ImmiNexus Consultants. Je peux vous aider avec les services d'immigration. Comment puis-je vous aider?",
     },
   },
   {
@@ -127,9 +127,9 @@ function getAnswer(input: string, locale: string): string {
 }
 
 const QUICK_QUESTIONS = {
-  en: ["Mexico services", "US Visa B1/B2", "Canada eTA", "Book consultation", "Fees & pricing", "Digital Nomad visa"],
-  es: ["Servicios México", "Visa EE.UU. B1/B2", "eTA Canadá", "Reservar consulta", "Tarifas", "Visa Nómada Digital"],
-  fr: ["Services Mexique", "Visa USA B1/B2", "AVE Canada", "Réserver consultation", "Tarifs", "Visa Nomade Digital"],
+  en: ["Mexico services", "US Visa B1/B2", "Book consultation", "Fees & pricing", "Digital Nomad visa"],
+  es: ["Servicios México", "Visa EE.UU. B1/B2","Reservar consulta", "Tarifas", "Visa Nómada Digital"],
+  fr: ["Services Mexique", "Visa USA B1/B2", "Réserver consultation", "Tarifs", "Visa Nomade Digital"],
 };
 
 export default function Chatbot() {

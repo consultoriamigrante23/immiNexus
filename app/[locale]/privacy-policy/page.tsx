@@ -220,7 +220,7 @@ export default async function PrivacyPolicy({
               {[
                 { country: t("mexico"),  color: "#22C55E", items: [t("mex1"),t("mex2"),t("mex3"),t("mex4"),t("mex5"),t("mex6")] },
                 { country: t("usa"),     color: "#3B82F6", items: [t("usa1"),t("usa2")] },
-                { country: t("canada"),  color: "#EF4444", items: [t("can1"),t("can2")] },
+
                 { country: t("others"),  color: "#F59E0B", items: [t("oth1"),t("oth2"),t("oth3"),t("oth4")] },
               ].map(s => (
                 <div key={s.country} className="rounded-2xl p-5"

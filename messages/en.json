@@ -6,11 +6,16 @@
     "contact": "Contact",
     "bookConsultation": "Book Consultation",
     "feedback": "Reviews",
-"tagline": "Your Migration Success Partner",
-  "bookCta": "Book Free Consultation",
-  "bookCtaShort": "Book"
+    "tagline": "Your Migration Success Partner",
+    "bookCta": "Book Free Consultation",
+    "bookCtaShort": "Book"
   },
   "hero": {
+    "countries": [
+      "Mexico",
+      "USA",
+      "And more"
+    ],
     "badge": "Trusted Immigration Consultants",
     "title": "Your Journey,",
     "titleAccent": "Our Expertise.",
@@ -24,6 +29,11 @@
       "subtitle": "Specialized consultants for USA, Canada and Mexico. Free first consultation — no commitment.",
       "cta1": "Book Free Consultation",
       "cta2": "WhatsApp Us"
+    },
+    "stats": {
+      "cases": "Cases",
+      "success": "Success",
+      "languages": "Languages"
     }
   },
   "services": {
@@ -31,21 +41,32 @@
     "subtitle": "What We Offer",
     "description": "From visa applications to full residency — we cover every route to your destination.",
     "getStarted": "Get Started",
-    "usa": {
-      "title": "United States",
-      "items": ["Tourist / B1-B2 Visa", "Work Visa (H1-B, L1)", "Student Visa (F1)", "Green Card Process", "ESTA Authorization", "Business Visa"]
-    },
-    "canada": {
-      "title": "Canada",
-      "items": ["Express Entry (ITA)", "Tourist & Super Visa", "Study Permit", "Work Permit (LMIA)", "Permanent Residency", "Family Sponsorship"]
-    },
     "mexico": {
       "title": "Mexico",
-      "items": ["Temporary Residency", "Permanent Residency", "Work Authorization", "Business Visa", "Retirement Visa", "Digital Nomad Visa"]
+      "items": [
+        "Visitor visa / Non-lucrative (tourism, business, transit)",
+        "Temporary Residence (Work, Family, Study, Digital Nomad)",
+        "Permanent Residence",
+        "Visa requests outside Mexico",
+        "Permits at the National Institute of Migration (INM)",
+        "Passport services"
+      ]
+    },
+    "usa": {
+      "title": "United States",
+      "items": [
+        "Visa B1 – Business visitor",
+        "Visa B2 – Tourism & medical"
+      ]
     },
     "other": {
       "title": "Other Countries",
-      "items": ["Australia", "United Kingdom", "Schengen / Europe", "India", "Brazil", "And more..."]
+      "items": [
+        "Visitor visas – short and long term",
+        "Transit visas",
+        "Business visas",
+        "And more"
+      ]
     }
   },
   "whyUs": {
@@ -58,12 +79,30 @@
       "clients": "Happy Clients"
     },
     "reasons": {
-      "licensed": { "title": "Licensed & Certified", "desc": "Our consultants operate under strict professional standards with full certifications." },
-      "multilingual": { "title": "Multilingual Support", "desc": "We assist you in English, Spanish, and French — no barriers, no confusion." },
-      "secure": { "title": "Confidential & Secure", "desc": "Your personal data and documents are handled with absolute discretion." },
-      "fast": { "title": "Fast Processing", "desc": "We streamline your application to minimize delays and avoid costly mistakes." },
-      "endToEnd": { "title": "End-to-End Service", "desc": "From document prep to final approval — we handle everything for you." },
-      "global": { "title": "Multi-Country Expertise", "desc": "Deep knowledge across USA, Canada, Mexico and many other countries." }
+      "licensed": {
+        "title": "Licensed & Certified",
+        "desc": "Our consultants operate under strict professional standards with full certifications."
+      },
+      "multilingual": {
+        "title": "Multilingual Support",
+        "desc": "We assist you in English, Spanish, and French — no barriers, no confusion."
+      },
+      "secure": {
+        "title": "Confidential & Secure",
+        "desc": "Your personal data and documents are handled with absolute discretion."
+      },
+      "fast": {
+        "title": "Fast Processing",
+        "desc": "We streamline your application to minimize delays and avoid costly mistakes."
+      },
+      "endToEnd": {
+        "title": "End-to-End Service",
+        "desc": "From document prep to final approval — we handle everything for you."
+      },
+      "global": {
+        "title": "Multi-Country Expertise",
+        "desc": "Deep knowledge across USA, Canada, Mexico and many other countries."
+      }
     }
   },
   "process": {
@@ -71,20 +110,32 @@
     "title": "Simple. Clear. Effective.",
     "description": "Our proven 4-step process takes you from first contact to final approval.",
     "steps": {
-      "consultation": { "title": "Free Consultation", "desc": "We assess your profile and find the best immigration route for your situation." },
-      "documents": { "title": "Document Preparation", "desc": "We provide a personalized checklist and guide you through every document needed." },
-      "filing": { "title": "Application Filing", "desc": "We complete and submit your application, coordinate biometrics and authorities." },
-      "approval": { "title": "Approval & Beyond", "desc": "We track your case to final approval then support your settlement and renewals." }
+      "consultation": {
+        "title": "Free Consultation",
+        "desc": "We assess your profile and find the best immigration route for your situation."
+      },
+      "documents": {
+        "title": "Document Preparation",
+        "desc": "We provide a personalized checklist and guide you through every document needed."
+      },
+      "filing": {
+        "title": "Application Filing",
+        "desc": "We complete and submit your application, coordinate biometrics and authorities."
+      },
+      "approval": {
+        "title": "Approval & Beyond",
+        "desc": "We track your case to final approval then support your settlement and renewals."
+      }
     },
     "cta": "Start Your Process Today"
   },
   "contact": {
     "linkedin": "LinkedIn",
-"linkedinSub": "Connect with us",
-"whatsappSub": "Click to open WhatsApp",
-"emailSub": "Response within 24h",
-"instaSub": "Follow us for updates",
-"fbSub": "Like our page",
+    "linkedinSub": "Connect with us",
+    "whatsappSub": "Click to open WhatsApp",
+    "emailSub": "Response within 24h",
+    "instaSub": "Follow us for updates",
+    "fbSub": "Like our page",
     "subtitle": "Get in Touch",
     "title": "We Are Here to Help",
     "description": "Reach out through any channel. We respond within 24 hours.",
@@ -105,18 +156,32 @@
     "successDesc": "We will contact you within 24 hours.",
     "privacy": "Your information is 100% confidential and never shared.",
     "services": [
-      "USA – Tourist / B1-B2 Visa",
-      "USA – Work Visa (H1-B, L1)",
-      "USA – Student Visa (F1)",
-      "USA – Green Card",
-      "Canada – Express Entry (ITA)",
-      "Canada – Study / Work Permit",
-      "Canada – Permanent Residency",
-      "Canada – Family Sponsorship",
-      "Mexico – Temporary Residency",
-      "Mexico – Permanent Residency",
-      "Other Country"
-    ]
+      "Mexico – Visitor Visa / Non-lucrative",
+      "Mexico – Temporary Residence (Work)",
+      "Mexico – Temporary Residence (Family)",
+      "Mexico – Temporary Residence (Study)",
+      "Mexico – Temporary Residence (Digital Nomad)",
+      "Mexico – Permanent Residence",
+      "Mexico – Visa Request Outside Mexico",
+      "Mexico – INM Permit",
+      "Mexico – Passport",
+      "USA – Visa B1 (Business Visitor)",
+      "USA – Visa B2 (Tourism / Medical)",
+      "Other Country – Visitor Visa",
+      "Other Country – Transit Visa",
+      "Other Country – Business Visa",
+      "Other Country – Other"
+    ],
+    "countryPlaceholder": "Select your country...",
+    "phonePlaceholder": "Phone (auto-filled from country)",
+    "servicePlaceholder": "Service Required",
+    "required": "Required",
+    "emailError": "Valid email required",
+    "phoneAuto": "Phone (auto-filled from country)",
+    "mexico": "Mexico",
+    "usa": "United States",
+    "canada": "Canada",
+    "other": "Other Countries"
   },
   "chatbot": {
     "title": "ImmiNexus Assistant",
@@ -141,111 +206,126 @@
     "terms": "Terms of Service",
     "rights": "All rights reserved.",
     "tagline": "Your Migration Success Partner",
-"cookies": "Cookie Policy",
-"servicesList": ["USA Visas & Immigration", "Canada Express Entry", "Mexico Residency", "Study Permits", "Work Permits", "Tourist Visas"]
+    "cookies": "Cookie Policy",
+    "whatsappSub": "WhatsApp available",
+    "emailSub": "Reply within 24h",
+    "instaSub": "Instagram",
+    "linkedinSub": "Connect with us",
+    "servicesList": [
+      "Mexico – Visitor & Residence Visas",
+      "Mexico – Permanent Residence",
+      "Mexico – Passport & INM Permits",
+      "USA – B1 / B2 Visas",
+      "Other Countries"
+    ],
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "replyWithin24h": "Reply within 24h",
+    "connectWithUs": "Connect with us"
   },
   "booking": {
-  "book": "Book",
-  "track": "Track",
-  "modify": "Modify",
-  "bookingInfo": "Free consultation · Mon–Sat · 9AM–9PM GMT-5 · Book at least 48h in advance",
-  "fullName": "Full Name",
-  "emailAddress": "Email Address",
-  "countryPlaceholder": "Your country of residence...",
-  "phonePlaceholder": "Phone (auto-filled, add your number)",
-  "phoneHint": "Country code auto-filled. Complete with your number.",
-  "selectService": "Select a service...",
-  "preferredDate": "Preferred Date (Mon–Sat, 48h advance required)",
-  "selectTime": "Select Time (GMT-5) — 9:00 AM to 9:00 PM",
-  "taken": "taken",
-  "notesPlaceholder": "Additional notes or questions (optional)",
-  "bookButton": "Book Free Consultation",
-  "booking": "Booking...",
-  "privacyNote": "By booking, you agree to our Privacy Policy and Terms of Service.",
-  "success": "Booking Confirmed!",
-  "successDesc": "A confirmation email with your PDF receipt has been sent. Your PDF was also downloaded automatically.",
-  "trackingIdLabel": "Tracking ID",
-  "downloadAgain": "Download PDF Again",
-  "trackDesc": "Enter your Tracking ID from your confirmation email to check your booking status.",
-  "trackButton": "Track",
-  "trackNotFound": "Booking not found. Check your Tracking ID.",
-  "daysRemaining": "days remaining",
-  "nameLabel": "Name",
-  "serviceLabel": "Service",
-  "dateLabel": "Date",
-  "timeLabel": "Time",
-  "countryLabel": "Country",
-  "modifyInfo": "Only available slots can be selected. 48h advance booking required. Sundays unavailable.",
-  "newDate": "New Date (Mon–Sat)",
-  "reasonPlaceholder": "Reason for modification (required)",
-  "reasonError": "Please provide a reason (min 5 characters)",
-  "modifyButton": "Modify Booking",
-  "saving": "Saving...",
-  "modifySuccess": "Booking Modified!",
-  "modifySuccessDesc": "Your PDF receipt has been downloaded and sent to your email.",
-  "cancel": "Cancel",
-  "required": "Required",
-  "validEmail": "Valid email required",
-  "invalidDate": "Invalid date",
-  "selectTimeError": "Please select a time slot",
-  "captchaError": "Please complete the verification",
-  "genericError": "Something went wrong. Please try again.",
-  "networkError": "Network error. Please try again or contact us via WhatsApp.",
-  "modifyError": "Error modifying booking.",
-  "title": "Book Your Free Consultation",
-  "subtitle": "Fill in your details and we'll contact you within 24 hours.",
-  "name": "Full Name",
-  "email": "Email Address",
-  "phone": "Phone / WhatsApp",
-  "country": "Your Country",
-  "service": "Service Needed",
-  "message": "Additional Notes (optional)",
-  "submit": "Book Consultation",
-  "submitting": "Booking..."
-},
+    "book": "Book",
+    "track": "Track",
+    "modify": "Modify",
+    "bookingInfo": "Free consultation · Mon–Sat · 9AM–9PM GMT-5 · Book at least 48h in advance",
+    "fullName": "Full Name",
+    "emailAddress": "Email Address",
+    "countryPlaceholder": "Your country of residence...",
+    "phonePlaceholder": "Phone (auto-filled, add your number)",
+    "phoneHint": "Country code auto-filled. Complete with your number.",
+    "selectService": "Select a service...",
+    "preferredDate": "Preferred Date (Mon–Sat, 48h advance required)",
+    "selectTime": "Select Time (GMT-5) — 9:00 AM to 9:00 PM",
+    "taken": "taken",
+    "notesPlaceholder": "Additional notes or questions (optional)",
+    "bookButton": "Book Free Consultation",
+    "booking": "Booking...",
+    "privacyNote": "By booking, you agree to our Privacy Policy and Terms of Service.",
+    "success": "Booking Confirmed!",
+    "successDesc": "A confirmation email with your PDF receipt has been sent. Your PDF was also downloaded automatically.",
+    "trackingIdLabel": "Tracking ID",
+    "downloadAgain": "Download PDF Again",
+    "trackDesc": "Enter your Tracking ID from your confirmation email to check your booking status.",
+    "trackButton": "Track",
+    "trackNotFound": "Booking not found. Check your Tracking ID.",
+    "daysRemaining": "days remaining",
+    "nameLabel": "Name",
+    "serviceLabel": "Service",
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "countryLabel": "Country",
+    "modifyInfo": "Only available slots can be selected. 48h advance booking required. Sundays unavailable.",
+    "newDate": "New Date (Mon–Sat)",
+    "reasonPlaceholder": "Reason for modification (required)",
+    "reasonError": "Please provide a reason (min 5 characters)",
+    "modifyButton": "Modify Booking",
+    "saving": "Saving...",
+    "modifySuccess": "Booking Modified!",
+    "modifySuccessDesc": "Your PDF receipt has been downloaded and sent to your email.",
+    "cancel": "Cancel",
+    "required": "Required",
+    "validEmail": "Valid email required",
+    "invalidDate": "Invalid date",
+    "selectTimeError": "Please select a time slot",
+    "captchaError": "Please complete the verification",
+    "genericError": "Something went wrong. Please try again.",
+    "networkError": "Network error. Please try again or contact us via WhatsApp.",
+    "modifyError": "Error modifying booking.",
+    "title": "Book Your Free Consultation",
+    "subtitle": "Fill in your details and we'll contact you within 24 hours.",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone / WhatsApp",
+    "country": "Your Country",
+    "service": "Service Needed",
+    "message": "Additional Notes (optional)",
+    "submit": "Book Consultation",
+    "submitting": "Booking..."
+  },
   "feedback": {
-  "subtitle": "Client Stories",
-  "title": "What Our Clients Say",
-  "description": "Real experiences from people we have helped reach their destination.",
-  "empty": "Be the first to share your experience!",
-  "shareButton": "Share Your Experience",
-  "formTitle": "Leave Your Feedback",
-  "namePlaceholder": "Your Name",
-  "countryPlaceholder": "Your Country",
-  "servicePlaceholder": "Service Used",
-  "ratingLabel": "Your Rating",
-  "messagePlaceholder": "Share your experience with ImmiNexus...",
-  "required": "Required",
-  "minChars": "Minimum 10 characters",
-  "cancel": "Cancel",
-  "submit": "Submit Feedback",
-  "submitting": "Submitting...",
-  "thankYouTitle": "Thank You!",
-  "thankYouDesc": "Your feedback has been submitted and will appear after review.",
-  "errorGeneric": "Something went wrong. Please try again.",
-  "errorNetwork": "Network error. Please try again.",
-  "ctaTitle": "Ready to Start Your Immigration Journey?",
-"ctaDesc": "Join hundreds of satisfied clients. Book your free consultation today.",
-"ctaButton": "Get Free Consultation",
-"hadGoodExperience": "Had a good experience with us?"
-},
-"common": {
-  "whatsapp": "Reach us via WhatsApp",
-  "scrollTop": "Back to top",
-  "loading": "Loading...",
-  "error": "Something went wrong",
-  "retry": "Retry",
-  "close": "Close",
-  "cancel": "Cancel",
-  "confirm": "Confirm",
-  "delete": "Delete",
-  "save": "Save",
-  "submit": "Submit",
-  "back": "Back",
-  "next": "Next",
-  "yes": "Yes",
-  "no": "No"
-},
+    "subtitle": "Client Stories",
+    "title": "What Our Clients Say",
+    "description": "Real experiences from people we have helped reach their destination.",
+    "empty": "Be the first to share your experience!",
+    "shareButton": "Share Your Experience",
+    "formTitle": "Leave Your Feedback",
+    "namePlaceholder": "Your Name",
+    "countryPlaceholder": "Your Country",
+    "servicePlaceholder": "Service Used",
+    "ratingLabel": "Your Rating",
+    "messagePlaceholder": "Share your experience with ImmiNexus...",
+    "required": "Required",
+    "minChars": "Minimum 10 characters",
+    "cancel": "Cancel",
+    "submit": "Submit Feedback",
+    "submitting": "Submitting...",
+    "thankYouTitle": "Thank You!",
+    "thankYouDesc": "Your feedback has been submitted and will appear after review.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "errorNetwork": "Network error. Please try again.",
+    "ctaTitle": "Ready to Start Your Immigration Journey?",
+    "ctaDesc": "Join hundreds of satisfied clients. Book your free consultation today.",
+    "ctaButton": "Get Free Consultation",
+    "hadGoodExperience": "Had a good experience with us?"
+  },
+  "common": {
+    "whatsapp": "Reach us via WhatsApp",
+    "scrollTop": "Back to top",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "close": "Close",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "save": "Save",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No"
+  },
   "privacyPage": {
     "backHome": "Back to Home",
     "badge": "Legal Documents",
@@ -265,10 +345,22 @@
       "intro": "ImmiNexus Consultants is responsible for the processing of the personal data you provide to us. The personal data collected, under the laws in Mexico, will be used to contact you and, in the event that you engage our services, to carry out the corresponding process agreed upon between the parties.",
       "arcoTitle": "Your ARCO Rights",
       "arco": [
-        { "right": "Access", "desc": "Know what personal data we hold about you, how it is used, and the conditions under which we process it." },
-        { "right": "Rectification", "desc": "Request correction of your personal information if it is outdated, inaccurate, or incomplete." },
-        { "right": "Cancellation", "desc": "Request that we delete your data from our records when it is not being used in accordance with the law." },
-        { "right": "Objection", "desc": "Object to the use of your personal data for specific purposes." }
+        {
+          "right": "Access",
+          "desc": "Know what personal data we hold about you, how it is used, and the conditions under which we process it."
+        },
+        {
+          "right": "Rectification",
+          "desc": "Request correction of your personal information if it is outdated, inaccurate, or incomplete."
+        },
+        {
+          "right": "Cancellation",
+          "desc": "Request that we delete your data from our records when it is not being used in accordance with the law."
+        },
+        {
+          "right": "Objection",
+          "desc": "Object to the use of your personal data for specific purposes."
+        }
       ],
       "arcoContact": "To exercise your ARCO rights, submit a written request to:",
       "changesTitle": "Changes to this Privacy Notice",
@@ -296,9 +388,21 @@
       "title": "Cookie Policy",
       "intro": "ImmiNexus Consultants uses cookies and similar technologies to enhance your browsing experience, analyze site traffic, and improve our services. By continuing to use our website, you consent to the use of cookies in accordance with this policy.",
       "types": [
-        { "name": "Essential Cookies", "color": "#11999e", "desc": "Required for the website to function properly, including the booking system and security verification. These cannot be disabled." },
-        { "name": "Analytics Cookies", "color": "#3B82F6", "desc": "Help us understand how visitors interact with our website so we can improve performance and user experience. All data is anonymized." },
-        { "name": "Preference Cookies", "color": "#F59E0B", "desc": "Remember your settings such as language selection to provide a more personalized experience on return visits." }
+        {
+          "name": "Essential Cookies",
+          "color": "#11999e",
+          "desc": "Required for the website to function properly, including the booking system and security verification. These cannot be disabled."
+        },
+        {
+          "name": "Analytics Cookies",
+          "color": "#3B82F6",
+          "desc": "Help us understand how visitors interact with our website so we can improve performance and user experience. All data is anonymized."
+        },
+        {
+          "name": "Preference Cookies",
+          "color": "#F59E0B",
+          "desc": "Remember your settings such as language selection to provide a more personalized experience on return visits."
+        }
       ],
       "managingTitle": "Managing Cookies",
       "managingDesc": "You can control and manage cookies through your browser settings. Note that disabling certain cookies may affect website functionality. Most browsers allow you to view, delete, and block cookies from specific websites."
@@ -308,20 +412,34 @@
       "title": "Our Services",
       "countries": [
         {
-          "country": "Mexico", "color": "#22C55E",
-          "items": ["Visitor Visa / Non-lucrative (Tourism, Business, Transit)", "Temporary Residence (Work, Family, Study, Digital Nomad)", "Permanent Residence", "Visa requests outside Mexico", "Permits at the National Institute of Migration (INM)", "Passport services"]
+          "country": "Mexico",
+          "color": "#22C55E",
+          "items": [
+            "Visitor Visa / Non-lucrative (Tourism, Business, Transit)",
+            "Temporary Residence (Work, Family, Study, Digital Nomad)",
+            "Permanent Residence",
+            "Visa requests outside Mexico",
+            "Permits at the National Institute of Migration (INM)",
+            "Passport services"
+          ]
         },
         {
-          "country": "United States", "color": "#3B82F6",
-          "items": ["Visa B1 – Business Visitor", "Visa B2 – Tourism & Medical"]
+          "country": "United States",
+          "color": "#3B82F6",
+          "items": [
+            "Visa B1 – Business Visitor",
+            "Visa B2 – Tourism & Medical"
+          ]
         },
         {
-          "country": "Canada", "color": "#EF4444",
-          "items": ["Visitor Visa (Family, Transit, Tourism, Business)", "Electronic Travel Authorization (eTA)"]
-        },
-        {
-          "country": "Other Countries", "color": "#F59E0B",
-          "items": ["Visitor Visas – Short and Long Term", "Transit Visas", "Business Visas", "And more"]
+          "country": "Other Countries",
+          "color": "#F59E0B",
+          "items": [
+            "Visitor Visas – Short and Long Term",
+            "Transit Visas",
+            "Business Visas",
+            "And more"
+          ]
         }
       ]
     },
@@ -339,76 +457,141 @@
           "role": "Legal Assistant",
           "bio": "Paralegal graduate in Canada and candidate for the P1 License with the Law Society of Ontario. Holds a Bachelor's Degree in Private Law from Morocco. Experienced as an administrative assistant and paralegal intern with strong organizational and legal support skills."
         },
-        {"privacy": {
-  "backHome": "Back to Home",
-  "badge": "Legal Documents",
-  "pageTitle": "Legal Information",
-  "lastUpdated": "Last updated: January 2025 · ImmiNexus Consultants",
-  "jumpTo": "Jump to section",
-  "privacyTitle": "Privacy Policy & Confidentiality",
-  "termsTitle": "Terms of Service",
-  "cookiesTitle": "Cookie Policy",
-  "privacyIntro": "ImmiNexus Consultants is responsible for the processing of the personal data you provide to us. The personal data collected, under the laws in Mexico, will be used to contact you and, in the event that you engage our services, to carry out the corresponding process agreed upon between the parties.",
-  "arcoTitle": "Your ARCO Rights",
-  "arcoAccess": "Access",
-  "arcoAccessDesc": "Know what personal data we hold about you, how it is used, and the conditions under which we process it.",
-  "arcoRect": "Rectification",
-  "arcoRectDesc": "Request correction of your personal information if it is outdated, inaccurate, or incomplete.",
-  "arcoCancel": "Cancellation",
-  "arcoCancelDesc": "Request that we delete your data from our records when it is not being used in accordance with the law.",
-  "arcoObject": "Objection",
-  "arcoObjectDesc": "Object to the use of your personal data for specific purposes.",
-  "arcoContact": "To exercise your ARCO rights, submit a written request to:",
-  "changesTitle": "Changes to this Privacy Notice",
-  "changesDesc": "We reserve the right to update this Privacy Notice at any time to address legislative changes, internal policies, or new requirements. Changes will be reflected on this page with an updated date.",
-  "termsIntro": "By using the services of ImmiNexus Consultants, you agree to be bound by these Terms of Service. We provide immigration consulting and related services as agreed with each client. We do not guarantee the approval of any application, as all final decisions are made by government authorities.",
-  "obligationsTitle": "Client Obligations",
-  "oblig1": "Provide complete, truthful, and accurate information at all times",
-  "oblig2": "Submit required documentation in a timely manner",
-  "oblig3": "Inform us promptly of any changes that may affect your case",
-  "oblig4": "Comply with all agreed payment schedules and terms",
-  "feesTitle": "Fees & Payments",
-  "feesDesc": "All fees are established in a separate service agreement prior to the commencement of services. Fees are generally non-refundable unless otherwise expressly stated in writing in the agreement.",
-  "liabilityTitle": "Limitations of Liability",
-  "liabilityDesc": "ImmiNexus Consultants is not liable for delays, denials, or decisions made by third parties including immigration authorities, embassies, or government agencies. We reserve the right to suspend or terminate services if these Terms are breached.",
-  "termsQuestion": "Questions about these Terms?",
-  "cookiesIntro": "ImmiNexus Consultants uses cookies and similar technologies to enhance your browsing experience, analyze site traffic, and improve our services. By continuing to use our website, you consent to the use of cookies in accordance with this policy.",
-  "essentialCookies": "Essential Cookies",
-  "essentialDesc": "Required for the website to function properly, including the booking system and security verification. These cannot be disabled.",
-  "analyticsCookies": "Analytics Cookies",
-  "analyticsDesc": "Help us understand how visitors interact with our website so we can improve performance and user experience. All data is anonymized.",
-  "prefCookies": "Preference Cookies",
-  "prefDesc": "Remember your settings such as language selection to provide a more personalized experience on return visits.",
-  "manageCookiesTitle": "Managing Cookies",
-  "manageCookiesDesc": "You can control and manage cookies through your browser settings. Note that disabling certain cookies may affect website functionality. Most browsers allow you to view, delete, and block cookies from specific websites.",
-  "servicesTitle": "Our Services",
-  "mexico": "Mexico",
-  "mex1": "Visitor Visa / Non-lucrative (Tourism, Business, Transit)",
-  "mex2": "Temporary Residence (Work, Family, Study, Digital Nomad)",
-  "mex3": "Permanent Residence",
-  "mex4": "Visa requests outside Mexico",
-  "mex5": "Permits at the National Institute of Migration (INM)",
-  "mex6": "Passport services",
-  "usa": "United States",
-  "usa1": "Visa B1 – Business Visitor",
-  "usa2": "Visa B2 – Tourism & Medical",
-  "canada": "Canada",
-  "can1": "Visitor Visa (Family, Transit, Tourism, Business)",
-  "can2": "Electronic Travel Authorization (eTA)",
-  "others": "Other Countries",
-  "oth1": "Visitor Visas – Short and Long Term",
-  "oth2": "Transit Visas",
-  "oth3": "Business Visas",
-  "oth4": "And more",
-  "teamTitle": "Our Team",
-  "mainConsultant": "Main Consultant",
-  "legalAssistant": "Legal Assistant",
-  "marcoBio": "Paralegal graduate in Ontario, Canada, and candidate for the P1 License with the Law Society of Ontario. Holds bachelor's degrees in Law and International Relations from Mexico. Experience as a Paralegal and Senior Case Manager in the United States, government officer in Mexico, and within a Canadian law firm.",
-  "sidelBio": "Paralegal graduate in Canada and candidate for the P1 License with the Law Society of Ontario. Holds a Bachelor's Degree in Private Law from Morocco. Experienced as an administrative assistant and paralegal intern with strong organizational and legal support skills.",
-  "contactQuestion": "Questions about our legal documents?"
-}}
+        {
+          "privacy": {
+            "backHome": "Back to Home",
+            "badge": "Legal Documents",
+            "pageTitle": "Legal Information",
+            "lastUpdated": "Last updated: January 2025 · ImmiNexus Consultants",
+            "jumpTo": "Jump to section",
+            "privacyTitle": "Privacy Policy & Confidentiality",
+            "termsTitle": "Terms of Service",
+            "cookiesTitle": "Cookie Policy",
+            "privacyIntro": "ImmiNexus Consultants is responsible for the processing of the personal data you provide to us. The personal data collected, under the laws in Mexico, will be used to contact you and, in the event that you engage our services, to carry out the corresponding process agreed upon between the parties.",
+            "arcoTitle": "Your ARCO Rights",
+            "arcoAccess": "Access",
+            "arcoAccessDesc": "Know what personal data we hold about you, how it is used, and the conditions under which we process it.",
+            "arcoRect": "Rectification",
+            "arcoRectDesc": "Request correction of your personal information if it is outdated, inaccurate, or incomplete.",
+            "arcoCancel": "Cancellation",
+            "arcoCancelDesc": "Request that we delete your data from our records when it is not being used in accordance with the law.",
+            "arcoObject": "Objection",
+            "arcoObjectDesc": "Object to the use of your personal data for specific purposes.",
+            "arcoContact": "To exercise your ARCO rights, submit a written request to:",
+            "changesTitle": "Changes to this Privacy Notice",
+            "changesDesc": "We reserve the right to update this Privacy Notice at any time to address legislative changes, internal policies, or new requirements. Changes will be reflected on this page with an updated date.",
+            "termsIntro": "By using the services of ImmiNexus Consultants, you agree to be bound by these Terms of Service. We provide immigration consulting and related services as agreed with each client. We do not guarantee the approval of any application, as all final decisions are made by government authorities.",
+            "obligationsTitle": "Client Obligations",
+            "oblig1": "Provide complete, truthful, and accurate information at all times",
+            "oblig2": "Submit required documentation in a timely manner",
+            "oblig3": "Inform us promptly of any changes that may affect your case",
+            "oblig4": "Comply with all agreed payment schedules and terms",
+            "feesTitle": "Fees & Payments",
+            "feesDesc": "All fees are established in a separate service agreement prior to the commencement of services. Fees are generally non-refundable unless otherwise expressly stated in writing in the agreement.",
+            "liabilityTitle": "Limitations of Liability",
+            "liabilityDesc": "ImmiNexus Consultants is not liable for delays, denials, or decisions made by third parties including immigration authorities, embassies, or government agencies. We reserve the right to suspend or terminate services if these Terms are breached.",
+            "termsQuestion": "Questions about these Terms?",
+            "cookiesIntro": "ImmiNexus Consultants uses cookies and similar technologies to enhance your browsing experience, analyze site traffic, and improve our services. By continuing to use our website, you consent to the use of cookies in accordance with this policy.",
+            "essentialCookies": "Essential Cookies",
+            "essentialDesc": "Required for the website to function properly, including the booking system and security verification. These cannot be disabled.",
+            "analyticsCookies": "Analytics Cookies",
+            "analyticsDesc": "Help us understand how visitors interact with our website so we can improve performance and user experience. All data is anonymized.",
+            "prefCookies": "Preference Cookies",
+            "prefDesc": "Remember your settings such as language selection to provide a more personalized experience on return visits.",
+            "manageCookiesTitle": "Managing Cookies",
+            "manageCookiesDesc": "You can control and manage cookies through your browser settings. Note that disabling certain cookies may affect website functionality. Most browsers allow you to view, delete, and block cookies from specific websites.",
+            "servicesTitle": "Our Services",
+            "mexico": "Mexico",
+            "mex1": "Visitor Visa / Non-lucrative (Tourism, Business, Transit)",
+            "mex2": "Temporary Residence (Work, Family, Study, Digital Nomad)",
+            "mex3": "Permanent Residence",
+            "mex4": "Visa requests outside Mexico",
+            "mex5": "Permits at the National Institute of Migration (INM)",
+            "mex6": "Passport services",
+            "usa": "United States",
+            "usa1": "Visa B1 – Business Visitor",
+            "usa2": "Visa B2 – Tourism & Medical",
+            "others": "Other Countries",
+            "oth1": "Visitor Visas – Short and Long Term",
+            "oth2": "Transit Visas",
+            "oth3": "Business Visas",
+            "oth4": "And more",
+            "teamTitle": "Our Team",
+            "mainConsultant": "Main Consultant",
+            "legalAssistant": "Legal Assistant",
+            "marcoBio": "Paralegal graduate in Ontario, Canada, and candidate for the P1 License with the Law Society of Ontario. Holds bachelor's degrees in Law and International Relations from Mexico. Experience as a Paralegal and Senior Case Manager in the United States, government officer in Mexico, and within a Canadian law firm.",
+            "sidelBio": "Paralegal graduate in Canada and candidate for the P1 License with the Law Society of Ontario. Holds a Bachelor's Degree in Private Law from Morocco. Experienced as an administrative assistant and paralegal intern with strong organizational and legal support skills.",
+            "contactQuestion": "Questions about our legal documents?"
+          }
+        }
       ]
     },
     "contactFooter": "Questions about our legal documents?"
+  },
+  "privacy": {
+    "backHome": "Back to Home",
+    "badge": "Legal Documents",
+    "pageTitle": "Legal Information",
+    "lastUpdated": "Last updated: January 2025 · ImmiNexus Consultants",
+    "jumpTo": "Jump to section",
+    "privacyTitle": "Privacy Policy & Confidentiality",
+    "termsTitle": "Terms of Service",
+    "cookiesTitle": "Cookie Policy",
+    "privacyIntro": "ImmiNexus Consultants is responsible for the processing of the personal data you provide to us. The personal data collected, under the laws in Mexico, will be used to contact you and, in the event that you engage our services, to carry out the corresponding process agreed upon between the parties.",
+    "arcoTitle": "Your ARCO Rights",
+    "arcoAccess": "Access",
+    "arcoAccessDesc": "Know what personal data we hold about you, how it is used, and the conditions under which we process it.",
+    "arcoRect": "Rectification",
+    "arcoRectDesc": "Request correction of your personal information if it is outdated, inaccurate, or incomplete.",
+    "arcoCancel": "Cancellation",
+    "arcoCancelDesc": "Request that we delete your data from our records when it is not being used in accordance with the law.",
+    "arcoObject": "Objection",
+    "arcoObjectDesc": "Object to the use of your personal data for specific purposes.",
+    "arcoContact": "To exercise your ARCO rights, submit a written request to:",
+    "changesTitle": "Changes to this Privacy Notice",
+    "changesDesc": "We reserve the right to update this Privacy Notice at any time to address legislative changes, internal policies, or new requirements. Changes will be reflected on this page with an updated date.",
+    "termsIntro": "By using the services of ImmiNexus Consultants, you agree to be bound by these Terms of Service. We provide immigration consulting and related services as agreed with each client. We do not guarantee the approval of any application, as all final decisions are made by government authorities.",
+    "obligationsTitle": "Client Obligations",
+    "oblig1": "Provide complete, truthful, and accurate information at all times",
+    "oblig2": "Submit required documentation in a timely manner",
+    "oblig3": "Inform us promptly of any changes that may affect your case",
+    "oblig4": "Comply with all agreed payment schedules and terms",
+    "feesTitle": "Fees & Payments",
+    "feesDesc": "All fees are established in a separate service agreement prior to the commencement of services. Fees are generally non-refundable unless otherwise expressly stated in writing in the agreement.",
+    "liabilityTitle": "Limitations of Liability",
+    "liabilityDesc": "ImmiNexus Consultants is not liable for delays, denials, or decisions made by third parties including immigration authorities, embassies, or government agencies. We reserve the right to suspend or terminate services if these Terms are breached.",
+    "termsQuestion": "Questions about these Terms?",
+    "cookiesIntro": "ImmiNexus Consultants uses cookies and similar technologies to enhance your browsing experience, analyze site traffic, and improve our services. By continuing to use our website, you consent to the use of cookies in accordance with this policy.",
+    "essentialCookies": "Essential Cookies",
+    "essentialDesc": "Required for the website to function properly, including the booking system and security verification. These cannot be disabled.",
+    "analyticsCookies": "Analytics Cookies",
+    "analyticsDesc": "Help us understand how visitors interact with our website so we can improve performance and user experience. All data is anonymized.",
+    "prefCookies": "Preference Cookies",
+    "prefDesc": "Remember your settings such as language selection to provide a more personalized experience on return visits.",
+    "manageCookiesTitle": "Managing Cookies",
+    "manageCookiesDesc": "You can control and manage cookies through your browser settings. Note that disabling certain cookies may affect website functionality. Most browsers allow you to view, delete, and block cookies from specific websites.",
+    "servicesTitle": "Our Services",
+    "mexico": "Mexico",
+    "mex1": "Visitor Visa / Non-lucrative (Tourism, Business, Transit)",
+    "mex2": "Temporary Residence (Work, Family, Study, Digital Nomad)",
+    "mex3": "Permanent Residence",
+    "mex4": "Visa requests outside Mexico",
+    "mex5": "Permits at the National Institute of Migration (INM)",
+    "mex6": "Passport services",
+    "usa": "United States",
+    "usa1": "Visa B1 – Business Visitor",
+    "usa2": "Visa B2 – Tourism & Medical",
+    "others": "Other Countries",
+    "oth1": "Visitor Visas – Short and Long Term",
+    "oth2": "Transit Visas",
+    "oth3": "Business Visas",
+    "oth4": "And more",
+    "teamTitle": "Who We Are",
+    "whoWeAre": "Who We Are",
+    "mainConsultant": "Main Consultant",
+    "legalAssistant": "Legal Assistant",
+    "marcoBio": "Paralegal graduate in Ontario, Canada, and candidate for the P1 License with the Law Society of Ontario. Holds bachelor’s degrees in Law and International Relations from Mexico.\n\nBrings professional experience as a Paralegal and Senior Case Manager in the United States, as well as experience as a government officer in Mexico and within a Canadian law firm.\n\nDemonstrates a strong passion for immigration law and is committed to helping individuals identify and pursue the best legal options available to them.",
+    "sidelBio": "Paralegal graduate in Canada and candidate for the P1 License with the Law Society of Ontario. Holds a Bachelor’s Degree in Private Law from Morocco.\n\nExperienced as an administrative assistant and paralegal intern, with strong organizational and legal support skills.\n\nCommitted to providing reliable assistance and dedicated to helping clients navigate their legal needs.",
+    "contactQuestion": "Questions about our legal documents?"
   }
 }

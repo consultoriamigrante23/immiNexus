@@ -532,7 +532,26 @@ export default function Dashboard() {
             </div>
 
             {errorB && <ErrorBanner msg={errorB} onRetry={fetchBookings}/>}
-            {cancelNotice && (
+            {pendingCancelBooking ? (
+              <div className="rounded-2xl border border-orange-200 bg-orange-50 p-4 text-sm text-orange-900"
+                style={{ boxShadow: "0 4px 16px rgba(245,158,11,0.15)" }}>
+                <div className="font-semibold mb-2">Reminder</div>
+                <p className="mb-4">
+                  Cancelling the booking for <span className="font-semibold">{pendingCancelBooking.fullName}</span> means the user will not be able to rebook for 7 days.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <button type="button" onClick={confirmCancelBooking}
+                    className="rounded-xl px-4 py-2 text-sm font-semibold text-white"
+                    style={{ background: "#ef4444" }}>
+                    Confirm cancellation
+                  </button>
+                  <button type="button" onClick={cancelPendingCancel}
+                    className="rounded-xl px-4 py-2 text-sm font-semibold text-orange-900 border border-orange-300 bg-white">
+                    Keep booking
+                  </button>
+                </div>
+              </div>
+            ) : cancelNotice ? (
               <div className="rounded-2xl border border-orange-200 bg-orange-50 p-4 text-sm text-orange-900 flex items-start justify-between gap-3"
                 style={{ boxShadow: "0 4px 16px rgba(245,158,11,0.15)" }}>
                 <div>
@@ -543,7 +562,7 @@ export default function Dashboard() {
                   Dismiss
                 </button>
               </div>
-            )}
+            ) : null}
 
             {/* Table */}
             <div className="bg-white rounded-2xl border overflow-hidden"

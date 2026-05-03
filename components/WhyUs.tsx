@@ -51,6 +51,7 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 
 export default function WhyUs() {
   const t = useTranslations("whyUs");
+  const p = useTranslations("privacy");
   return (
     <section id="why-us" className="py-28 bg-white section-frame">
       <div className="max-w-7xl mx-auto px-6">
@@ -77,7 +78,7 @@ export default function WhyUs() {
     <div className="relative">
       <h3 className="font-heading text-2xl md:text-3xl font-bold mb-8"
         style={{ color: "var(--text-primary)" }}>
-        Who We Are
+        {p("teamTitle")}
       </h3>
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -104,20 +105,14 @@ export default function WhyUs() {
             Marco Rodriguez
           </h4>
           <p className="text-xs font-body mb-3" style={{ color:"var(--brand)" }}>
-            Main Consultant
+            {p("mainConsultant")}
           </p>
 
           <p className="text-sm font-body leading-relaxed" style={{ color:"var(--text-soft)" }}>
-            Paralegal graduate in Ontario, Canada, and candidate for the P1 License with the Law Society of Ontario. Holds bachelor’s degrees in Law and International Relations from Mexico.
+            {p("marcoBio")}
           </p>
 
-          <p className="text-sm font-body leading-relaxed mt-3" style={{ color:"var(--text-soft)" }}>
-            Brings professional experience as a Paralegal and Senior Case Manager in the United States, as well as experience as a government officer in Mexico and within a Canadian law firm.
-          </p>
-
-          <p className="text-sm font-body leading-relaxed mt-3" style={{ color:"var(--text-soft)" }}>
-            Demonstrates a strong passion for immigration law and is committed to helping individuals identify and pursue the best legal options available to them.
-          </p>
+         
         </div>
 
         {/* Sidelghali */}
@@ -142,20 +137,13 @@ export default function WhyUs() {
             Sidelghali Zouine
           </h4>
           <p className="text-xs font-body mb-3" style={{ color:"var(--brand)" }}>
-            Legal Assistant
+           {p("legalAssistant")}
           </p>
 
           <p className="text-sm font-body leading-relaxed" style={{ color:"var(--text-soft)" }}>
-            Paralegal graduate in Canada and candidate for the P1 License with the Law Society of Ontario. Holds a Bachelor’s Degree in Private Law from Morocco.
-          </p>
+           {p("sidelBio")}</p>
 
-          <p className="text-sm font-body leading-relaxed mt-3" style={{ color:"var(--text-soft)" }}>
-            Experienced as an administrative assistant and paralegal intern, with strong organizational and legal support skills.
-          </p>
-
-          <p className="text-sm font-body leading-relaxed mt-3" style={{ color:"var(--text-soft)" }}>
-            Committed to providing reliable assistance and dedicated to helping clients navigate their legal needs.
-          </p>
+         
         </div>
 
       </div>

@@ -17,6 +17,11 @@
     "subtitle": "Specialized immigration consultants for the United States, Canada, and Mexico. We guide you through every step — visas, residency, permits, and beyond.",
     "cta1": "Book Free Consultation",
     "cta2": "Reach us via WhatsApp",
+    "countries": [
+      "Mexico",
+      "USA",
+      "Canada"
+    ],
     "banner": {
       "eyebrow": "Start Today",
       "title": "Your New Life is",

@@ -11,6 +11,11 @@
     "bookCtaShort": "Réserver"
   },
   "hero": {
+    "countries": [
+      "Mexique",
+      "États-Unis",
+      "Et plus"
+    ],
     "badge": "Consultants en Immigration de Confiance",
     "title": "Votre Voyage,",
     "titleAccent": "Notre Expertise.",
@@ -24,6 +29,11 @@
       "subtitle": "Consultants spécialisés pour les USA et le Mexique. Première consultation gratuite — sans engagement.",
       "cta1": "Réserver une Consultation",
       "cta2": "Nous Écrire sur WhatsApp"
+    },
+    "stats": {
+      "cases": "Cas",
+      "success": "Succès",
+      "languages": "Langues"
     }
   },
   "services": {
@@ -31,17 +41,32 @@
     "subtitle": "Ce Que Nous Offrons",
     "description": "Des demandes de visa à la résidence complète — nous couvrons chaque route vers votre destination.",
     "getStarted": "Commencer",
-    "usa": {
-      "title": "États-Unis",
-      "items": ["Visa Touriste / B1-B2", "Visa de Travail (H1-B, L1)", "Visa Étudiant (F1)", "Processus Green Card", "Autorisation ESTA", "Visa d'Affaires"]
-    },
     "mexico": {
       "title": "Mexique",
-      "items": ["Résidence Temporaire", "Résidence Permanente", "Autorisation de Travail", "Visa d'Affaires", "Visa de Retraite", "Visa Nomade Digital"]
+      "items": [
+        "Visa de visiteur / non lucratif (tourisme, affaires, transit)",
+        "Résidence temporaire (travail, famille, études, nomade numérique)",
+        "Résidence permanente",
+        "Demandes de visa hors du Mexique",
+        "Permis auprès de l’Institut national de migration (INM)",
+        "Services de passeport"
+      ]
+    },
+    "usa": {
+      "title": "États-Unis",
+      "items": [
+        "Visa B1 – Visiteur d'affaires",
+        "Visa B2 – Tourisme et médical"
+      ]
     },
     "other": {
-      "title": "Autres Pays",
-      "items": ["Australie", "Royaume-Uni", "Schengen / Europe", "Inde", "Brésil", "Et plus..."]
+      "title": "Autres pays",
+      "items": [
+        "Visas de visiteur – court et long séjour",
+        "Visas de transit",
+        "Visas d’affaires",
+        "Et plus encore"
+      ]
     }
   },
   "whyUs": {
@@ -54,12 +79,30 @@
       "clients": "Clients Satisfaits"
     },
     "reasons": {
-      "licensed": { "title": "Agréés et Certifiés", "desc": "Nos consultants opèrent selon des normes professionnelles strictes." },
-      "multilingual": { "title": "Support Multilingue", "desc": "Nous vous assistons en français, anglais et espagnol — sans barrières." },
-      "secure": { "title": "Confidentiel et Sécurisé", "desc": "Vos données personnelles sont traitées avec une discrétion absolue." },
-      "fast": { "title": "Traitement Rapide", "desc": "Nous optimisons votre dossier pour minimiser les délais et erreurs." },
-      "endToEnd": { "title": "Service Complet", "desc": "De la préparation des documents jusqu'à l'approbation finale." },
-      "global": { "title": "Expertise Internationale", "desc": "Connaissance approfondie des USA, Mexique et autres pays." }
+      "licensed": {
+        "title": "Agréés et Certifiés",
+        "desc": "Nos consultants opèrent selon des normes professionnelles strictes."
+      },
+      "multilingual": {
+        "title": "Support Multilingue",
+        "desc": "Nous vous assistons en français, anglais et espagnol — sans barrières."
+      },
+      "secure": {
+        "title": "Confidentiel et Sécurisé",
+        "desc": "Vos données personnelles sont traitées avec une discrétion absolue."
+      },
+      "fast": {
+        "title": "Traitement Rapide",
+        "desc": "Nous optimisons votre dossier pour minimiser les délais et erreurs."
+      },
+      "endToEnd": {
+        "title": "Service Complet",
+        "desc": "De la préparation des documents jusqu'à l'approbation finale."
+      },
+      "global": {
+        "title": "Expertise Internationale",
+        "desc": "Connaissance approfondie des USA, Mexique et autres pays."
+      }
     }
   },
   "process": {
@@ -67,10 +110,22 @@
     "title": "Simple. Clair. Efficace.",
     "description": "Notre processus en 4 étapes vous mène du premier contact à l'approbation finale.",
     "steps": {
-      "consultation": { "title": "Consultation Gratuite", "desc": "Nous évaluons votre profil et trouvons le meilleur parcours d'immigration." },
-      "documents": { "title": "Préparation des Documents", "desc": "Nous vous fournissons une liste personnalisée et vous guidons dans chaque document." },
-      "filing": { "title": "Dépôt de Dossier", "desc": "Nous complétons et soumettons votre dossier, coordonnons biométrie et autorités." },
-      "approval": { "title": "Approbation et Suite", "desc": "Nous suivons votre dossier jusqu'à l'approbation et vous accompagnons dans votre installation." }
+      "consultation": {
+        "title": "Consultation Gratuite",
+        "desc": "Nous évaluons votre profil et trouvons le meilleur parcours d'immigration."
+      },
+      "documents": {
+        "title": "Préparation des Documents",
+        "desc": "Nous vous fournissons une liste personnalisée et vous guidons dans chaque document."
+      },
+      "filing": {
+        "title": "Dépôt de Dossier",
+        "desc": "Nous complétons et soumettons votre dossier, coordonnons biométrie et autorités."
+      },
+      "approval": {
+        "title": "Approbation et Suite",
+        "desc": "Nous suivons votre dossier jusqu'à l'approbation et vous accompagnons dans votre installation."
+      }
     },
     "cta": "Commencer Votre Processus"
   },
@@ -101,23 +156,32 @@
     "successDesc": "Nous vous contacterons dans les 24 heures.",
     "privacy": "Vos informations sont 100% confidentielles et ne sont jamais partagées.",
     "services": [
-      "Mexique – Visa de Visiteur / Non Lucratif",
-      "Mexique – Résidence Temporaire (Travail)",
-      "Mexique – Résidence Temporaire (Famille)",
-      "Mexique – Résidence Temporaire (Études)",
-      "Mexique – Résidence Temporaire (Nomade Digital)",
-      "Mexique – Résidence Permanente",
+      "Mexique – Visa de visiteur / non lucratif",
+      "Mexique – Résidence temporaire (travail)",
+      "Mexique – Résidence temporaire (famille)",
+      "Mexique – Résidence temporaire (études)",
+      "Mexique – Résidence temporaire (nomade numérique)",
+      "Mexique – Résidence permanente",
       "Mexique – Demande de visa hors Mexique",
       "Mexique – Permis INM",
       "Mexique – Passeport",
-      "États-Unis – Visa B1 (Visiteur d'Affaires)",
-      "États-Unis – Visa B2 (Tourisme / Médical)",
-      "Autre Pays – Visa de Visiteur (Court Séjour)",
-      "Autre Pays – Visa de Visiteur (Long Séjour)",
-      "Autre Pays – Visa de Transit",
-      "Autre Pays – Visa d'Affaires",
-      "Autre Pays – Autre / Non Listé"
-    ]
+      "États-Unis – Visa B1 (visiteur d'affaires)",
+      "États-Unis – Visa B2 (tourisme / médical)",
+      "Autre pays – Visa de visiteur",
+      "Autre pays – Visa de transit",
+      "Autre pays – Visa d'affaires",
+      "Autre pays – Autre"
+    ],
+    "countryPlaceholder": "Sélectionnez votre pays...",
+    "phonePlaceholder": "Téléphone (rempli automatiquement selon le pays)",
+    "servicePlaceholder": "Service requis",
+    "required": "Requis",
+    "emailError": "Email valide requis",
+    "phoneAuto": "Téléphone (rempli automatiquement selon le pays)",
+    "mexico": "Mexique",
+    "usa": "États-Unis",
+    "canada": "Canada",
+    "other": "Autres pays"
   },
   "chatbot": {
     "title": "Assistant ImmiNexus",
@@ -143,7 +207,22 @@
     "rights": "Tous droits réservés.",
     "tagline": "Votre Partenaire Migration",
     "cookies": "Politique de Cookies",
-    "servicesList": ["Visas USA", "Résidence Mexique", "Permis d'Études", "Permis de Travail", "Visas Touriste", "Autres Pays"]
+    "linkedinSub": "Rejoignez-nous",
+    "whatsappSub": "Cliquez pour ouvrir WhatsApp",
+    "emailSub": "Réponse sous 24 heures",
+    "instaSub": "Suivez-nous pour les mises à jour",
+    "servicesList": [
+      "Mexique – Visas de visiteur et de résidence",
+      "Mexique – Résidence permanente",
+      "Mexique – Passeport et permis INM",
+      "États-Unis – Visas B1 / B2",
+      "Autres pays"
+    ],
+    "termsOfService": "Conditions d’utilisation",
+    "privacyPolicy": "Politique de confidentialité",
+    "cookiePolicy": "Politique de cookies",
+    "replyWithin24h": "Réponse sous 24 h",
+    "connectWithUs": "Rejoignez-nous"
   },
   "booking": {
     "book": "Réserver",
@@ -273,6 +352,10 @@
     "legalAssistant": "Assistant Juridique",
     "marcoBio": "Diplômé en droit parajuridique en Ontario, Canada, et candidat à la licence P1 du Barreau de l'Ontario. Titulaire de licences en droit et en relations internationales du Mexique. Expérience en tant que parajuriste et gestionnaire de dossiers senior aux États-Unis, fonctionnaire gouvernemental au Mexique et dans un cabinet d'avocats canadien.",
     "sidelBio": "Diplômé en droit parajuridique au Canada et candidat à la licence P1 du Barreau de l'Ontario. Titulaire d'une licence en droit privé du Maroc. Expérience en tant qu'assistant administratif et stagiaire parajuriste avec de solides compétences organisationnelles et de soutien juridique.",
-    "contactQuestion": "Questions sur nos documents légaux ?"
+    "contactQuestion": "Questions sur nos documents légaux ?",
+    "whoWeAre": "Notre Équipe",
+    "canada": "Canada",
+    "canada1": "Visa de visiteur (famille, transit, tourisme, affaires)",
+    "canada2": "Autorisation de voyage électronique (AVE)"
   }
 }

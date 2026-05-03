@@ -1,7 +1,7 @@
 {
   "nav": {
     "services": "Servicios",
-    "whyUs": "Por Qué Nosotros",
+    "whyUs": "Por qué Nosotros",
     "process": "Proceso",
     "contact": "Contacto",
     "bookConsultation": "Reservar Consulta",
@@ -11,6 +11,11 @@
     "bookCtaShort": "Reservar"
   },
   "hero": {
+    "countries": [
+      "México",
+      "Estados Unidos",
+      "Y más"
+    ],
     "badge": "Consultores de Inmigración de Confianza",
     "title": "Tu Viaje,",
     "titleAccent": "Nuestra Experiencia.",
@@ -24,6 +29,11 @@
       "subtitle": "Consultores especializados para EE.UU., Canadá y México. Primera consulta gratuita — sin compromiso.",
       "cta1": "Reservar Consulta Gratuita",
       "cta2": "Escríbenos por WhatsApp"
+    },
+    "stats": {
+      "cases": "Casos",
+      "success": "Éxito",
+      "languages": "Idiomas"
     }
   },
   "services": {
@@ -31,17 +41,32 @@
     "subtitle": "Lo Que Ofrecemos",
     "description": "Desde solicitudes de visa hasta residencia completa — cubrimos cada ruta a tu destino.",
     "getStarted": "Comenzar",
-    "usa": {
-      "title": "Estados Unidos",
-      "items": ["Visa Turista / B1-B2", "Visa de Trabajo (H1-B, L1)", "Visa de Estudiante (F1)", "Proceso Green Card", "Autorización ESTA", "Visa de Negocios"]
-    },
     "mexico": {
       "title": "México",
-      "items": ["Residencia Temporal", "Residencia Permanente", "Autorización de Trabajo", "Visa de Negocios", "Visa de Retiro", "Visa Nómada Digital"]
+      "items": [
+        "Visa de visitante / no lucrativa",
+        "Residencia temporal (trabajo, familia, estudios, nómada digital)",
+        "Residencia permanente",
+        "Solicitudes de visa fuera de México",
+        "Permisos ante el Instituto Nacional de Migración (INM)",
+        "Servicios de pasaporte"
+      ]
+    },
+    "usa": {
+      "title": "Estados Unidos",
+      "items": [
+        "Visa B1 – Visitante de negocios",
+        "Visa B2 – Turismo y médica"
+      ]
     },
     "other": {
-      "title": "Otros Países",
-      "items": ["Australia", "Reino Unido", "Schengen / Europa", "India", "Brasil", "Y más..."]
+      "title": "Otros países",
+      "items": [
+        "Visas de visitante – corta y larga duración",
+        "Visas de tránsito",
+        "Visas de negocios",
+        "Y más"
+      ]
     }
   },
   "whyUs": {
@@ -54,12 +79,30 @@
       "clients": "Clientes Satisfechos"
     },
     "reasons": {
-      "licensed": { "title": "Licenciados y Certificados", "desc": "Nuestros consultores operan bajo estrictos estándares profesionales." },
-      "multilingual": { "title": "Soporte Multilingüe", "desc": "Te atendemos en español, inglés y francés — sin barreras." },
-      "secure": { "title": "Confidencial y Seguro", "desc": "Tus datos personales se manejan con absoluta discreción." },
-      "fast": { "title": "Procesamiento Rápido", "desc": "Optimizamos tu solicitud para minimizar demoras y errores." },
-      "endToEnd": { "title": "Servicio Completo", "desc": "Desde la preparación de documentos hasta la aprobación final." },
-      "global": { "title": "Experiencia Multinacional", "desc": "Conocimiento profundo en EE.UU., México y más." }
+      "licensed": {
+        "title": "Licenciados y Certificados",
+        "desc": "Nuestros consultores operan bajo estrictos estándares profesionales."
+      },
+      "multilingual": {
+        "title": "Soporte Multilingüe",
+        "desc": "Te atendemos en español, inglés y francés — sin barreras."
+      },
+      "secure": {
+        "title": "Confidencial y Seguro",
+        "desc": "Tus datos personales se manejan con absoluta discreción."
+      },
+      "fast": {
+        "title": "Procesamiento Rápido",
+        "desc": "Optimizamos tu solicitud para minimizar demoras y errores."
+      },
+      "endToEnd": {
+        "title": "Servicio Completo",
+        "desc": "Desde la preparación de documentos hasta la aprobación final."
+      },
+      "global": {
+        "title": "Experiencia Multinacional",
+        "desc": "Conocimiento profundo en EE.UU., México y más."
+      }
     }
   },
   "process": {
@@ -67,10 +110,22 @@
     "title": "Simple. Claro. Efectivo.",
     "description": "Nuestro proceso probado de 4 pasos te lleva del primer contacto a la aprobación final.",
     "steps": {
-      "consultation": { "title": "Consulta Gratuita", "desc": "Evaluamos tu perfil y encontramos la mejor ruta migratoria para ti." },
-      "documents": { "title": "Preparación de Documentos", "desc": "Te proporcionamos una lista personalizada y te guiamos en cada documento." },
-      "filing": { "title": "Presentación de Solicitud", "desc": "Completamos y enviamos tu solicitud, coordinamos biométricos y autoridades." },
-      "approval": { "title": "Aprobación y Más", "desc": "Seguimos tu caso hasta la aprobación final y te apoyamos en tu asentamiento." }
+      "consultation": {
+        "title": "Consulta Gratuita",
+        "desc": "Evaluamos tu perfil y encontramos la mejor ruta migratoria para ti."
+      },
+      "documents": {
+        "title": "Preparación de Documentos",
+        "desc": "Te proporcionamos una lista personalizada y te guiamos en cada documento."
+      },
+      "filing": {
+        "title": "Presentación de Solicitud",
+        "desc": "Completamos y enviamos tu solicitud, coordinamos biométricos y autoridades."
+      },
+      "approval": {
+        "title": "Aprobación y Más",
+        "desc": "Seguimos tu caso hasta la aprobación final y te apoyamos en tu asentamiento."
+      }
     },
     "cta": "Inicia Tu Proceso Hoy"
   },
@@ -117,7 +172,17 @@
       "Otro País – Visa de Tránsito",
       "Otro País – Visa de Negocios",
       "Otro País – Otro / No Listado"
-    ]
+    ],
+    "countryPlaceholder": "Seleccione su país...",
+    "phonePlaceholder": "Teléfono (se completa automáticamente según el país)",
+    "servicePlaceholder": "Servicio requerido",
+    "required": "Requerido",
+    "emailError": "Correo válido requerido",
+    "phoneAuto": "Teléfono (rellenado automáticamente según el país)",
+    "mexico": "México",
+    "usa": "Estados Unidos",
+    "canada": "Canadá",
+    "other": "Otros países"
   },
   "chatbot": {
     "title": "Asistente ImmiNexus",
@@ -143,7 +208,22 @@
     "rights": "Todos los derechos reservados.",
     "tagline": "Tu Socio en Migración",
     "cookies": "Política de Cookies",
-    "servicesList": ["Visas EE.UU.", "Residencia México", "Permisos de Estudios", "Permisos de Trabajo", "Visas de Turista", "Otros Países"]
+    "linkedinSub": "Conéctate con nosotros",
+    "whatsappSub": "Haz clic para abrir WhatsApp",
+    "emailSub": "Respuesta en menos de 24h",
+    "instaSub": "Síguenos para actualizaciones",
+    "servicesList": [
+      "México – Visas de visitante y residencia",
+      "México – Residencia permanente",
+      "México – Pasaporte y permisos INM",
+      "EE. UU. – Visas B1 / B2",
+      "Otros países"
+    ],
+    "termsOfService": "Términos de Servicio",
+    "privacyPolicy": "Política de Privacidad",
+    "cookiePolicy": "Política de Cookies",
+    "replyWithin24h": "Respuesta en menos de 24h",
+    "connectWithUs": "Conéctate con nosotros"
   },
   
   "booking": {
@@ -274,6 +354,10 @@
     "legalAssistant": "Asistente Legal",
     "marcoBio": "Graduado en Derecho Paralegal en Ontario, Canadá, y candidato a la Licencia P1 del Colegio de Abogados de Ontario. Tiene licenciaturas en Derecho y Relaciones Internacionales de México. Experiencia como Paralegal y Gerente Senior de Casos en EE.UU., funcionario gubernamental en México y en un despacho de abogados canadiense.",
     "sidelBio": "Graduado en Derecho Paralegal en Canadá y candidato a la Licencia P1 del Colegio de Abogados de Ontario. Tiene Licenciatura en Derecho Privado de Marruecos. Experiencia como asistente administrativo y pasante paralegal con sólidas habilidades organizativas y de apoyo legal.",
-    "contactQuestion": "¿Preguntas sobre nuestros documentos legales?"
+    "contactQuestion": "¿Preguntas sobre nuestros documentos legales?",
+    "canada": "Canadá",
+    "whoWeAre": "Nuestro Equipo",
+    "canada1": "Visa de visitante (familia, tránsito, turismo, negocios)",
+    "canada2": "Autorización Electrónica de Viaje (eTA)"
   }
 }

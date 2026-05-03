@@ -9,8 +9,12 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function GET(req: NextRequest) {
 
-  // Security check — only allow from Vercel cron or with secret
-  
+  // Security check — only allow with secret
+  const authHeader = req.headers.get("authorization");
+  const expectedSecret = process.env.CRON_SECRET;
+  if (!expectedSecret || authHeader !== `Bearer ${expectedSecret}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   try {
     const { db } = await connectToDatabase();

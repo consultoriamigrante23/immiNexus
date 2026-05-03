@@ -10,9 +10,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function GET(req: NextRequest) {
 
   // Security check — only allow with secret
-  const authHeader = req.headers.get("authorization");
+  const url = new URL(req.url);
+  const secret = url.searchParams.get("secret");
   const expectedSecret = process.env.CRON_SECRET;
-  if (!expectedSecret || authHeader !== `Bearer ${expectedSecret}`) {
+  if (!expectedSecret || secret !== expectedSecret) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

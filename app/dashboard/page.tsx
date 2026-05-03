@@ -54,6 +54,7 @@ export default function Dashboard() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [downloading,  setDownloading]  = useState<string | null>(null);
   const [lastRefresh,  setLastRefresh]  = useState<Date | null>(null);
+  const [cancelNotice, setCancelNotice] = useState("");
 
   // Check session on mount
   useEffect(() => {
@@ -130,7 +131,7 @@ export default function Dashboard() {
   };
 
   const cancelBooking = async (b: Booking) => {
-    if (!confirm(`Cancel booking for ${b.fullName}?\nThis cannot be undone.`)) return;
+    setCancelNotice(`Cancelling this booking means the user will not be able to rebook for 7 days.`);
     try {
       const res = await fetch("/api/dashboard/bookings", {
         method: "PATCH",
@@ -139,7 +140,9 @@ export default function Dashboard() {
       });
       if (!res.ok) throw new Error();
       setBookings(prev => prev.map(bk => bk._id === b._id ? { ...bk, status: "cancelled" } : bk));
-    } catch { alert("Failed to cancel booking."); }
+    } catch {
+      alert("Failed to cancel booking.");
+    }
   };
 
   const toggleApprove = async (f: Feedback) => {
@@ -514,6 +517,18 @@ export default function Dashboard() {
             </div>
 
             {errorB && <ErrorBanner msg={errorB} onRetry={fetchBookings}/>}
+            {cancelNotice && (
+              <div className="rounded-2xl border border-orange-200 bg-orange-50 p-4 text-sm text-orange-900 flex items-start justify-between gap-3"
+                style={{ boxShadow: "0 4px 16px rgba(245,158,11,0.15)" }}>
+                <div>
+                  <strong className="font-semibold">Reminder:</strong> {cancelNotice}
+                </div>
+                <button type="button" onClick={() => setCancelNotice("")}
+                  className="text-orange-700 font-semibold underline underline-offset-2">
+                  Dismiss
+                </button>
+              </div>
+            )}
 
             {/* Table */}
             <div className="bg-white rounded-2xl border overflow-hidden"

@@ -55,6 +55,7 @@ export default function Dashboard() {
   const [downloading,  setDownloading]  = useState<string | null>(null);
   const [lastRefresh,  setLastRefresh]  = useState<Date | null>(null);
   const [cancelNotice, setCancelNotice] = useState("");
+  const [pendingCancelBooking, setPendingCancelBooking] = useState<Booking | null>(null);
 
   // Check session on mount
   useEffect(() => {
@@ -130,19 +131,33 @@ export default function Dashboard() {
     finally { setDownloading(null); }
   };
 
-  const cancelBooking = async (b: Booking) => {
-    setCancelNotice(`Cancelling this booking means the user will not be able to rebook for 7 days.`);
+  const requestCancelBooking = (b: Booking) => {
+    setPendingCancelBooking(b);
+    setCancelNotice("");
+  };
+
+  const confirmCancelBooking = async () => {
+    if (!pendingCancelBooking) return;
+    setCancelNotice("Cancelling this booking means the user will not be able to rebook for 7 days.");
     try {
       const res = await fetch("/api/dashboard/bookings", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: b._id, status: "cancelled" }),
+        body: JSON.stringify({ id: pendingCancelBooking._id, status: "cancelled" }),
       });
       if (!res.ok) throw new Error();
-      setBookings(prev => prev.map(bk => bk._id === b._id ? { ...bk, status: "cancelled" } : bk));
+      setBookings(prev => prev.map(bk => bk._id === pendingCancelBooking._id ? { ...bk, status: "cancelled" } : bk));
+      setCancelNotice("Booking cancelled. The user cannot rebook for 7 days.");
     } catch {
-      alert("Failed to cancel booking.");
+      setCancelNotice("Failed to cancel booking. Please try again.");
+    } finally {
+      setPendingCancelBooking(null);
     }
+  };
+
+  const cancelPendingCancel = () => {
+    setPendingCancelBooking(null);
+    setCancelNotice("");
   };
 
   const toggleApprove = async (f: Feedback) => {
@@ -619,7 +634,7 @@ export default function Dashboard() {
                                 }
                               </button>
                               {b.status === "confirmed" && (
-                                <button onClick={() => cancelBooking(b)}
+                                <button onClick={() => requestCancelBooking(b)}
                                   title="Cancel booking"
                                   className="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:shadow-md"
                                   style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.18)" }}>

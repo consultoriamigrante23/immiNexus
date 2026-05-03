@@ -210,8 +210,8 @@ export default function Dashboard() {
 
           {/* Logo */}
           <div className="text-center mb-8">
-            <Image src="/logo-horizontal.png" alt="ImmiNexus" width={180} height={54}
-              className="mx-auto mb-5 object-contain" style={{ height: 44, width: "auto" }}/>
+            <Image src="/logonobackground.png" alt="ImmiNexus" width={220} height={80}
+              className="mx-auto mb-5 object-contain" style={{ height: 64, width: "auto" }} />
             <h1 className="font-heading text-xl font-bold" style={{ color: "#293533" }}>
               Admin Dashboard
             </h1>
@@ -292,8 +292,8 @@ export default function Dashboard() {
 
             {/* Logo + badge */}
             <div className="flex items-center gap-3">
-              <Image src="/logo-horizontal.png" alt="ImmiNexus" width={140} height={42}
-                className="object-contain" style={{ height: 32, width: "auto" }}/>
+            <Image src="/logonobackground.png" alt="ImmiNexus" width={220} height={80}
+              className="object-contain" style={{ height: 48, width: "auto" }}/>
               <span className="hidden sm:inline font-body text-xs font-bold px-2.5 py-1 rounded-full"
                 style={{ background: "rgba(17,153,158,0.1)", color: "#11999e" }}>
                 Admin

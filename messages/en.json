@@ -14,19 +14,24 @@
     "badge": "Trusted Immigration Consultants",
     "title": "Your Journey,",
     "titleAccent": "Our Expertise.",
-    "subtitle": "Specialized immigration consultants for the United States, Canada, and Mexico. We guide you through every step — visas, residency, permits, and beyond.",
+    "subtitle": "Specialized immigration consultants for the United States and Mexico. We guide you through every step — visas, residency, permits, and beyond.",
     "cta1": "Book Free Consultation",
     "cta2": "Reach us via WhatsApp",
     "countries": [
       "Mexico",
       "USA",
-      "Canada"
+      "More"
     ],
+    "stats": {
+      "cases": "Cases Handled",
+      "success": "Success Rate",
+      "languages": "Languages"
+    },
     "banner": {
       "eyebrow": "Start Today",
       "title": "Your New Life is",
       "titleAccent": "One Step Away",
-      "subtitle": "Specialized consultants for USA, Canada and Mexico. Free first consultation — no commitment.",
+      "subtitle": "Specialized consultants for USA and Mexico. Free first consultation — no commitment.",
       "cta1": "Book Free Consultation",
       "cta2": "WhatsApp Us"
     }
@@ -102,6 +107,8 @@
     "emailField": "Email Address",
     "phoneField": "Phone / WhatsApp",
     "country": "Your Country",
+    "countryPlaceholder": "Select your country...",
+    "phoneAuto": "Phone (auto-filled from country)",
     "service": "Service Needed",
     "message": "Your Message (optional)",
     "submit": "Send Message",
@@ -110,17 +117,24 @@
     "successDesc": "We will contact you within 24 hours.",
     "privacy": "Your information is 100% confidential and never shared.",
     "services": [
-      "USA – Tourist / B1-B2 Visa",
-      "USA – Work Visa (H1-B, L1)",
-      "USA – Student Visa (F1)",
-      "USA – Green Card",
-      "Canada – Express Entry (ITA)",
-      "Canada – Study / Work Permit",
-      "Canada – Permanent Residency",
-      "Canada – Family Sponsorship",
-      "Mexico – Temporary Residency",
-      "Mexico – Permanent Residency",
-      "Other Country"
+      "Mexico – Visitor Visa / Non-lucrative (Tourism, Business, Transit)",
+      "Mexico – Temporary Residence (Work)",
+      "Mexico – Temporary Residence (Family)",
+      "Mexico – Temporary Residence (Study)",
+      "Mexico – Temporary Residence (Digital Nomad)",
+      "Mexico – Permanent Residence",
+      "Mexico – Visa Request Outside Mexico",
+      "Mexico – INM Permit / National Institute of Migration",
+      "Mexico – Passport",
+      "USA – Visa B1 (Business Visitor)",
+      "USA – Visa B2 (Tourism / Medical)",
+      "Other Country – Canada Visitor Visa",
+      "Other Country – Canada eTA",
+      "Other Country – Visitor Visa (Short Term)",
+      "Other Country – Visitor Visa (Long Term)",
+      "Other Country – Transit Visa",
+      "Other Country – Business Visa",
+      "Other Country – Other / Not Listed"
     ]
   },
   "chatbot": {
@@ -138,7 +152,7 @@
     "policy": "Privacy Policy"
   },
   "footer": {
-    "description": "Specialized immigration consultants for USA, Canada, and Mexico. Your journey, our expertise.",
+    "description": "Specialized immigration consultants for USA and Mexico. Your journey, our expertise.",
     "services": "Services",
     "contact": "Contact",
     "legal": "Legal",
@@ -147,6 +161,10 @@
     "rights": "All rights reserved.",
     "tagline": "Your Migration Success Partner",
     "cookies": "Cookie Policy",
+    "whatsappSub": "Click to open WhatsApp",
+    "emailSub": "Response within 24h",
+    "instaSub": "Follow us for updates",
+    "linkedinSub": "Connect with us",
     "servicesList": ["USA Visas & Immigration", "Canada Express Entry", "Mexico Residency", "Study Permits", "Work Permits", "Tourist Visas"]
   },
   "booking": {
@@ -162,6 +180,7 @@
     "selectService": "Select a service...",
     "preferredDate": "Preferred Date (Mon–Sat, 48h notice)",
     "selectTime": "Select Time (GMT-5) — 9:00 AM to 9:00 PM",
+    "selectTimeError": "Please select a time slot",
     "taken": "taken",
     "notesPlaceholder": "Additional notes or questions (optional)",
     "bookButton": "Book Free Consultation",

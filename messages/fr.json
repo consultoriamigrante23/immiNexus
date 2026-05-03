@@ -22,11 +22,6 @@
     "subtitle": "Consultants spécialisés en immigration pour les États-Unis et le Mexique. Nous vous guidons à chaque étape — visas, résidence, permis et plus.",
     "cta1": "Consultation Gratuite",
     "cta2": "Nous Contacter",
-    "stats": {
-      "cases": "Cas Traités",
-      "success": "Taux de Réussite",
-      "languages": "Langues"
-    },
     "banner": {
       "eyebrow": "Commencez Aujourd'hui",
       "title": "Votre Nouvelle Vie Est",
@@ -153,8 +148,6 @@
     "emailField": "Adresse Email",
     "phoneField": "Téléphone / WhatsApp",
     "country": "Votre Pays",
-    "countryPlaceholder": "Sélectionnez votre pays...",
-    "phoneAuto": "Téléphone (rempli automatiquement depuis le pays)",
     "service": "Service Requis",
     "message": "Votre Message (optionnel)",
     "submit": "Envoyer le Message",

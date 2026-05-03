@@ -463,7 +463,7 @@ export default function BookingModal({
                 <input value={trackingId}
                   onChange={e => setTrackingId(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && onTrack()}
-                  placeholder="IMN-XXXXXXXX-XXXXXX"
+                  placeholder={t("trackingIdPlaceholder")}
                   className={`${inp} flex-1`}/>
                 <button onClick={onTrack} disabled={trackingLoading}
                   className="btn-brand px-4 py-2.5 text-sm whitespace-nowrap">
@@ -557,7 +557,7 @@ export default function BookingModal({
                   <label className="block text-xs font-body uppercase tracking-wide mb-1"
                     style={{ color: "#9ca3af" }}>{t("trackingIdLabel")}</label>
                   <input {...regM("trackingId", { required: true })}
-                    placeholder="IMN-XXXXXXXX-XXXXXX" className={inp}/>
+                    placeholder={t("trackingIdPlaceholder")} className={inp}/>
                   {errM.trackingId && <p className={errCls}>{t("required")}</p>}
                 </div>
 

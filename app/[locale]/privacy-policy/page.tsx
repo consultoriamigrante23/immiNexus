@@ -212,12 +212,6 @@ export default async function PrivacyPolicy({
                 { country: t("usa"),     color: "#3B82F6", items: [t("usa1"),t("usa2")] },
 
                 { country: t("others"),  color: "#F59E0B", items: [t("oth1"),t("oth2"),t("oth3"),t("oth4")] },
-=======
-                { country: t("mexico"),  color: "#22C55E", items: [t("mex1"),t("mex2"),t("mex3"),t("mex4"),t("mex5"),t("mex6")] },
-                { country: t("usa"),     color: "#3B82F6", items: [t("usa1"),t("usa2")] },
-
-                { country: t("others"),  color: "#F59E0B", items: [t("oth1"),t("oth2"),t("oth3"),t("oth4")] },
->>>>>>> 4676de0401b125e887eff8b8ba588b22a8ca337c
               ].map(s => (
                 <div key={s.country} className="rounded-2xl p-5"
                   style={{ border: `1.5px solid ${s.color}30`, background: `${s.color}08` }}>

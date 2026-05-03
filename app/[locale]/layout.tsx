@@ -10,7 +10,7 @@ import CookieBanner    from "@/components/CookieBanner";
 export const metadata: Metadata = {
   title: "ImmiNexus Consultants | Your Migration Success Partner",
   description: "Professional immigration consulting for Mexico, USA & Canada.",
-  icons: { icon: "/logo-icon.png", apple: "/logo-icon.png" },
+  icons: { icon: "/logonobackground.png", apple: "/logonobackground.png" },
 };
 
 export default async function LocaleLayout({

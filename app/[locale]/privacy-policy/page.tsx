@@ -18,7 +18,7 @@ export default async function PrivacyPolicy({
       <main className="max-w-4xl mx-auto px-6 pt-8 pb-20">
 
         <div className="flex items-center gap-4 mb-8 flex-wrap">
-          <Link href={`/${locale}`}
+          <Link href="/" locale={locale}
             className="inline-flex items-center gap-2 font-body text-sm font-medium transition-colors"
             style={{ color: "#11999e", textDecoration: "none" }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

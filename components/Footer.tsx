@@ -65,6 +65,9 @@ export default function Footer() {
 
           {/* Services */}
           <div>
+            <h4 className="font-heading text-base font-semibold mb-4 uppercase tracking-wider text-white">
+              {t("services") || "Services"}
+            </h4>
             <ul className="space-y-2.5 font-body text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
               {(Array.isArray(t.raw("servicesList")) ? t.raw("servicesList") : []).map((s: string) => (
                 <li key={s}>

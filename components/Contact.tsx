@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import ScrollReveal from "./ScrollReveal";
 import { COUNTRIES, getPhoneByCountry } from "@/lib/countries";
 
-const WHATSAPP = "https://wa.me/5255316302020";
+const WHATSAPP = "https://wa.me/525531630202";
 const INSTAGRAM = "https://www.instagram.com/imminexusconsultants";
 const FACEBOOK = "https://www.facebook.com/ImmiNexusConsultants";
 const LINKEDIN = "https://www.linkedin.com/company/imminexus-consultants/";

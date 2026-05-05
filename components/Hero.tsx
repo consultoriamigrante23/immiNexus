@@ -137,7 +137,7 @@ export default function Hero() {
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                 </button>
-                <a href="https://wa.me/5255316302020" target="_blank" rel="noopener noreferrer"
+                <a href="https://wa.me/525531630202" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 text-base px-8 py-4 rounded-xl font-body font-semibold transition-all hover:-translate-y-1"
                   style={{ background: "rgba(37,211,102,0.15)", border: "1.5px solid rgba(37,211,102,0.4)", color: "white", textDecoration: "none", backdropFilter: "blur(8px)" }}
                   onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "rgba(37,211,102,0.26)"}
@@ -204,7 +204,7 @@ export default function Hero() {
                     style={{ background: "white", color: "#11999e", border: "none", cursor: "pointer", boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>
                     {t("banner.cta1")}
                   </button>
-                  <a href="https://wa.me/5255316302020" target="_blank" rel="noopener noreferrer"
+                  <a href="https://wa.me/525531630202" target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 font-body font-medium text-sm px-7 py-3.5 rounded-xl transition-all hover:bg-white/10 text-center whitespace-nowrap text-white"
                     style={{ border: "1.5px solid rgba(255,255,255,0.25)", textDecoration: "none" }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="white">

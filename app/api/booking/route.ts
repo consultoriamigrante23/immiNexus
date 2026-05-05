@@ -133,9 +133,18 @@ export async function POST(req: NextRequest) {
     const clientHtml  = buildBookingEmail(clean, trackingId, locale);
     const adminHtml   = buildBookingEmail(clean, trackingId, "en"); // admin always English
 
-    const clientAttachments = pdfBuffer
-      ? [{ filename: `ImmiNexus-Booking-${trackingId}.pdf`, content: pdfBase64! }]
-      : [];
+    const icsContent = buildBookingCalendarICS({ ...clean, trackingId });
+    const icsBase64 = Buffer.from(icsContent, "utf-8").toString("base64");
+    const icsAttachment = {
+      filename: `ImmiNexus-Booking-${trackingId}.ics`,
+      content: icsBase64,
+      contentType: "text/calendar; charset=UTF-8; method=REQUEST",
+    };
+
+    const clientAttachments = [
+      ...pdfBuffer ? [{ filename: `ImmiNexus-Booking-${trackingId}.pdf`, content: pdfBase64! }] : [],
+      icsAttachment,
+    ];
 
     // Admin PDF always in English
     let adminPdfBuffer: Buffer | null = null;
@@ -145,9 +154,10 @@ export async function POST(req: NextRequest) {
       adminPdfBase64 = adminPdfBuffer.toString("base64");
     } catch (e) { console.error("[booking] admin PDF:", e); }
 
-    const adminAttachments = adminPdfBuffer
-      ? [{ filename: `ImmiNexus-Booking-${trackingId}.pdf`, content: adminPdfBase64! }]
-      : [];
+    const adminAttachments = [
+      ...adminPdfBuffer ? [{ filename: `ImmiNexus-Booking-${trackingId}.pdf`, content: adminPdfBase64! }] : [],
+      icsAttachment,
+    ];
 
     try {
       await resend.emails.send({
@@ -181,6 +191,40 @@ function getEmailSubject(trackingId: string, locale: string): string {
   if (locale === "es") return `Reserva Confirmada – ${trackingId}`;
   if (locale === "fr") return `Réservation Confirmée – ${trackingId}`;
   return `Booking Confirmed – ${trackingId}`;
+}
+
+function buildBookingCalendarICS(data: any): string {
+  const [year, month, day] = data.date.split("-").map(Number);
+  const [hour, minute] = data.time.split(":").map(Number);
+  const start = new Date(Date.UTC(year, month - 1, day, hour + 5, minute));
+  const end   = new Date(start.getTime() + 60 * 60 * 1000);
+
+  const formatUTC = (date: Date) => {
+    const pad = (value: number) => String(value).padStart(2, "0");
+    return `${date.getUTCFullYear()}${pad(date.getUTCMonth() + 1)}${pad(date.getUTCDate())}T${pad(date.getUTCHours())}${pad(date.getUTCMinutes())}${pad(date.getUTCSeconds())}Z`;
+  };
+
+  return [
+    "BEGIN:VCALENDAR",
+    "PRODID:-//ImmiNexus Consultants//Booking Calendar//EN",
+    "VERSION:2.0",
+    "CALSCALE:GREGORIAN",
+    "METHOD:REQUEST",
+    "BEGIN:VEVENT",
+    `UID:${data.trackingId}@imminexusconsultants.com`,
+    `DTSTAMP:${formatUTC(new Date())}`,
+    `DTSTART:${formatUTC(start)}`,
+    `DTEND:${formatUTC(end)}`,
+    "SUMMARY:ImmiNexus Consultation",
+    `DESCRIPTION:Booking ID: ${data.trackingId}\nService: ${data.service}\nName: ${data.fullName}\nEmail: ${data.email}`,
+    "LOCATION:Online Consultation",
+    `ORGANIZER;CN=ImmiNexus Consultants:MAILTO:onboarding@resend.dev`,
+    `ATTENDEE;CN=${data.fullName};RSVP=FALSE:MAILTO:${data.email}`,
+    "STATUS:CONFIRMED",
+    "TRANSP:OPAQUE",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
 }
 
 function buildBookingEmail(data: any, trackingId: string, locale: string): string {
@@ -248,6 +292,11 @@ function buildBookingEmail(data: any, trackingId: string, locale: string): strin
             </tr>
           `).join("")}
         </table>
+        <div style="margin-top:18px;padding:16px;background:#eef9f8;border-radius:10px;border:1px solid #cde9e5">
+          <p style="margin:0;color:#175b55;font-size:14px;line-height:1.6">
+            A calendar invite is attached to this email. Open the attached <strong>.ics</strong> file to add the appointment to your calendar.
+          </p>
+        </div>
         <div style="margin-top:20px;padding:14px;background:#fff;border-radius:8px;border:1px solid #e5e7eb">
           <p style="margin:0;font-size:12px;color:#576d69">
             ${L.footer}<br/>

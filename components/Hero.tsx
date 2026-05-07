@@ -186,7 +186,7 @@ export default function Hero() {
                 <div className="hidden md:flex flex-col gap-3">
                   {[
                     { n: "500+", l: t("stats.cases") },
-                    { n: "97%", l: t("stats.success") },
+                    { n: "98%", l: t("stats.success") },
                     { n: "4", l: t("stats.languages") }
                   ].map(s => (
                     <div key={s.l} className="flex items-center gap-3">

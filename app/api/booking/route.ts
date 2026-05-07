@@ -141,10 +141,16 @@ export async function POST(req: NextRequest) {
       contentType: "text/calendar; charset=UTF-8; method=REQUEST",
     };
 
-    const clientAttachments = [
-      ...pdfBuffer ? [{ filename: `ImmiNexus-Booking-${trackingId}.pdf`, content: pdfBase64! }] : [],
-      icsAttachment,
-    ];
+   const clientAttachments = [
+  ...(pdfBuffer && pdfBase64
+    ? [{
+        filename: `ImmiNexus-Booking-${trackingId}.pdf`,
+        content: pdfBase64,
+        contentType: "application/pdf",
+      }]
+    : []),
+  icsAttachment,
+];
 
     // Admin PDF always in English
     let adminPdfBuffer: Buffer | null = null;

@@ -187,7 +187,7 @@ export default function Hero() {
                   {[
                     { n: "500+", l: t("stats.cases") },
                     { n: "98%", l: t("stats.success") },
-                    { n: "3", l: t("stats.languages") }
+                    { n: "4", l: t("stats.languages") }
                   ].map(s => (
                     <div key={s.l} className="flex items-center gap-3">
                       <div className="w-1 h-6 rounded-full" style={{ background: "rgba(255,255,255,0.18)" }} />
